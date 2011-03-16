@@ -1,6 +1,8 @@
 module Earthquake
   module Output
     def output
+      return if item_queue.empty?
+
       insert do
         while item = item_queue.shift
           begin

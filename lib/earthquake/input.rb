@@ -10,7 +10,6 @@ module Earthquake
 
     def input(text)
       begin
-        notify text
         if command = commands.detect { |c| c[:pattern] =~ text }
           command[:block].call($~)
         end

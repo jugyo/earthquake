@@ -19,8 +19,6 @@ module Earthquake
   end
 
   command :help do |m|
-    insert do
-      puts "TODO..."
-    end
+    puts "TODO..."
   end
 end
