@@ -3,6 +3,8 @@ Earthquake
 
 Twitter Client on Terminal with Streaming API.
 
+It supports ruby 1.9 only.
+
 Install
 ----
 
