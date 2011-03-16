@@ -56,9 +56,7 @@ module Earthquake
             buf = buf.strip
 
             if buf == '/exit'
-              # TODO: refactor
-              @stream.stop if @stream
-              EventMachine.stop if EventMachine.reactor_running? 
+              stop
             end
           rescue => e
             notify "[ERROR] #{e}"
@@ -105,11 +103,13 @@ module Earthquake
           $stdout.flush
         end
 
-        trap('TERM') {
-          @stream.stop
-          EventMachine.stop if EventMachine.reactor_running? 
-        }
+        trap('TERM') { stop }
       }
+    end
+
+    def stop
+      @stream.stop
+      EventMachine.stop if EventMachine.reactor_running? 
     end
 
     def notify(message)
