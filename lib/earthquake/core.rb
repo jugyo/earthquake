@@ -52,15 +52,7 @@ module Earthquake
 
       Thread.start do
         while buf = Readline.readline("[earthquake] ", true)
-          begin
-            buf = buf.strip
-
-            if buf == '/exit'
-              stop
-            end
-          rescue => e
-            notify "[ERROR] #{e}"
-          end
+          input(buf.strip)
         end
       end
 
