@@ -15,6 +15,15 @@ Usage
 
     $ earthquake
 
+TODO
+----
+
+* plugin system
+ * command
+ * filter
+* colorize
+* reconnect
+
 Copyright
 ----
 
