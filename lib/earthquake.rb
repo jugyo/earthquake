@@ -13,4 +13,14 @@ module Earthquake
   extend Earthquake::Output
   extend Earthquake::Input
   extend Earthquake::GetAccessToken
+
+  command :exit do |m|
+    stop
+  end
+
+  command :help do |m|
+    insert do
+      puts "TODO..."
+    end
+  end
 end

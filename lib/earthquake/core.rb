@@ -23,6 +23,10 @@ module Earthquake
 
       Thread.abort_on_exception = true
 
+      Readline.completion_proc = lambda { |text|
+        command_names.grep /#{Regexp.quote(text)}/
+      }
+
       Thread.start do
         while buf = Readline.readline("[earthquake] ", true)
           input(buf.strip)
