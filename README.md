@@ -1,7 +1,19 @@
 Earthquake
 ====
 
-Twitter Client on Terminal with Twitter Streaming API.
+Twitter Client on Terminal with Streaming API.
+
+Install
+----
+
+    gem install earthquake
+
+Usage
+----
+
+### Run
+
+    $ earthquake
 
 Copyright
 ----
