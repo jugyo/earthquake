@@ -70,18 +70,11 @@ module Earthquake
         loop do
           # TODO: handle the response that include friends
           if Readline.line_buffer.empty?
-            while item = item_queue.shift
-              begin
-                insert "#{item["user"]["screen_name"]}: #{item["text"]}"
-              rescue => e
-                insert do
-                  ap item
-                end
-                # notify "[ERROR] #{e}"
-              end
-            end
+            output
+            sleep 1
+          else
+            sleep 2
           end
-          sleep 1
         end
       end
 
@@ -121,18 +114,6 @@ module Earthquake
 
     def notify(message)
       Notify.notify 'earthquake', message
-    end
-
-    def insert(*messages)
-      clear_line
-      puts messages unless messages.empty?
-      yield if block_given?
-    ensure
-      Readline.refresh_line
-    end
-
-    def clear_line
-      print "\e[0G" + "\e[K"
     end
   end
 end
