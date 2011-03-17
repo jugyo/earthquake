@@ -23,6 +23,7 @@ TODO
 * plugin system
  * filter
 * reconnect
+* show more events
 
 Copyright
 ----
