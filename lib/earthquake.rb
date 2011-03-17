@@ -21,4 +21,13 @@ module Earthquake
   command :help do |m|
     puts "TODO..."
   end
+
+  command :restart do |m|
+    puts 'restarting...'
+    exec File.expand_path('../../bin/earthquake', __FILE__)
+  end
+
+  command :eval do |m|
+    ap eval(m[1])
+  end
 end
