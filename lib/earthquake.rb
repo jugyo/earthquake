@@ -35,8 +35,4 @@ module Earthquake
   command :eval do |m|
     ap eval(m[1])
   end
-
-  command :reload do |m|
-    reload
-  end
 end
