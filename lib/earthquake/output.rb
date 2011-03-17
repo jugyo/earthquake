@@ -6,12 +6,9 @@ module Earthquake
       insert do
         while item = item_queue.shift
           begin
-            puts "#{item["user"]["screen_name"]}: #{item["text"]}"
+            puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}"
           rescue => e
-            insert do
-              ap item
-            end
-            # notify "[ERROR] #{e}"
+            ap item
           end
         end
       end
