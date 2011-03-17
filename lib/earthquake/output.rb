@@ -10,11 +10,17 @@ module Earthquake
     end
 
     def puts_item(item)
-      puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}" +
-            (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+      output_handers.each { |p| p.call(item) }
     rescue => e
-      puts e
-      ap item
+      puts e, e.backtrace
+    end
+
+    def output_handers
+      @output_handers ||= []
+    end
+
+    def output_hander(&block)
+      output_handers << block
     end
 
     def insert(*messages)
@@ -27,6 +33,25 @@ module Earthquake
 
     def clear_line
       print "\e[0G" + "\e[K"
+    end
+
+    def self.extended(base)
+      base.class_eval do
+
+        output_hander do |item|
+          if item["text"]
+            puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}" +
+                  (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+          end
+        end
+
+        output_hander do |item|
+          if item["delete"]
+            puts "[deleted] #{item["delete"]["status"]["id"]}"
+          end
+        end
+
+      end
     end
   end
 end
