@@ -46,7 +46,7 @@ module Earthquake
       init_all
 
       Thread.start do
-        while buf = Readline.readline("<93>⚡</93> ".t, true)
+        while buf = Readline.readline("⚡ ", true)
           input(buf.strip)
         end
       end
