@@ -4,11 +4,16 @@ require 'readline'
 require 'bundler/setup'
 Bundler.require :default
 
-Dir[File.join(File.dirname(__FILE__), 'earthquake', '**', '*.rb')].each do |filename|
-  require filename
-end
-
 module Earthquake
+  def self.reload
+    ActiveSupport::Dependencies.clear
+    Dir[File.join(File.dirname(__FILE__), 'earthquake', '**', '*.rb')].each do |filename|
+      require_dependency filename
+    end
+  end
+
+  reload
+
   extend Earthquake::Core
   extend Earthquake::Output
   extend Earthquake::Input
@@ -29,5 +34,9 @@ module Earthquake
 
   command :eval do |m|
     ap eval(m[1])
+  end
+
+  command :reload do |m|
+    reload
   end
 end

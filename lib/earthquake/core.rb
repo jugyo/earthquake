@@ -29,6 +29,7 @@ module Earthquake
 
       Thread.start do
         while buf = Readline.readline("[earthquake] ", true)
+          reload if config[:debug]
           input(buf.strip)
         end
       end
