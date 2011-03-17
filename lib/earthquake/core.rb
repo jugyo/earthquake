@@ -14,6 +14,8 @@ module Earthquake
       load config[:file]
 
       get_access_token unless self.config[:token] && self.config[:secret]
+
+      init_twitter
     end
 
     def start(*argv)
@@ -47,7 +49,7 @@ module Earthquake
       end
 
       EventMachine::run {
-        @stream = Twitter::JSONStream.connect(
+        @stream = ::Twitter::JSONStream.connect(
           :ssl   => true,
           :host  => 'userstream.twitter.com',
           :path  => '/2/user.json',

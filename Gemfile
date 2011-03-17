@@ -10,6 +10,7 @@ gem 'activesupport', :require => ['active_support/core_ext', 'active_support/dep
 gem 'awesome_print', :require => 'ap'
 gem 'launchy'
 gem 'oauth'
+gem 'twitter_oauth'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.

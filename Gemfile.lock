@@ -12,9 +12,11 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
+    json (1.5.1)
     launchy (0.4.0)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
+    mime-types (1.16)
     notify (0.3.0)
     oauth (0.4.4)
     rake (0.8.7)
@@ -31,6 +33,10 @@ GEM
     twitter-stream (0.1.12)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
+    twitter_oauth (0.4.3)
+      json (>= 1.1.9)
+      mime-types (>= 1.16)
+      oauth (>= 0.4.1)
 
 PLATFORMS
   ruby
@@ -47,3 +53,4 @@ DEPENDENCIES
   rcov
   rspec (~> 2.3.0)
   twitter-stream
+  twitter_oauth

@@ -18,6 +18,7 @@ module Earthquake
   extend Earthquake::Output
   extend Earthquake::Input
   extend Earthquake::GetAccessToken
+  extend Earthquake::Twitter
 
   command :exit do |m|
     stop
@@ -34,5 +35,9 @@ module Earthquake
 
   command :eval do |m|
     ap eval(m[1])
+  end
+
+  command /^[^\/]+/ do |m|
+    twitter.update(m[0])
   end
 end
