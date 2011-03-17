@@ -37,17 +37,7 @@ module Earthquake
   end
 
   init do
-    Thread.start do
-      loop do
-        # TODO: handle the response that include friends
-        if Readline.line_buffer.blank?
-          output
-          sleep 1
-        else
-          sleep 2
-        end
-      end
-    end
+    output_handers.clear
 
     output_hander do |item|
       if item["text"]

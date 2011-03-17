@@ -1,8 +1,6 @@
 # encoding: UTF-8
 module Earthquake
   module Input
-    attr_accessor :command_prefix
-
     def commands
       @commands ||= []
     end
@@ -25,11 +23,11 @@ module Earthquake
     def command(pattern, options = {}, &block)
       if block
         if pattern.is_a?(String) || pattern.is_a?(Symbol)
-          command_name = "#{command_prefix}#{pattern}"
+          command_name = "#{config[:command_prefix]}#{pattern}"
           command_names << command_name
           pattern = /^#{Regexp.quote(command_name)}\s*(.*)$/
         end
-        command_names << "#{command_prefix}#{options[:as]}" if options[:as]
+        command_names << "#{config[:command_prefix]}#{options[:as]}" if options[:as]
         commands << {:pattern => pattern, :block => block}
       else
         commands.detect { |c| c[:name] == name }
@@ -55,13 +53,9 @@ module Earthquake
       command_names.grep /^#{Regexp.quote(text)}/
     }
 
-    Thread.start do
-      while buf = Readline.readline("<93>⚡</93> ".termcolor, true)
-        input(buf.strip)
-      end
-    end
+    config[:command_prefix] ||= '/'
 
-    self.command_prefix = '/'
+    commands.clear
 
     command :exit do |m|
       stop

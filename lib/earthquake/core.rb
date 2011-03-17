@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module Earthquake
   module Core
     attr_accessor :config
@@ -23,6 +24,7 @@ module Earthquake
       loaded = ActiveSupport::Dependencies.loaded.dup
       ActiveSupport::Dependencies.clear
       loaded.each { |lib| require_dependency lib }
+      init_all
     end
 
     def load_config(*argv)
@@ -42,6 +44,23 @@ module Earthquake
       load_config(*argv)
 
       init_all
+
+      Thread.start do
+        while buf = Readline.readline("<93>⚡</93> ".termcolor, true)
+          input(buf.strip)
+        end
+      end
+
+      Thread.start do
+        loop do
+          if Readline.line_buffer.nil? || Readline.line_buffer.empty?
+            output
+            sleep 1
+          else
+            sleep 2
+          end
+        end
+      end
 
       EventMachine::run {
         @stream = ::Twitter::JSONStream.connect(
