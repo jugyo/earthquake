@@ -15,10 +15,10 @@ module Earthquake
         if command = commands.detect { |c| c[:pattern] =~ text }
           command[:block].call($~)
         elsif !text.empty?
-          puts "<yellow>Command not found</yellow>".termcolor
+          puts "<yellow>Command not found</yellow>".t
         end
-      rescue => e
-        puts "[ERROR] #{e}\n#{e.backtrace.join("\n")}"
+      rescue Exception => e
+        puts "<on_red>[ERROR] #{e.message.e}\n#{e.backtrace.join("\n").e}</on_red>".t
       end
     end
 

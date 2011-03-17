@@ -7,6 +7,7 @@ Bundler.require :default
 Thread.abort_on_exception = true
 
 %w(
+  ext
   core
   output
   input
