@@ -18,13 +18,14 @@ module Earthquake
       end
     end
 
-    def command(pattern, &block)
+    def command(pattern, options = {}, &block)
       if block
         if pattern.is_a?(String) || pattern.is_a?(Symbol)
           command_name = "/#{pattern}"
           command_names << command_name
           pattern = /^#{Regexp.quote(command_name)}\s*(.*)$/
         end
+        command_names << "/#{options[:as]}" if options[:as]
         commands << {:pattern => pattern, :block => block}
       else
         commands.detect { |c| c[:name] == name }

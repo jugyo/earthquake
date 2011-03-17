@@ -37,7 +37,32 @@ module Earthquake
     ap eval(m[1])
   end
 
-  command /^[^\/]+/ do |m|
+  command %r|^[^/]+| do |m|
     twitter.update(m[0])
+  end
+
+  command %r|^/reply (\d+)\s+(.*)|, :as => :reply do |m|
+    # TODO
+    ap m
+  end
+
+  command :status do |m|
+    puts_status twitter.status(m[1])
+  end
+
+  command :delete do |m|
+    twitter.status_destroy(m[1])
+  end
+
+  command :retweet do |m|
+    twitter.retweet(m[1])
+  end
+
+  command :favorite do |m|
+    twitter.favorite(m[1])
+  end
+
+  command :unfavorite do |m|
+    twitter.unfavorite(m[1])
   end
 end
