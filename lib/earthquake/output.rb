@@ -34,15 +34,29 @@ module Earthquake
     def clear_line
       print "\e[0G" + "\e[K"
     end
+
+    def color_of(screen_name)
+      config[:colors][screen_name.to_i(36) % config[:colors].size]
+    end
   end
 
   init do
     output_handers.clear
 
+    config[:colors] = (31..36).to_a + (91..96).to_a
+
     output_hander do |item|
       if item["text"]
-        puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}" +
-              (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+        misc = (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+        user_color = color_of(item["user"]["screen_name"])
+        text = item["text"].e.gsub(/@([0-9A-Za-z_]+)/) do |i|
+          c = color_of($1)
+          "<#{c}>#{i}</#{c}>"
+        end
+        status = "<90>[#{item["id"].to_s.e}]</90> " +
+                 "<#{user_color}>#{item["user"]["screen_name"].e}</#{user_color}>: " +
+                 "#{text}<90>#{misc.e}</90>"
+        puts status.t
       end
     end
 
