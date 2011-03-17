@@ -13,7 +13,7 @@ module Earthquake
       config[:file] ||= File.join(config[:dir], 'config')
       load config[:file]
 
-      get_access_token unless self.config[:access_key] && self.config[:access_secret]
+      get_access_token unless self.config[:token] && self.config[:secret]
     end
 
     def start(*argv)
@@ -51,7 +51,7 @@ module Earthquake
           :ssl   => true,
           :host  => 'userstream.twitter.com',
           :path  => '/2/user.json',
-          :oauth => config.slice(:consumer_key, :consumer_secret, :access_key, :access_secret)
+          :oauth => config.slice(:consumer_key, :consumer_secret).merge(:access_key => config[:token], :access_secret => config[:secret])
         )
 
         @stream.each_item do |item|

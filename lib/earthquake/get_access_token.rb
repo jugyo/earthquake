@@ -15,15 +15,15 @@ module Earthquake
       pin = gets.strip
 
       access_token = request_token.get_access_token(:oauth_verifier => pin)
-      config[:access_key] = access_token.token
-      config[:access_secret] = access_token.secret
+      config[:token] = access_token.token
+      config[:secret] = access_token.secret
 
-      puts "Saving 'access_key' and 'access_secret' to '#{config[:file]}'"
+      puts "Saving 'token' and 'secret' to '#{config[:file]}'"
       File.open(config[:file], 'a') do |f|
         f << "\n"
-        f << "Earthquake.config[:access_key] = '#{config[:access_key]}'"
+        f << "Earthquake.config[:token] = '#{config[:token]}'"
         f << "\n"
-        f << "Earthquake.config[:access_secret] = '#{config[:access_secret]}'"
+        f << "Earthquake.config[:secret] = '#{config[:secret]}'"
       end
     end
   end
