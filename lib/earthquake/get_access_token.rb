@@ -27,4 +27,6 @@ module Earthquake
       end
     end
   end
+
+  extend GetAccessToken
 end

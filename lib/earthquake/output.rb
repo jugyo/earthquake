@@ -62,4 +62,6 @@ module Earthquake
       end
     end
   end
+
+  extend Output
 end

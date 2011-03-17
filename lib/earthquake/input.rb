@@ -109,4 +109,6 @@ module Earthquake
       twitter.unfavorite(m[1])
     end
   end
+
+  extend Input
 end

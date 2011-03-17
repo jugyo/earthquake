@@ -74,4 +74,6 @@ module Earthquake
       Notify.notify 'earthquake', message
     end
   end
+
+  extend Core
 end

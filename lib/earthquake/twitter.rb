@@ -6,4 +6,6 @@ module Earthquake
   init do
     @twitter = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret, :token, :secret))
   end
+
+  extend Twitter
 end
