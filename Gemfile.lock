@@ -7,6 +7,7 @@ GEM
     diff-lcs (1.1.2)
     eventmachine (0.12.10)
     git (1.2.5)
+    highline (1.6.1)
     i18n (0.5.0)
     jeweler (1.5.2)
       bundler (~> 1.0.0)
@@ -30,6 +31,8 @@ GEM
     rspec-expectations (2.3.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.3.0)
+    termcolor (1.2.1)
+      highline (>= 1.5.0)
     twitter-stream (0.1.12)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
@@ -52,5 +55,6 @@ DEPENDENCIES
   oauth
   rcov
   rspec (~> 2.3.0)
+  termcolor
   twitter-stream
   twitter_oauth

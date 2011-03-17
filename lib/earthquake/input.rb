@@ -55,7 +55,7 @@ module Earthquake
     }
 
     Thread.start do
-      while buf = Readline.readline("[earthquake] ", true)
+      while buf = Readline.readline("<93>⚡</93> ".termcolor, true)
         input(buf.strip)
       end
     end
