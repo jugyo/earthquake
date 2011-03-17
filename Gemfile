@@ -6,7 +6,7 @@ source "http://rubygems.org"
 gem 'twitter-stream', :require => 'twitter/json_stream'
 gem 'notify'
 gem 'i18n'
-gem 'activesupport', :require => 'active_support/core_ext'
+gem 'activesupport', :require => ['active_support/core_ext', 'active_support/dependencies']
 gem 'awesome_print', :require => 'ap'
 gem 'launchy'
 gem 'oauth'

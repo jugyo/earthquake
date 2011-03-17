@@ -13,6 +13,7 @@ module Earthquake
 
     def input(text)
       begin
+        reload if config[:debug]
         if command = commands.detect { |c| c[:pattern] =~ text }
           command[:block].call($~)
         end

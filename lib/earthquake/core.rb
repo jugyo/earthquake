@@ -14,6 +14,17 @@ module Earthquake
       inits << block
     end
 
+    def init_all
+      inits.each { |block| block.call }
+      inits.clear
+    end
+
+    def reload
+      loaded = ActiveSupport::Dependencies.loaded.dup
+      ActiveSupport::Dependencies.clear
+      loaded.each { |lib| require_dependency lib }
+    end
+
     def load_config(*argv)
       # TODO: parse argv
       self.config = {
@@ -30,9 +41,7 @@ module Earthquake
     def start(*argv)
       load_config(*argv)
 
-      Thread.abort_on_exception = true
-
-      inits.each { |block| block.call(*argv) }
+      init_all
 
       EventMachine::run {
         @stream = ::Twitter::JSONStream.connect(
