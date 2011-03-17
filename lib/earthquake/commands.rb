@@ -19,8 +19,8 @@ module Earthquake
     end
 
     # update
-    command %r|^[^/]+| do |m|
-      twitter.update(m[0]) if confirm(m[0])
+    command %r|^[^/].*| do |m|
+      twitter.update(m[0]) if confirm("'#{m[0]}'")
     end
 
     command %r|^/reply (\d+)\s+(.*)|, :as => :reply do |m|
