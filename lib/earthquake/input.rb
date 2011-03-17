@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module Earthquake
   module Input
     attr_accessor :command_prefix
@@ -49,6 +50,16 @@ module Earthquake
   end
 
   init do
+    Readline.completion_proc = lambda { |text|
+      command_names.grep /^#{Regexp.quote(text)}/
+    }
+
+    Thread.start do
+      while buf = Readline.readline("[earthquake] ", true)
+        input(buf.strip)
+      end
+    end
+
     self.command_prefix = '/'
 
     command :exit do |m|

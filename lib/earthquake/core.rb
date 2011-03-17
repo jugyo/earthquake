@@ -1,7 +1,10 @@
 module Earthquake
   module Core
     attr_accessor :config
-    attr_reader :item_queue
+
+    def item_queue
+      @item_queue ||= []
+    end
 
     def inits
       @inits ||= []
@@ -27,33 +30,9 @@ module Earthquake
     def start(*argv)
       load_config(*argv)
 
-      inits.each { |block| block.call(*argv) }
-
-      @item_queue = []
-
       Thread.abort_on_exception = true
 
-      Readline.completion_proc = lambda { |text|
-        command_names.grep /^#{Regexp.quote(text)}/
-      }
-
-      Thread.start do
-        while buf = Readline.readline("[earthquake] ", true)
-          input(buf.strip)
-        end
-      end
-
-      Thread.start do
-        loop do
-          # TODO: handle the response that include friends
-          if Readline.line_buffer.empty?
-            output
-            sleep 1
-          else
-            sleep 2
-          end
-        end
-      end
+      inits.each { |block| block.call(*argv) }
 
       EventMachine::run {
         @stream = ::Twitter::JSONStream.connect(
