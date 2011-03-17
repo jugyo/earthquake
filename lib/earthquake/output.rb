@@ -34,23 +34,19 @@ module Earthquake
     def clear_line
       print "\e[0G" + "\e[K"
     end
+  end
 
-    def self.extended(base)
-      base.class_eval do
+  init do
+    output_hander do |item|
+      if item["text"]
+        puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}" +
+              (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+      end
+    end
 
-        output_hander do |item|
-          if item["text"]
-            puts "[#{item["id"]}] #{item["user"]["screen_name"]}: #{item["text"]}" +
-                  (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
-          end
-        end
-
-        output_hander do |item|
-          if item["delete"]
-            puts "[deleted] #{item["delete"]["status"]["id"]}"
-          end
-        end
-
+    output_hander do |item|
+      if item["delete"]
+        puts "[deleted] #{item["delete"]["status"]["id"]}"
       end
     end
   end

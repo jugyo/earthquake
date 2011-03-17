@@ -3,7 +3,15 @@ module Earthquake
     attr_accessor :config
     attr_reader :item_queue
 
-    def init(*argv)
+    def inits
+      @inits ||= []
+    end
+
+    def init(&block)
+      inits << block
+    end
+
+    def load_config(*argv)
       # TODO: parse argv
       self.config = {
         :dir             => File.expand_path('~/.earthquake'),
@@ -14,24 +22,23 @@ module Earthquake
       load config[:file]
 
       get_access_token unless self.config[:token] && self.config[:secret]
-
-      init_twitter
     end
 
     def start(*argv)
-      init(*argv)
+      load_config(*argv)
+
+      inits.each { |block| block.call(*argv) }
 
       @item_queue = []
 
       Thread.abort_on_exception = true
 
       Readline.completion_proc = lambda { |text|
-        command_names.grep /#{Regexp.quote(text)}/
+        command_names.grep /^#{Regexp.quote(text)}/
       }
 
       Thread.start do
         while buf = Readline.readline("[earthquake] ", true)
-          reload if config[:debug]
           input(buf.strip)
         end
       end
