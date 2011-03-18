@@ -29,7 +29,7 @@ module Earthquake
     end
 
     command :status do |m|
-      puts_item twitter.status(m[1])
+      puts_items twitter.status(m[1])
     end
 
     command :delete do |m|

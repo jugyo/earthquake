@@ -4,15 +4,19 @@ module Earthquake
       return if item_queue.empty?
       insert do
         while item = item_queue.shift
-          puts_item(item)
+          puts_items(item)
         end
       end
     end
 
-    def puts_item(item)
-      output_handers.each { |p| p.call(item) }
-    rescue => e
-      puts e, e.backtrace
+    def puts_items(items)
+      [items].flatten.each do |item|
+        begin
+          output_handers.each { |p| p.call(item) }
+        rescue => e
+          puts e, e.backtrace
+        end
+      end
     end
 
     def output_handers
