@@ -60,6 +60,7 @@ module Earthquake
       next unless item["text"]
 
       misc = (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+      source = item["source"] =~ />(.*)</ ? $1 : 'web'
       user_color = color_of(item["user"]["screen_name"])
       text = item["text"].e.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
         c = color_of($1)
@@ -67,7 +68,7 @@ module Earthquake
       end
       status = "<90>[#{item["id"].to_s.e}]</90> " +
                "<#{user_color}>#{item["user"]["screen_name"].e}</#{user_color}>: " +
-               "#{text}<90>#{misc.e}</90>"
+               "#{text}<90>#{misc.e} #{source.e}</90>"
       puts status.t
     end
 
