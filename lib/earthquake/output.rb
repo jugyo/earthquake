@@ -49,7 +49,7 @@ module Earthquake
       if item["text"]
         misc = (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
         user_color = color_of(item["user"]["screen_name"])
-        text = item["text"].e.gsub(/@([0-9A-Za-z_]+)/) do |i|
+        text = item["text"].e.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
           c = color_of($1)
           "<#{c}>#{i}</#{c}>"
         end
