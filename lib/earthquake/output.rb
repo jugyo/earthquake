@@ -75,8 +75,8 @@ module Earthquake
       next unless item["event"]
 
       case item["event"]
-      when "follow"
-        puts "[follow] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
+      when "follow", "block", "unblock"
+        puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
         puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"]}"
       when "delete"
