@@ -27,10 +27,6 @@ TODO
 * show retweeted status id
 * keyword tracking
 * more intelligent completion
-* :list
-* :search
-* :profile
-* :block
 
 Copyright
 ----
