@@ -21,9 +21,16 @@ TODO
 ----
 
 * plugin system
- * filter
+* filter
 * reconnect
 * show more events
+* show retweeted status id
+* keyword tracking
+* more intelligent completion
+* :list
+* :search
+* :profile
+* :block
 
 Copyright
 ----
