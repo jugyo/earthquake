@@ -31,7 +31,11 @@ module Earthquake
         if pattern.is_a?(String) || pattern.is_a?(Symbol)
           command_name = "#{command_prefix}#{pattern}"
           command_names << command_name
-          pattern = /^#{Regexp.quote(command_name)}\s*(.*)$/
+          if block.arity > 0
+            pattern = /^#{Regexp.quote(command_name)}\s+(.*)$/
+          else
+            pattern = /^#{Regexp.quote(command_name)}$/
+          end
         end
         command_names << "#{command_prefix}#{options[:as]}" if options[:as]
         commands << {:pattern => pattern, :block => block}
