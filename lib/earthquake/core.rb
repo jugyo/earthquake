@@ -15,8 +15,9 @@ module Earthquake
       inits << block
     end
 
-    def init_all
-      inits.each { |block| block.call }
+    def _init
+      load_config
+      inits.each { |block| class_eval(&block) }
       inits.clear
     end
 
@@ -24,11 +25,10 @@ module Earthquake
       loaded = ActiveSupport::Dependencies.loaded.dup
       ActiveSupport::Dependencies.clear
       loaded.each { |lib| require_dependency lib }
-      init_all
+      _init
     end
 
-    def load_config(*argv)
-      # TODO: parse argv
+    def load_config
       self.config = {
         :dir             => File.expand_path('~/.earthquake'),
         :consumer_key    => 'qOdgatiUm6HIRcdoGVqaZg',
@@ -41,9 +41,8 @@ module Earthquake
     end
 
     def start(*argv)
-      load_config(*argv)
-
-      init_all
+      # TODO: parse argv
+      _init
 
       Thread.start do
         while buf = Readline.readline("⚡ ", true)
