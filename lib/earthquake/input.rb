@@ -9,10 +9,6 @@ module Earthquake
       @command_names ||= []
     end
 
-    def command_prefix
-      config[:command_prefix]
-    end
-
     def input(text)
       begin
         reload if config[:debug]
@@ -29,15 +25,15 @@ module Earthquake
     def command(pattern, options = {}, &block)
       if block
         if pattern.is_a?(String) || pattern.is_a?(Symbol)
-          command_name = "#{command_prefix}#{pattern}"
+          command_name = ":#{pattern}"
           command_names << command_name
           if block.arity > 0
-            pattern = /^#{Regexp.quote(command_name)}\s+(.*)$/
+            pattern = %r|^#{command_name}\s+(.*)$|
           else
-            pattern = /^#{Regexp.quote(command_name)}$/
+            pattern = %r|^#{command_name}$|
           end
         end
-        command_names << "#{command_prefix}#{options[:as]}" if options[:as]
+        command_names << ":#{options[:as]}" if options[:as]
         commands << {:pattern => pattern, :block => block}
       else
         commands.detect { |c| c[:name] == name }
@@ -62,9 +58,6 @@ module Earthquake
     Readline.completion_proc = lambda { |text|
       command_names.grep /^#{Regexp.quote(text)}/
     }
-
-    config[:command_prefix] ||= ':'
-
     commands.clear
   end
 

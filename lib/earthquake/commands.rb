@@ -19,11 +19,11 @@ module Earthquake
     end
 
     # update
-    command %r|^[^#{Regexp.quote(command_prefix)}].*| do |m|
+    command %r|^[^:].*| do |m|
       twitter.update(m[0]) if confirm("'#{m[0]}'")
     end
 
-    command %r|^/reply (\d+)\s+(.*)|, :as => :reply do |m|
+    command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
       # TODO
       ap m
     end
