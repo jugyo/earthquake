@@ -19,7 +19,7 @@ module Earthquake
     end
 
     # update
-    command %r|^[^/].*| do |m|
+    command %r|^[^#{Regexp.quote(command_prefix)}].*| do |m|
       twitter.update(m[0]) if confirm("'#{m[0]}'")
     end
 
