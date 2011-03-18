@@ -61,7 +61,7 @@ The blue is excluded.
 
 ### Defining your commands
 
-A command named 'foo':
+#### A command named 'foo':
 
     Earthquake.init do
       command :foo do
@@ -69,7 +69,7 @@ A command named 'foo':
       end
     end
 
-Handle the command args:
+#### Handle the command args:
 
     Earthquake.init do
       command :hi do |m|
@@ -79,7 +79,7 @@ Handle the command args:
 
 The 'm' is a MatchData.
 
-Using regexp:
+#### Using regexp:
 
     Earthquake.init do
       # Usage: :add 10 20
