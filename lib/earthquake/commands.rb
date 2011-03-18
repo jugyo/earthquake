@@ -20,12 +20,12 @@ module Earthquake
 
     # update
     command %r|^[^:].*| do |m|
-      twitter.update(m[0]) if confirm("'#{m[0]}'")
+      twitter.update(m[0]) if confirm("update '#{m[0]}'")
     end
 
     command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
-      # TODO
-      ap m
+      # TODO: fill the user name to reply
+      twitter.update(m[2], :in_reply_to_status_id => m[1]) if confirm("reply '#{m[2]}' to #{m[1]}")
     end
 
     command :status do |m|
