@@ -58,6 +58,7 @@ module Earthquake
       EventMachine::run do
         Thread.start do
           while buf = Readline.readline("⚡ ", true)
+            Readline::HISTORY.pop if buf.empty?
             input(buf.strip)
           end
         end
