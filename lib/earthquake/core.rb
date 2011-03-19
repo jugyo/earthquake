@@ -54,6 +54,7 @@ module Earthquake
 
     def start(*argv)
       _init
+      restore_history
 
       EventMachine::run do
         Thread.start do
@@ -120,6 +121,23 @@ module Earthquake
     def stop
       stop_stream
       EventMachine.stop_event_loop
+      store_history
+    end
+
+    def store_history
+      history_size = config[:history_size] || 1000
+      File.open(File.join(config[:dir], 'history'), 'w') do |file|
+        lines = Readline::HISTORY.to_a[([Readline::HISTORY.size - history_size, 0].max)..-1]
+        puts lines
+        file.print(lines.join("\n"))
+      end
+    end
+
+    def restore_history
+      history_file = File.join(config[:dir], 'history')
+      if File.exists?(history_file)
+        File.read(history_file).split(/\n/).each { |line| Readline::HISTORY << line }
+      end
     end
 
     def notify(message)
