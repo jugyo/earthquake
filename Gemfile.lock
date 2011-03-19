@@ -21,7 +21,6 @@ GEM
     notify (0.3.0)
     oauth (0.4.4)
     rake (0.8.7)
-    rcov (0.9.9)
     roauth (0.0.3)
     rspec (2.3.0)
       rspec-core (~> 2.3.0)
@@ -53,7 +52,6 @@ DEPENDENCIES
   launchy
   notify
   oauth
-  rcov
   rspec (~> 2.3.0)
   termcolor
   twitter-stream
