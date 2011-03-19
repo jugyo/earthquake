@@ -59,7 +59,13 @@ module Earthquake
     output_hander do |item|
       next unless item["text"]
 
-      misc = (item["in_reply_to_status_id"] ? " (reply to #{item["in_reply_to_status_id"]})" : "")
+      if item["in_reply_to_status_id"]
+        misc = " (reply to #{item["in_reply_to_status_id"]})"
+      elsif item["retweeted_status"]
+        misc = " (retweet of #{item["retweeted_status"]["id"]})"
+      else
+        misc = ""
+      end
       source = item["source"] =~ />(.*)</ ? $1 : 'web'
       user_color = color_of(item["user"]["screen_name"])
       text = item["text"].e.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
