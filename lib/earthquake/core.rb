@@ -29,19 +29,30 @@ module Earthquake
     end
 
     def load_config
+      # TODO: parse argv
       self.config = {
         :dir             => File.expand_path('~/.earthquake'),
         :consumer_key    => 'qOdgatiUm6HIRcdoGVqaZg',
         :consumer_secret => 'DHcL0bmS02vjSMHMrbFxCQqbDxh8yJZuLuzKviyFMo'
       }
+
+      unless File.exists?(config[:dir])
+        require 'fileutils'
+        FileUtils.mkdir_p(config[:dir])
+      end
+
       config[:file] ||= File.join(config[:dir], 'config')
+
+      unless File.exists?(config[:file])
+        File.open(config[:file], 'w')
+      end
+
       load config[:file]
 
       get_access_token unless self.config[:token] && self.config[:secret]
     end
 
     def start(*argv)
-      # TODO: parse argv
       _init
 
       Thread.start do
