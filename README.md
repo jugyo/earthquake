@@ -91,13 +91,12 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* plugin system
 * filter
-* reconnect
-* show more events
-* show retweeted status id
+* plugin system
 * keyword tracking
 * more intelligent completion
+* spec
+* typable id
 
 Copyright
 ----
