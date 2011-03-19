@@ -95,5 +95,9 @@ module Earthquake
     command :report_spam do |m|
       twitter.report_spam(m[1])
     end
+
+    command :reconnect do
+      reconnect
+    end
   end
 end
