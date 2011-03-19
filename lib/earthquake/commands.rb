@@ -11,6 +11,7 @@ module Earthquake
 
     command :restart do
       puts 'restarting...'
+      stop
       exec File.expand_path('../../..//bin/earthquake', __FILE__)
     end
 
