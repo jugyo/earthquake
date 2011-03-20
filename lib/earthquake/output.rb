@@ -12,7 +12,7 @@ module Earthquake
         return if item_queue.empty?
         insert do
           while item = item_queue.shift
-            item["hide_timestamp"] = true
+            item["stream"] = true
             puts_items(item)
           end
         end
@@ -69,7 +69,7 @@ module Earthquake
       end
 
       statuses = ["[#{item["id"].to_s}]"]
-      unless item["hide_timestamp"]
+      unless item["stream"]
         statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
       end
 
