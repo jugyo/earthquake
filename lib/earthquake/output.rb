@@ -1,19 +1,27 @@
 # encoding: UTF-8
 module Earthquake
   module Output
-    def output
-      return if item_queue.empty?
-      insert do
-        while item = item_queue.shift
-          item["hide_timestamp"] = true
-          puts_items(item)
+    def outputs
+      @outputs ||= []
+    end
+
+    def output(&block)
+      if block
+        outputs << block
+      else
+        return if item_queue.empty?
+        insert do
+          while item = item_queue.shift
+            item["hide_timestamp"] = true
+            puts_items(item)
+          end
         end
       end
     end
 
     def puts_items(items)
       [items].flatten.each do |item|
-        output_handers.each do |p|
+        outputs.each do |p|
           begin
             p.call(item)
           rescue => e
@@ -21,14 +29,6 @@ module Earthquake
           end
         end
       end
-    end
-
-    def output_handers
-      @output_handers ||= []
-    end
-
-    def output_hander(&block)
-      output_handers << block
     end
 
     def insert(*messages)
@@ -53,11 +53,11 @@ module Earthquake
   end
 
   init do
-    output_handers.clear
+    outputs.clear
 
     config[:colors] ||= (31..36).to_a + (91..96).to_a
 
-    output_hander do |item|
+    output do |item|
       next unless item["text"]
 
       if item["in_reply_to_status_id"]
@@ -85,7 +85,7 @@ module Earthquake
       puts status.t
     end
 
-    output_hander do |item|
+    output do |item|
       next unless item["event"]
 
       case item["event"]
