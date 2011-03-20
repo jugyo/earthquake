@@ -128,7 +128,6 @@ module Earthquake
       history_size = config[:history_size] || 1000
       File.open(File.join(config[:dir], 'history'), 'w') do |file|
         lines = Readline::HISTORY.to_a[([Readline::HISTORY.size - history_size, 0].max)..-1]
-        puts lines
         file.print(lines.join("\n"))
       end
     end
