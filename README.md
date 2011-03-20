@@ -90,7 +90,18 @@ The 'm' is a MatchData.
 
 ### Handling outputs
 
-#### Favorites notifier:
+#### Keyword notifier:
+
+    Earthquake.init do
+      output do |item|
+        next unless item["stream"]
+        if item["text"] =~ /ruby/i
+          notify "#{item["user"]["screen_name"]}: #{item["text"]}"
+        end
+      end
+    end
+
+#### Favorite notifier:
 
     Earthquake.init do
       output do |item|
