@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earthquake}
-  s.version = "0.3.0"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jugyo"]
-  s.date = %q{2011-03-19}
+  s.date = %q{2011-03-21}
   s.default_executable = %q{earthquake}
   s.description = %q{Twitter Client on Terminal with Twitter Streaming API.}
   s.email = %q{jugyo.org@gmail.com}
@@ -42,6 +42,20 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/jugyo/earthquake}
   s.licenses = ["MIT"]
+  s.post_install_message = %q{
+The Application info as Twitter Client has been updated at 2011-03-20 15:00:00 UTC.
+Accordingly that, You should renew the access token if it is old.
+
+1) In ~/.earthquake/config, remove these lines:
+
+    Earthquake.config[:token] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    Earthquake.config[:secret] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+2) Launch earthquake:
+
+    $ earthquake
+
+}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.0}
   s.summary = %q{Twitter Client on Terminal.}
@@ -66,7 +80,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.3.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
     else
       s.add_dependency(%q<twitter-stream>, [">= 0"])
       s.add_dependency(%q<notify>, [">= 0"])
@@ -80,7 +93,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.3.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
     s.add_dependency(%q<twitter-stream>, [">= 0"])
@@ -95,7 +107,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.3.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-    s.add_dependency(%q<rcov>, [">= 0"])
   end
 end
 
