@@ -69,7 +69,7 @@ The blue is excluded.
       end
     end
 
-#### Handle the command args:
+#### Handling the command args:
 
     Earthquake.init do
       command :hi do |m|
@@ -85,6 +85,19 @@ The 'm' is a MatchData.
       # Usage: :add 10 20
       command %r|^:add (\d+)\s+(\d+)|, :as => :add do |m|
         puts m[1].to_i + m[2].to_i
+      end
+    end
+
+### Handling outputs
+
+#### Favorites notifier:
+
+    Earthquake.init do
+      output do |item|
+        case item["event"]
+        when "favorite"
+          notify "[favorite] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"]}"
+        end
       end
     end
 
