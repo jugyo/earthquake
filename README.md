@@ -59,10 +59,12 @@ The blue is excluded.
 
 デバッグモードで動作しているとき、コードの修正は即座に反映される（正確にはコマンドの実行の直前にリロードされる）。
 
-### Defining Plugin
+Plugin
+----
 
 "~/.earthquake/plugin" is the directory for plugins.
 At launch, Earthquake try to load files under the directory.
+プラグインの初期化処理は Earthquake.init のブロックの中で行うべきである。
 
 ### Defining your commands
 
