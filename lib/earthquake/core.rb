@@ -139,8 +139,8 @@ module Earthquake
       end
     end
 
-    def notify(message)
-      Notify.notify 'earthquake', message
+    def notify(message, options = {:title => 'earthquake'})
+      Notify.notify options[:title], message
     end
   end
 
