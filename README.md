@@ -112,10 +112,23 @@ The 'm' is a MatchData.
       end
     end
 
+### Defining filters
+
+#### Filtering by keywords
+
+    Earthquake.init do
+      filter do |item|
+        if item["stream"] && item["text"]
+          item["text"] =~ /ruby/i
+        else
+          true
+        end
+      end
+    end
+
 TODO
 ----
 
-* filter
 * plugin system
 * keyword tracking
 * more intelligent completion

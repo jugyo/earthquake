@@ -1,6 +1,14 @@
 # encoding: UTF-8
 module Earthquake
   module Output
+    def filters
+      @filters ||= []
+    end
+
+    def filter(&block)
+      filters << block
+    end
+
     def outputs
       @outputs ||= []
     end
@@ -13,7 +21,7 @@ module Earthquake
         insert do
           while item = item_queue.shift
             item["stream"] = true
-            puts_items(item)
+            puts_items(item) if filters.all? { |filter| filter.call(item) }
           end
         end
       end
