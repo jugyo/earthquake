@@ -36,8 +36,8 @@ module Earthquake
       self.config = {
         :dir             => File.expand_path('~/.earthquake'),
         :plugin_dir      => File.expand_path('~/.earthquake/plugin'),
-        :consumer_key    => 'elraaTkvu5Zv6pOitFxyAA',
-        :consumer_secret => '9DlzIvTc7rZ9fQ13NGHQdrqfuAJf9XyoWKrhSnLx0'
+        :consumer_key    => 'RmzuwQ5g0SYObMfebIKJag',
+        :consumer_secret => 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
       }
 
       [config[:dir], config[:plugin_dir]].each do |dir|
