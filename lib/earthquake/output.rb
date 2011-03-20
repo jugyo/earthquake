@@ -5,6 +5,7 @@ module Earthquake
       return if item_queue.empty?
       insert do
         while item = item_queue.shift
+          item["hide_timestamp"] = true
           puts_items(item)
         end
       end
@@ -66,13 +67,19 @@ module Earthquake
       else
         misc = ""
       end
+
+      statuses = ["[#{item["id"].to_s}]"]
+      unless item["hide_timestamp"]
+        statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
+      end
+
       source = item["source"] =~ />(.*)</ ? $1 : 'web'
       user_color = color_of(item["user"]["screen_name"])
       text = item["text"].e.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
         c = color_of($1)
         "<#{c}>#{i}</#{c}>"
       end
-      status = "<90>[#{item["id"].to_s.e}]</90> " +
+      status = "<90>#{statuses.join(" ").e}</90> " +
                "<#{user_color}>#{item["user"]["screen_name"].e}</#{user_color}>: " +
                "#{text}<90>#{misc.e} #{source.e}</90>"
       puts status.t
