@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'fileutils'
+
 module Earthquake
   module Core
     attr_accessor :config
@@ -17,6 +19,7 @@ module Earthquake
 
     def _init
       load_config
+      load_plugins
       inits.each { |block| class_eval(&block) }
       inits.clear
     end
@@ -32,13 +35,15 @@ module Earthquake
       # TODO: parse argv
       self.config = {
         :dir             => File.expand_path('~/.earthquake'),
+        :plugin_dir      => File.expand_path('~/.earthquake/plugin'),
         :consumer_key    => 'qOdgatiUm6HIRcdoGVqaZg',
         :consumer_secret => 'DHcL0bmS02vjSMHMrbFxCQqbDxh8yJZuLuzKviyFMo'
       }
 
-      unless File.exists?(config[:dir])
-        require 'fileutils'
-        FileUtils.mkdir_p(config[:dir])
+      [config[:dir], config[:plugin_dir]].each do |dir|
+        unless File.exists?(dir)
+          FileUtils.mkdir_p(dir)
+        end
       end
 
       config[:file] ||= File.join(config[:dir], 'config')
@@ -50,6 +55,16 @@ module Earthquake
       load config[:file]
 
       get_access_token unless self.config[:token] && self.config[:secret]
+    end
+
+    def load_plugins
+      Dir[File.join(config[:plugin_dir], '*.rb')].each do |lib|
+        begin
+          require_dependency lib
+        rescue Exception => e
+          puts "<on_red>[ERROR] #{e.message.e}\n#{e.backtrace.join("\n").e}</on_red>".t
+        end
+      end
     end
 
     def start(*argv)

@@ -59,6 +59,11 @@ The blue is excluded.
 
 デバッグモードで動作しているとき、コードの修正は即座に反映される（正確にはコマンドの実行の直前にリロードされる）。
 
+### Defining Plugin
+
+"~/.earthquake/plugin" is the directory for plugins.
+At launch, Earthquake try to load files under the directory.
+
 ### Defining your commands
 
 #### A command named 'foo':
@@ -129,7 +134,6 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* plugin system
 * keyword tracking
 * more intelligent completion
 * spec
