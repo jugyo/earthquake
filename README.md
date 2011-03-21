@@ -152,7 +152,7 @@ TODO
 
 * more intelligent completion
 * typable id
-* keyword highlight
+* request asynchronously
 * spec
 
 Copyright
