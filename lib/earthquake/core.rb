@@ -17,6 +17,18 @@ module Earthquake
       inits << block
     end
 
+    def onces
+      @once ||= []
+    end
+
+    def once(&block)
+      onces << block
+    end
+
+    def _once
+      onces.each { |block| class_eval(&block) }
+    end
+
     def _init
       load_config
       load_plugins
@@ -68,6 +80,7 @@ module Earthquake
     end
 
     def start(*argv)
+      _once
       _init
       restore_history
 
