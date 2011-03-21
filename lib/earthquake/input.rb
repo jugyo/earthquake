@@ -26,7 +26,7 @@ module Earthquake
           puts "<yellow>Command not found</yellow>".t
         end
       rescue Exception => e
-        puts "<on_red>[ERROR] #{e.message.e}\n#{e.backtrace.join("\n").e}</on_red>".t
+        error e
       end
     end
 
@@ -73,7 +73,7 @@ module Earthquake
         begin
           results + (completion.call(text) || [])
         rescue Exception => e
-          notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
+          error e
           results
         end
       end

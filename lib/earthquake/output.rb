@@ -33,7 +33,7 @@ module Earthquake
           begin
             p.call(item)
           rescue => e
-            puts e, e.backtrace
+            error e
           end
         end
       end

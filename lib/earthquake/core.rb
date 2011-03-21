@@ -62,7 +62,7 @@ module Earthquake
         begin
           require_dependency lib
         rescue Exception => e
-          puts "<on_red>[ERROR] #{e.message.e}\n#{e.backtrace.join("\n").e}</on_red>".t
+          error e
         end
       end
     end
@@ -152,6 +152,10 @@ module Earthquake
       if File.exists?(history_file)
         File.read(history_file).split(/\n/).each { |line| Readline::HISTORY << line }
       end
+    end
+
+    def error(e)
+      notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
     end
 
     def notify(message, options = {:title => 'earthquake'})
