@@ -4,6 +4,7 @@
   readline
   active_support/core_ext
   active_support/dependencies
+  active_support/cache
   twitter/json_stream
   notify
   ap
@@ -15,6 +16,7 @@
 %w(
   ext
   core
+  cache
   output
   input
   get_access_token

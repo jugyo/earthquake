@@ -151,6 +151,7 @@ TODO
 ----
 
 * more intelligent completion
+* caching statuses
 * typable id
 * request asynchronously
 * spec
