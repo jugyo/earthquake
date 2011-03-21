@@ -23,7 +23,7 @@ module Earthquake
         if command = commands.detect { |c| c[:pattern] =~ text }
           command[:block].call($~)
         elsif !text.empty?
-          puts "<yellow>Command not found</yellow>".t
+          puts "Command not found".c(43)
         end
       rescue Exception => e
         error e

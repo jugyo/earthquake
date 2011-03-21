@@ -1,7 +1,5 @@
 class String
-  alias_method :t, :termcolor
-
-  def e
-    TermColor.escape(self)
+  def c(*codes)
+    "\e[#{codes.join;}m#{self}\e[0m"
   end
 end

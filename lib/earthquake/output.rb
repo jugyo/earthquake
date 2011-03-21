@@ -83,24 +83,26 @@ module Earthquake
 
       source = item["source"] =~ />(.*)</ ? $1 : 'web'
       user_color = color_of(item["user"]["screen_name"])
-      text = item["text"].e.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
-        c = color_of($1)
-        "<#{c}>#{i}</#{c}>"
+      text = item["text"].gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
+        i.c(color_of($1))
       end
 
       if item["highlights"]
         item["highlights"].each do |h|
           c = color_of(h).to_i + 10
           text = text.gsub(/#{h}/i) do |i|
-            "<#{c}>#{i}</#{c}>"
+            i.c(c)
           end
         end
       end
 
-      status = "<90>#{statuses.join(" ").e}</90> " +
-               "<#{user_color}>#{item["user"]["screen_name"].e}</#{user_color}>: " +
-               "#{text}<90>#{misc.e} #{source.e}</90>"
-      puts status.t
+      status =  [
+                  " #{statuses.join(" ")}".c(90),
+                  item["user"]["screen_name"].c(user_color),
+                  "#{text}",
+                  "#{misc} #{source}".c(90)
+                ].join(" ")
+      puts status
     end
 
     output do |item|
