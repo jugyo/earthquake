@@ -36,6 +36,10 @@ Commands
 
     ⚡ :exit
 
+### Reconnect
+
+    ⚡ :reconnect
+
 ### Restart
 
     ⚡ :restart
