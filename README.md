@@ -133,13 +133,21 @@ The 'm' is a MatchData.
       end
     end
 
+### Defining completion
+
+    Earthquake.init do
+      completion do |text|
+        ['@jugyo', 'earthquake', '#eqrb'].grep(/^#{Regexp.quote(text)}/)
+      end
+    end
+
 TODO
 ----
 
-* keyword tracking
 * more intelligent completion
-* spec
 * typable id
+* keyword highlight
+* spec
 
 Copyright
 ----

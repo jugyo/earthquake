@@ -9,6 +9,14 @@ module Earthquake
       @command_names ||= []
     end
 
+    def completions
+      @completions ||= []
+    end
+
+    def completion(&block)
+      completions << block
+    end
+
     def input(text)
       begin
         reload if config[:debug]
@@ -55,10 +63,27 @@ module Earthquake
   end
 
   init do
-    Readline.completion_proc = lambda { |text|
-      command_names.grep /^#{Regexp.quote(text)}/
-    }
     commands.clear
+    completions.clear
+
+    Readline.basic_word_break_characters = " \t\n\"\\'`$><=;|&{("
+
+    Readline.completion_proc = lambda do |text|
+      completions.inject([]) do |results, completion|
+        begin
+          results + (completion.call(text) || [])
+        rescue Exception => e
+          notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
+          results
+        end
+      end
+    end
+
+    completion do |text|
+      if Readline.line_buffer =~ /^\s*#{Regexp.quote(text)}/
+        command_names.grep /^#{Regexp.quote(text)}/
+      end
+    end
   end
 
   extend Input
