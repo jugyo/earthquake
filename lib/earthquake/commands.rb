@@ -58,7 +58,11 @@ module Earthquake
     end
 
     command :search do |m|
-      puts_items twitter.search(m[1])["results"].each { |s| s["user"] = {"screen_name" => s["from_user"]} }.reverse
+      puts_items twitter.search(m[1])["results"].each { |s|
+        s["user"] = {"screen_name" => s["from_user"]}
+      }.each {|s|
+        s["highlights"] = [m[1]]
+      }.reverse
     end
 
     command :retweet do |m|

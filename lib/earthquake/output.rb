@@ -87,6 +87,16 @@ module Earthquake
         c = color_of($1)
         "<#{c}>#{i}</#{c}>"
       end
+
+      if item["highlights"]
+        item["highlights"].each do |h|
+          c = color_of(h).to_i + 10
+          text = text.gsub(/#{h}/i) do |i|
+            "<#{c}>#{i}</#{c}>"
+          end
+        end
+      end
+
       status = "<90>#{statuses.join(" ").e}</90> " +
                "<#{user_color}>#{item["user"]["screen_name"].e}</#{user_color}>: " +
                "#{text}<90>#{misc.e} #{source.e}</90>"
