@@ -154,6 +154,10 @@ module Earthquake
       end
     end
 
+    def async(&block)
+      Thread.start(&block)
+    end
+
     def error(e)
       notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
     end

@@ -21,12 +21,14 @@ module Earthquake
 
     # update
     command %r|^[^:].*| do |m|
-      twitter.update(m[0]) if confirm("update '#{m[0]}'")
+      async { twitter.update(m[0]) } if confirm("update '#{m[0]}'")
     end
 
     command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
       # TODO: fill the user name to reply
-      twitter.update(m[2], :in_reply_to_status_id => m[1]) if confirm("reply '#{m[2]}' to #{m[1]}")
+      async do
+        twitter.update(m[2], :in_reply_to_status_id => m[1]) if confirm("reply '#{m[2]}' to #{m[1]}")
+      end
     end
 
     command :status do |m|
@@ -34,7 +36,8 @@ module Earthquake
     end
 
     command :delete do |m|
-      twitter.status_destroy(m[1])
+      # TODO: confirm
+      async { twitter.status_destroy(m[1]) }
     end
 
     command :mentions do
@@ -42,11 +45,11 @@ module Earthquake
     end
 
     command :follow do |m|
-      twitter.friend(m[1])
+      async { twitter.friend(m[1]) }
     end
 
     command :unfollow do |m|
-      twitter.unfriend(m[1])
+      async { twitter.unfriend(m[1]) }
     end
 
     command :list do |m|
@@ -66,15 +69,15 @@ module Earthquake
     end
 
     command :retweet do |m|
-      twitter.retweet(m[1])
+      async { twitter.retweet(m[1]) }
     end
 
     command :favorite do |m|
-      twitter.favorite(m[1])
+      async { twitter.favorite(m[1]) }
     end
 
     command :unfavorite do |m|
-      twitter.unfavorite(m[1])
+      async { twitter.unfavorite(m[1]) }
     end
 
     command :retweeted_by_me do
@@ -90,15 +93,15 @@ module Earthquake
     end
 
     command :block do |m|
-      twitter.block(m[1])
+      async { twitter.block(m[1]) }
     end
 
     command :unblock do |m|
-      twitter.unblock(m[1])
+      async { twitter.unblock(m[1]) }
     end
 
     command :report_spam do |m|
-      twitter.report_spam(m[1])
+      async { twitter.report_spam(m[1]) }
     end
 
     command :reconnect do
