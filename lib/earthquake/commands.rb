@@ -26,9 +26,9 @@ module Earthquake
 
     command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
       # TODO: fill the user name to reply
-      async do
-        twitter.update(m[2], :in_reply_to_status_id => m[1]) if confirm("reply '#{m[2]}' to #{m[1]}")
-      end
+      async {
+        twitter.update(m[2], :in_reply_to_status_id => m[1])
+      } if confirm("reply '#{m[2]}' to #{m[1]}")
     end
 
     command :status do |m|
