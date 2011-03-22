@@ -56,6 +56,10 @@ module Earthquake
       puts_items twitter.user_timeline(:screen_name => m[1]).reverse
     end
 
+    command :home do
+      puts_items twitter.home_timeline.reverse
+    end
+
     command :user do |m|
       ap twitter.show(m[1]).slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
     end
