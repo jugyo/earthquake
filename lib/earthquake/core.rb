@@ -88,14 +88,14 @@ module Earthquake
         Thread.start do
           while buf = Readline.readline("⚡ ", true)
             Readline::HISTORY.pop if buf.empty?
-            input(buf.strip)
+            sync { input(buf.strip) }
           end
         end
 
         Thread.start do
           loop do
             if Readline.line_buffer.nil? || Readline.line_buffer.empty?
-              output
+              sync { output }
               sleep 1
             else
               sleep 2
@@ -164,6 +164,16 @@ module Earthquake
       history_file = File.join(config[:dir], 'history')
       if File.exists?(history_file)
         File.read(history_file).split(/\n/).each { |line| Readline::HISTORY << line }
+      end
+    end
+
+    def mutex
+      @mutex ||= Mutex.new
+    end
+
+    def sync(&block)
+      mutex.synchronize do
+        block.call
       end
     end
 
