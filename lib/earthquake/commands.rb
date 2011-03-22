@@ -64,7 +64,15 @@ module Earthquake
       puts_items twitter.search(m[1])["results"].each { |s|
         s["user"] = {"screen_name" => s["from_user"]}
       }.each {|s|
-        s["highlights"] = [m[1]]
+        words = m[1].split(/\s+/).reject{|x| x[0] =~ /^-|^(OR|AND)$/ }.map{|x|
+          case x
+          when /^from:(.+)/, /^to:(.+)/
+            $1
+          else
+            x
+          end
+        }
+        s["highlights"] = words
       }.reverse
     end
 
