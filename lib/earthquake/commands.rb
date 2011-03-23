@@ -70,7 +70,6 @@ module Earthquake
     command :search do |m|
       puts_items twitter.search(m[1])["results"].each { |s|
         s["user"] = {"screen_name" => s["from_user"]}
-      }.each {|s|
         words = m[1].split(/\s+/).reject{|x| x[0] =~ /^-|^(OR|AND)$/ }.map{|x|
           case x
           when /^from:(.+)/, /^to:(.+)/
