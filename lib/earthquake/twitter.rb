@@ -15,7 +15,7 @@ module Earthquake
           s = status_without_cache(id)
           Earthquake.cache.write(key, s, :expires_in => 1.hour.ago)
         end
-        s
+        s.dup
       end
       alias_method_chain :status, :cache
     end
