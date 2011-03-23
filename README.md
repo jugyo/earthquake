@@ -162,12 +162,9 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* unescape html
 * dealing direct messages
 * more intelligent completion
-* caching statuses
 * typable id
-* request asynchronously
 * spec
 
 Copyright
