@@ -101,7 +101,7 @@ module Earthquake
       mark = item["mark"] || ""
 
       status =  [
-                  "#{mark}#{statuses.join(" ")}".c(90),
+                  "#{mark}" + "#{statuses.join(" ")}".c(90),
                   "#{item["user"]["screen_name"].c(user_color)}:",
                   "#{text}",
                   "#{misc} #{source}".c(90)
