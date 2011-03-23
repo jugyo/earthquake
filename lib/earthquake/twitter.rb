@@ -9,7 +9,7 @@ module Earthquake
 
   once do
     class ::TwitterOAuth::Client
-      [:status].each do |m|
+      [:status, :info].each do |m|
         define_method("#{m}_with_cache") do |*args|
           key = "#{m}:#{args.join(',')}"
           unless result = Earthquake.cache.read(key)
