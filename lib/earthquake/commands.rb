@@ -55,16 +55,12 @@ module Earthquake
       async { twitter.unfriend(m[1]) }
     end
 
-    command /\:recent\s?(\w+)?/ do |m|
-      if m != ""
-        puts_items twitter.user_timeline(:screen_name => m[1]).reverse
-      else
-        puts_items twitter.home_timeline.reverse
-      end
+    command :recent do
+      puts_items twitter.home_timeline.reverse
     end
 
-    command :home do
-      puts_items twitter.home_timeline.reverse
+    command :recent do |m|
+      puts_items twitter.user_timeline(:screen_name => m[1]).reverse
     end
 
     command :user do |m|
