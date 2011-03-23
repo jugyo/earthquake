@@ -33,6 +33,11 @@ Commands
 
     ⚡ Hello World!
 
+### Timeline
+
+    ⚡ :recent
+    ⚡ :recent twitter
+
 ### Searth
 
     ⚡ :search #ruby
