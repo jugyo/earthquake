@@ -44,7 +44,7 @@ module Earthquake
         command_names << ":#{options[:as]}" if options[:as]
         commands << {:pattern => pattern, :block => block}
       else
-        commands.detect { |c| c[:name] == name }
+        commands.detect {|c| c[:pattern] =~ pattern}
       end
     end
 
