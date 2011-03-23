@@ -20,8 +20,8 @@ module Earthquake
     def input(text)
       begin
         reload if config[:debug]
-        if command = commands.detect { |c| c[:pattern] =~ text }
-          command[:block].call($~)
+        if command = command(text)
+          command[:block].call(command[:pattern].match(text))
         elsif !text.empty?
           puts "Command not found".c(43)
         end
