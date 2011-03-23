@@ -21,7 +21,7 @@ module Earthquake
         insert do
           while item = item_queue.shift
             item["stream"] = true
-            puts_items(item) if filters.all? { |filter| filter.call(item) }
+            puts_items(item)
           end
         end
       end
@@ -30,6 +30,7 @@ module Earthquake
     def puts_items(items)
       [items].flatten.each do |item|
         outputs.each do |p|
+          next if filters.any? { |filter| filter.call(item) == false }
           begin
             p.call(item)
           rescue => e
@@ -62,6 +63,7 @@ module Earthquake
 
   init do
     outputs.clear
+    filters.clear
 
     config[:colors] ||= (31..36).to_a + (91..96).to_a
 
