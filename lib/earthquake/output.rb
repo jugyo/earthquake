@@ -83,9 +83,9 @@ module Earthquake
         statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
       end
 
-      source = item["source"] =~ />(.*)</ ? $1 : 'web'
+      source = item["source"].u =~ />(.*)</ ? $1 : 'web'
       user_color = color_of(item["user"]["screen_name"])
-      text = item["text"].gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
+      text = item["text"].u.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
         i.c(color_of($1))
       end
 
