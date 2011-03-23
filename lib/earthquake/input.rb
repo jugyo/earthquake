@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'set'
+
 module Earthquake
   module Input
     def commands
@@ -6,7 +8,7 @@ module Earthquake
     end
 
     def command_names
-      @command_names ||= []
+      @command_names ||= Set.new
     end
 
     def completions
