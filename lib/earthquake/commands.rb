@@ -25,10 +25,13 @@ module Earthquake
     end
 
     command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
-      # TODO: fill the user name to reply
-      async {
-        twitter.update(m[2], :in_reply_to_status_id => m[1])
-      } if confirm("reply '#{m[2]}' to #{m[1]}")
+      in_reply_to_status_id = m[1]
+      target = twitter.status(in_reply_to_status_id)
+      screen_name = target["user"]["screen_name"]
+      text = "@#{screen_name} #{m[2]}"
+      if confirm(["'@#{screen_name}: #{target["text"].u}'".c(36), "reply '#{text}'"].join("\n"))
+        async { twitter.update(text, :in_reply_to_status_id => in_reply_to_status_id) }
+      end
     end
 
     command :status do |m|
