@@ -83,8 +83,19 @@ module Earthquake
       }.reverse
     end
 
-    command :retweet do |m|
-      async { twitter.retweet(m[1]) }
+    command %r|^:retweet\s+(\d+)$|, :as => :retweet do |m|
+      target = twitter.status(m[1])
+      if confirm("retweet 'RT @#{target["user"]["screen_name"]}: #{target["text"].e}'")
+        async { twitter.retweet(m[1]) }
+      end
+    end
+
+    command %r|^:retweet\s+(\d+)\s+(.*)$|, :as => :retweet do |m|
+      target = twitter.status(m[1])
+      text = "#{m[2]} RT @#{target["user"]["screen_name"]}: #{target["text"].e} (#{target["id"]})"
+      if confirm("unofficial retweet '#{text}'")
+        async { twitter.update(text) }
+      end
     end
 
     command :favorite do |m|
