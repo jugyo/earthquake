@@ -29,10 +29,10 @@ module Earthquake
 
     def puts_items(items)
       [items].flatten.each do |item|
-        outputs.each do |p|
-          next if filters.any? { |filter| filter.call(item) == false }
+        next if filters.any? { |f| f.call(item) == false }
+        outputs.each do |o|
           begin
-            p.call(item)
+            o.call(item)
           rescue => e
             error e
           end
