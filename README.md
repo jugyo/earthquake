@@ -7,6 +7,13 @@ It supports ruby 1.9 only.
 
 ![http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg](http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg)
 
+Features
+----
+
+* You can deal Twitter on Terminal entirely.
+* You can receive data in real time with Streaming API.
+* You can easily extend in Ruby.
+
 Install
 ----
 
