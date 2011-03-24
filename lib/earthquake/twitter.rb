@@ -9,7 +9,7 @@ module Earthquake
 
     filter do |item|
       next if item["text"].nil? || item["disable_cache"]
-      Earthquake.cache.write("status:#{item["id"]}", item.dup, :expires_in => 1.hour.ago)
+      Earthquake.cache.write("status:#{item["id"]}", item.dup)
     end
   end
 
@@ -22,7 +22,7 @@ module Earthquake
             result.dup
           else
             result = __send__(:"#{m}_without_cache", *args)
-            Earthquake.cache.write(key, result.dup, :expires_in => 1.hour.ago)
+            Earthquake.cache.write(key, result.dup)
             result
           end
         end
