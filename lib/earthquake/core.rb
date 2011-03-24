@@ -3,7 +3,9 @@ require 'fileutils'
 
 module Earthquake
   module Core
-    attr_accessor :config
+    def config
+      @config ||= {}
+    end
 
     def item_queue
       @item_queue ||= []
@@ -46,12 +48,12 @@ module Earthquake
 
     def load_config
       # TODO: parse argv
-      self.config = {
+      config.merge!(
         :dir             => File.expand_path('~/.earthquake'),
         :plugin_dir      => File.expand_path('~/.earthquake/plugin'),
         :consumer_key    => 'RmzuwQ5g0SYObMfebIKJag',
         :consumer_secret => 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
-      }
+      )
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
