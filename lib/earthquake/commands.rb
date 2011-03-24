@@ -29,7 +29,7 @@ module Earthquake
       target = twitter.status(in_reply_to_status_id)
       screen_name = target["user"]["screen_name"]
       text = "@#{screen_name} #{m[2]}"
-      if confirm(["'@#{screen_name}: #{target["text"].u}'".c(36), "reply '#{text}'"].join("\n"))
+      if confirm(["'@#{screen_name}: #{target["text"].u}'", "reply '#{text}'"].join("\n"))
         async { twitter.update(text, :in_reply_to_status_id => in_reply_to_status_id) }
       end
     end
