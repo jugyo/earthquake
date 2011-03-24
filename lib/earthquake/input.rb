@@ -70,7 +70,7 @@ module Earthquake
     command_names.clear
     completions.clear
 
-    Readline.basic_word_break_characters = " \t\n\"\\'`$><=;|&{("
+    Readline.basic_word_break_characters = " \t\n\"\\'`$><=;|&{(@"
 
     Readline.completion_proc = lambda do |text|
       completions.inject([]) do |results, completion|
