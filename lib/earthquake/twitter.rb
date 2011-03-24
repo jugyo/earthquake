@@ -9,7 +9,9 @@ module Earthquake
 
     filter do |item|
       next if item["text"].nil? || item["disable_cache"]
-      Earthquake.cache.write("status:#{item["id"]}", item.dup)
+      item = item.dup
+      item.keys.select { |key| key =~ /^_/ }.each { |key| item.delete(key) } # remote optional data like "_stream", "_highlights"
+      Earthquake.cache.write("status:#{item["id"]}", item)
     end
   end
 

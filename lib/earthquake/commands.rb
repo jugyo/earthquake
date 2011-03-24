@@ -79,7 +79,7 @@ module Earthquake
             x
           end
         }
-        s["highlights"] = words
+        s["_highlights"] = words
       }.reverse
     end
 

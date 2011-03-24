@@ -119,7 +119,7 @@ The 'm' is a MatchData.
 
     Earthquake.init do
       output do |item|
-        next unless item["stream"]
+        next unless item["_stream"]
         if item["text"] =~ /ruby/i
           notify "#{item["user"]["screen_name"]}: #{item["text"]}"
         end
@@ -143,7 +143,7 @@ The 'm' is a MatchData.
 
     Earthquake.init do
       filter do |item|
-        if item["stream"] && item["text"]
+        if item["_stream"] && item["text"]
           item["text"] =~ /ruby/i
         else
           true

@@ -20,7 +20,7 @@ module Earthquake
         return if item_queue.empty?
         insert do
           while item = item_queue.shift
-            item["stream"] = true
+            item["_stream"] = true
             puts_items(item)
           end
         end
@@ -79,7 +79,7 @@ module Earthquake
       end
 
       statuses = ["[#{item["id"].to_s}]"]
-      unless item["stream"]
+      unless item["_stream"]
         statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
       end
 
@@ -89,8 +89,8 @@ module Earthquake
         i.c(color_of($1))
       end
 
-      if item["highlights"]
-        item["highlights"].each do |h|
+      if item["_highlights"]
+        item["_highlights"].each do |h|
           c = color_of(h).to_i + 10
           text = text.gsub(/#{h}/i) do |i|
             i.c(c)
