@@ -103,12 +103,13 @@ module Earthquake
       end
 
       mark = item["mark"] || ""
+      protected = item["user"]["protected"] ? "[P]" : ""
 
       status =  [
                   "#{mark}" + "#{statuses.join(" ")}".c(90),
                   "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
-                  "#{misc} #{source}".c(90)
+                  "#{misc} #{source}#{protected}".c(90)
                 ].join(" ")
       puts status
     end
