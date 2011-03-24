@@ -116,7 +116,7 @@ module Earthquake
       when "follow", "block", "unblock"
         puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
-        puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"]}"
+        puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
       when "delete"
         puts "[deleted] #{item["delete"]["status"]["id"]}"
       else
