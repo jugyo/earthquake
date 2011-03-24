@@ -67,6 +67,7 @@ module Earthquake
 
   init do
     commands.clear
+    command_names.clear
     completions.clear
 
     Readline.basic_word_break_characters = " \t\n\"\\'`$><=;|&{("
