@@ -1,4 +1,21 @@
 #!/usr/bin/env ruby
+
+unless RUBY_VERSION >= '1.9'
+  puts <<-D
+Hi
+
+
+Your ruby version is '#{RUBY_VERSION}'.
+And unfortunately the earthquake only supports ruby 1.9 or higher :(
+The ruby 1.9 is really really awesome!
+You can install ruby 1.9 using rvm: http://rvm.beginrescueend.com/
+
+Kind regards,
+jugyo
+  D
+  exit!
+end
+
 $:.unshift(File.expand_path('../../lib', __FILE__))
 require 'earthquake'
 Earthquake.start(ARGV)
