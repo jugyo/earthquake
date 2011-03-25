@@ -114,11 +114,11 @@ module Earthquake
 
       case item["event"]
       when "follow", "block", "unblock"
-        puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
+        puts "[#{item["event"]}]".c(42) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
-        puts "[#{item["event"]}] #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
+        puts "[#{item["event"]}]".c(42) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
       when "delete"
-        puts "[deleted] #{item["delete"]["status"]["id"]}"
+        puts "[deleted]".c(42) + " #{item["delete"]["status"]["id"]}"
       else
         if config[:debug]
           ap item
