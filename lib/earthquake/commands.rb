@@ -6,7 +6,7 @@ module Earthquake
     end
 
     command :help do
-      puts "TODO..."
+      system 'less', File.expand_path('../../../README.md', __FILE__)
     end
 
     command :restart do
