@@ -37,6 +37,7 @@ Accordingly that, You should renew the access token if it is old.
     $ earthquake
 
 }
+  gem.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
 end
 Jeweler::RubygemsDotOrgTasks.new
 
