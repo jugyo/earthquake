@@ -90,7 +90,9 @@ module Earthquake
       EventMachine::run do
         Thread.start do
           while buf = Readline.readline("⚡ ", true)
-            Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
+            unless Readline::HISTORY.count == 1
+              Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
+            end
             sync { input(buf.strip) }
           end
         end
