@@ -158,10 +158,10 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* dealing with direct messages
-* more intelligent completion
 * typable id
+* more intelligent completion
 * spec
+* change the config dir by ARGV
 
 Copyright
 ----
