@@ -130,6 +130,13 @@ module Earthquake
       async { twitter.report_spam(m[1]) }
     end
 
+    command :messages do
+      puts_items twitter.messages.each { |s|
+        s["user"] = {"screen_name" => s["sender_screen_name"]}
+        s["_disable_cache"] = true
+      }.reverse
+    end
+
     command :reconnect do
       reconnect
     end
