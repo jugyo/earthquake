@@ -8,7 +8,7 @@ module Earthquake
     @twitter = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret, :token, :secret))
 
     filter do |item|
-      next if item["text"].nil? || item["disable_cache"]
+      next if item["text"].nil? || item["_disable_cache"]
       item = item.dup
       item.keys.select { |key| key =~ /^_/ }.each { |key| item.delete(key) } # remote optional data like "_stream", "_highlights"
       Earthquake.cache.write("status:#{item["id"]}", item)
