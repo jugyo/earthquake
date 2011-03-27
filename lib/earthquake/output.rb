@@ -78,7 +78,7 @@ module Earthquake
         misc = ""
       end
 
-      statuses = ["[#{item["id"].to_s}]"]
+      statuses = ["[#{id2var(item["id"])}]"]
       unless item["_stream"]
         statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
       end
