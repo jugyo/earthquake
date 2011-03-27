@@ -84,9 +84,13 @@ module Earthquake
       end
 
       source = item["source"].u =~ />(.*)</ ? $1 : 'web' rescue ''
-      user_color = color_of(item["user"]["screen_name"])
-      text = item["text"].u.gsub(/[@#]([0-9A-Za-z_]+)/) do |i|
+
+      text = item["text"].u
+      text.gsub!(/@([0-9A-Za-z_]+)/) do |i|
         i.c(color_of($1))
+      end
+      text.gsub!(/(?:^#([^\s]+))|(?:\s+#([^\s]+))/) do |i|
+        i.c(color_of($1 || $2))
       end
 
       if item["_highlights"]
@@ -102,7 +106,7 @@ module Earthquake
 
       status =  [
                   "#{mark}" + "#{statuses.join(" ")}".c(90),
-                  "#{item["user"]["screen_name"].c(user_color)}:",
+                  "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
                   "#{misc} #{source}".c(90)
                 ].join(" ")
