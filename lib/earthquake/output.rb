@@ -102,7 +102,7 @@ module Earthquake
         end
       end
 
-      mark = item["mark"] || ""
+      mark = item["_mark"] || ""
 
       status =  [
                   "#{mark}" + "#{statuses.join(" ")}".c(90),
