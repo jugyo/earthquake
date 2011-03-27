@@ -137,6 +137,13 @@ module Earthquake
       }.reverse
     end
 
+    command :sent_messages do
+      puts_items twitter.sent_messages.each { |s|
+        s["user"] = {"screen_name" => s["sender_screen_name"]}
+        s["_disable_cache"] = true
+      }.reverse
+    end
+
     command :reconnect do
       reconnect
     end
