@@ -1,20 +1,20 @@
 Earthquake
 ====
 
-Twitter Client on Terminal with Streaming API.
+Terminal-based Twitter Client with Streaming API.
 
-It supports ruby 1.9 only.
+It supports only Ruby 1.9.
 
-**We need patches that fix the document to better english!**
+**We need patches that fix the english of the documentation!**
 
 ![http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg](http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg)
 
 Features
 ----
 
-* You can deal Twitter on Terminal entirely.
+* You can use Twitter entirely in your Terminal.
 * You can receive data in real time with Streaming API.
-* You can easily extend in Ruby.
+* You can easily extend by using Ruby.
 
 Install
 ----
@@ -40,7 +40,7 @@ Commands
     ⚡ :recent
     ⚡ :recent twitter
 
-### Searth
+### Search
 
     ⚡ :search #ruby
 
@@ -77,7 +77,7 @@ Plugin
 ----
 
 "~/.earthquake/plugin" is the directory for plugins.
-At launch, Earthquake try to load files under the directory.
+At launch, Earthquake tries to load files under this directory.
 The block that is specified for Earthquake.init will be reloaded at any command line input.
 
 ### Defining your commands
@@ -158,7 +158,7 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* dealing direct messages
+* dealing with direct messages
 * more intelligent completion
 * typable id
 * spec
