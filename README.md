@@ -5,6 +5,8 @@ Twitter Client on Terminal with Streaming API.
 
 It supports ruby 1.9 only.
 
+**We need patches that fix the document to better english!**
+
 ![http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg](http://images.instagram.com/media/2011/03/21/862f3b8d119b4eeb9c52e690a0087f5e_7.jpg)
 
 Features
@@ -80,7 +82,7 @@ Plugin
 
 "~/.earthquake/plugin" is the directory for plugins.
 At launch, Earthquake try to load files under the directory.
-プラグインの初期化処理は Earthquake.init のブロックの中で行うべきである。
+The block that is specified for Earthquake.init will be reloaded at any command line input.
 
 ### Defining your commands
 
