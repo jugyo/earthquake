@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earthquake}
-  s.version = "0.4.8"
+  s.version = "0.4.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jugyo"]
-  s.date = %q{2011-03-26}
+  s.date = %q{2011-03-27}
   s.default_executable = %q{earthquake}
   s.description = %q{Twitter Client on Terminal with Twitter Streaming API.}
   s.email = %q{jugyo.org@gmail.com}
@@ -59,7 +59,7 @@ Accordingly that, You should renew the access token if it is old.
 }
   s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
-  s.rubygems_version = %q{1.6.0}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Twitter Client on Terminal.}
   s.test_files = [
     "spec/earthquake_spec.rb",
@@ -67,6 +67,7 @@ Accordingly that, You should renew the access token if it is old.
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
