@@ -75,8 +75,6 @@ The blue is excluded.
 
     Earthquake.config[:debug] = true
 
-デバッグモードで動作しているとき、コードの修正は即座に反映される（正確にはコマンドの実行の直前にリロードされる）。
-
 Plugin
 ----
 

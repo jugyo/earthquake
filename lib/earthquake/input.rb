@@ -21,7 +21,12 @@ module Earthquake
 
     def input(text)
       begin
-        reload if config[:debug]
+        reload
+      rescue Exception => e
+        error e
+      end
+
+      begin
         if command = command(text)
           command[:block].call(command[:pattern].match(text))
         elsif !text.empty?
