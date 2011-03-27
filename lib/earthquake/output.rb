@@ -28,7 +28,7 @@ module Earthquake
     end
 
     def puts_items(items)
-      [items].flatten.each do |item|
+      [items].flatten.reverse_each do |item|
         next if filters.any? { |f| f.call(item) == false }
         outputs.each do |o|
           begin

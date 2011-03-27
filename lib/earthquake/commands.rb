@@ -44,7 +44,7 @@ module Earthquake
     end
 
     command :mentions do
-      puts_items twitter.mentions.reverse
+      puts_items twitter.mentions
     end
 
     command :follow do |m|
@@ -56,11 +56,11 @@ module Earthquake
     end
 
     command :recent do
-      puts_items twitter.home_timeline.reverse
+      puts_items twitter.home_timeline
     end
 
     command :recent do |m|
-      puts_items twitter.user_timeline(:screen_name => m[1]).reverse
+      puts_items twitter.user_timeline(:screen_name => m[1])
     end
 
     command :user do |m|
@@ -80,7 +80,7 @@ module Earthquake
           end
         }
         s["_highlights"] = words
-      }.reverse
+      }
     end
 
     command %r|^:retweet\s+(\d+)$|, :as => :retweet do |m|
@@ -107,15 +107,15 @@ module Earthquake
     end
 
     command :retweeted_by_me do
-      puts_items twitter.retweeted_by_me.reverse
+      puts_items twitter.retweeted_by_me
     end
 
     command :retweeted_to_me do
-      puts_items twitter.retweeted_to_me.reverse
+      puts_items twitter.retweeted_to_me
     end
 
     command :retweets_of_me do
-      puts_items twitter.retweets_of_me.reverse
+      puts_items twitter.retweets_of_me
     end
 
     command :block do |m|
@@ -134,14 +134,14 @@ module Earthquake
       puts_items twitter.messages.each { |s|
         s["user"] = {"screen_name" => s["sender_screen_name"]}
         s["_disable_cache"] = true
-      }.reverse
+      }
     end
 
     command :sent_messages do
       puts_items twitter.sent_messages.each { |s|
         s["user"] = {"screen_name" => s["sender_screen_name"]}
         s["_disable_cache"] = true
-      }.reverse
+      }
     end
 
     command :reconnect do
