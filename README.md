@@ -73,10 +73,6 @@ The config file is '~/.earthquake/config'.
 
 The blue is excluded.
 
-### Running on debug mode
-
-    Earthquake.config[:debug] = true
-
 Plugin
 ----
 
@@ -155,7 +151,7 @@ The 'm' is a MatchData.
 
     Earthquake.init do
       completion do |text|
-        ['@jugyo', 'earthquake', '#eqrb'].grep(/^#{Regexp.quote(text)}/)
+        ['jugyo', 'earthquake', '#eqrb'].grep(/^#{Regexp.quote(text)}/)
       end
     end
 
