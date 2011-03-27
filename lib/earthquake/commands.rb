@@ -144,6 +144,10 @@ module Earthquake
       }
     end
 
+    command %r|^:message (\w+)\s+(.*)|, :as => :message do |m|
+      async { twitter.message(*m[1, 2]) } if confirm("message '#{m[2]}' to @#{m[1]}")
+    end
+
     command :reconnect do
       reconnect
     end
