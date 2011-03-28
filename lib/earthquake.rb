@@ -23,6 +23,7 @@
   twitter
   commands
   id_var
+  completion
 ).each { |name| require_dependency File.expand_path("../earthquake/#{name}", __FILE__) }
 
 Thread.abort_on_exception = true

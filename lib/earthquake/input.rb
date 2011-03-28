@@ -91,12 +91,6 @@ module Earthquake
         end
       end
     end
-
-    completion do |text|
-      if Readline.line_buffer =~ /^\s*#{Regexp.quote(text)}/
-        command_names.grep /^#{Regexp.quote(text)}/
-      end
-    end
   end
 
   extend Input
