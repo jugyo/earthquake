@@ -11,8 +11,13 @@ module Earthquake
       next if item["text"].nil? || item["_disable_cache"]
       item = item.dup
       item.keys.select { |key| key =~ /^_/ }.each { |key| item.delete(key) } # remote optional data like "_stream", "_highlights"
+
       comp_name = Earthquake.cache.fetch("completion:screen_name") { [] }
+      comp_hash = Earthquake.cache.fetch("completion:hashtag") { [] }
+      hashs = item["text"].scan(/#([a-zA-Z0-9_\-]+)/).flatten
+
       Earthquake.cache.write("completion:screen_name", [*comp_name, item["user"]["screen_name"]].uniq)
+      Earthquake.cache.write("completion:hashtag", [*comp_hash, *hashs].uniq)
       Earthquake.cache.write("status:#{item["id"]}", item)
     end
   end
