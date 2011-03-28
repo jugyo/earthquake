@@ -191,9 +191,8 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* more intelligent completion
-* spec
 * change the config dir by ARGV
+* spec
 
 Copyright
 ----

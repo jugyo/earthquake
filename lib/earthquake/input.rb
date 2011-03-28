@@ -92,9 +92,16 @@ module Earthquake
     end
 
     completion do |text|
-      if Readline.line_buffer =~ /^\s*#{Regexp.quote(text)}/
-        command_names.grep /^#{Regexp.quote(text)}/
+      results = []
+      regexp = /^#{Regexp.quote(text)}/
+      if Readline.line_buffer =~ /^\s*:\w*$/
+        results += command_names.grep(regexp)
       end
+      range = Readline::HISTORY.count >= 100 ? -100..-1 : 0..-1
+      results += Readline::HISTORY.to_a[range].map { |line|
+        line.gsub(/^\s*:\w/, '').split(/\s+/)
+      }.flatten.grep(regexp)
+      results
     end
   end
 
