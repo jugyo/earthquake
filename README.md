@@ -158,7 +158,6 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* typable id
 * more intelligent completion
 * spec
 * change the config dir by ARGV
