@@ -90,6 +90,9 @@ module Earthquake
       text.gsub!(/(?:^#([^\s]+))|(?:\s+#([^\s]+))/) do |i|
         i.c(color_of($1 || $2))
       end
+      text.gsub!(URI.regexp(["http", "https"])) do |i|
+        i.c(4).c(36)
+      end
 
       if item["_highlights"]
         item["_highlights"].each do |h|
