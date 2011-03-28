@@ -80,7 +80,7 @@ Commands
 
 And there are more commands!
 
-Customize
+Configuration
 ----
 
 The config file is **~/.earthquake/config**.
@@ -90,6 +90,21 @@ The config file is **~/.earthquake/config**.
     Earthquake.config[:colors] = (31..36).to_a - [34]
 
 The blue is excluded.
+
+Desktop Notification
+----
+
+To enable desktop notification, install whichever below:
+
+* ruby-growl (gem install ruby-growl)
+* growlnotify (http://growl.info/extras.php#growlnotify)
+* notify-send (sudo aptitude install libnotify-bin)
+* libnotify (https://github.com/splattael/libnotify)
+
+Call Earthquake.notify for desktop notification.
+You can try it by using the :eval command:
+
+    ⚡ :eval notify 'Hello World!'
 
 Plugin
 ----
