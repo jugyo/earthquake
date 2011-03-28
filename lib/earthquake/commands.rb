@@ -35,7 +35,8 @@ module Earthquake
     end
 
     command :status do |m|
-      puts_items twitter.status(m[1])
+      # TODO: show reply to statuses
+      puts_items twitter.status(m[1]).tap { |s| s["_detail"] = true }
     end
 
     command :delete do |m|

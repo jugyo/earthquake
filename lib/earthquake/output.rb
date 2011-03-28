@@ -70,20 +70,18 @@ module Earthquake
     output do |item|
       next unless item["text"]
 
+      info = []
       if item["in_reply_to_status_id"]
-        misc = " (reply to #{item["in_reply_to_status_id"]})"
+        info << "(reply to #{id2var(item["in_reply_to_status_id"])})"
       elsif item["retweeted_status"]
-        misc = " (retweet of #{item["retweeted_status"]["id"]})"
-      else
-        misc = ""
+        info << "(retweet of #{id2var(item["retweeted_status"]["id"])})"
+      end
+      info << Time.parse(item["created_at"]).strftime('%m/%d/%y %H:%M %p')
+      if item["_detail"] && item["source"]
+        info << (item["source"].u =~ />(.*)</ ? $1 : 'web')
       end
 
-      statuses = ["[#{id2var(item["id"])}]"]
-      unless item["_stream"]
-        statuses.insert(0, "[#{Time.parse(item["created_at"]).strftime('%Y.%m.%d %X')}]")
-      end
-
-      source = item["source"].u =~ />(.*)</ ? $1 : 'web' rescue ''
+      id = id2var(item["id"])
 
       text = item["text"].u
       text.gsub!(/@([0-9A-Za-z_]+)/) do |i|
@@ -105,10 +103,10 @@ module Earthquake
       mark = item["_mark"] || ""
 
       status =  [
-                  "#{mark}" + "#{statuses.join(" ")}".c(90),
+                  "#{mark}" + "[#{id}]".c(90),
                   "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
-                  "#{misc} #{source}".c(90)
+                  info.join(' - ').c(90)
                 ].join(" ")
       puts status
     end
@@ -116,6 +114,7 @@ module Earthquake
     output do |item|
       next unless item["event"]
 
+      # TODO: handle 'list_member_added' and 'list_member_removed'
       case item["event"]
       when "follow", "block", "unblock"
         puts "[#{item["event"]}]".c(42) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
