@@ -60,7 +60,6 @@ module Earthquake
     end
 
     def confirm(message, type = :y)
-      message = message.c(36)
       case type
       when :y
         print "#{message} [Yn] "
