@@ -106,8 +106,9 @@ module Earthquake
                   "#{mark}" + "[#{id}]".c(90),
                   "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
+                  (item["user"]["protected"] ? "[P]".c(31) : nil),
                   info.join(' - ').c(90)
-                ].join(" ")
+                ].compact.join(" ")
       puts status
     end
 
