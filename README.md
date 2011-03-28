@@ -35,10 +35,28 @@ Commands
 
     ⚡ Hello World!
 
+### Show
+
+    ⚡ :status $xx
+
+**$xx** is the alias of tweet id.
+
+### Delete
+
+    ⚡ :delete $xx
+
+### Reply
+
+    ⚡ :reply $xx hi!
+
+### Retweet
+
+    ⚡ :retweet $xx
+
 ### Timeline
 
     ⚡ :recent
-    ⚡ :recent twitter
+    ⚡ :recent jugyo
 
 ### Search
 
@@ -65,7 +83,7 @@ And there are more commands!
 Customize
 ----
 
-The config file is '~/.earthquake/config'.
+The config file is **~/.earthquake/config**.
 
 ### Changing the colors
 
@@ -76,7 +94,7 @@ The blue is excluded.
 Plugin
 ----
 
-"~/.earthquake/plugin" is the directory for plugins.
+**~/.earthquake/plugin** is the directory for plugins.
 At launch, Earthquake tries to load files under this directory.
 The block that is specified for Earthquake.init will be reloaded at any command line input.
 
