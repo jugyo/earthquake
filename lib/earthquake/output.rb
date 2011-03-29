@@ -1,12 +1,12 @@
 # encoding: UTF-8
 module Earthquake
   module Output
-    def filters
-      @filters ||= []
+    def output_filters
+      @output_filters ||= []
     end
 
-    def filter(&block)
-      filters << block
+    def output_filter(&block)
+      output_filters << block
     end
 
     def outputs
@@ -29,7 +29,7 @@ module Earthquake
 
     def puts_items(items)
       [items].flatten.reverse_each do |item|
-        next if filters.any? { |f| f.call(item) == false }
+        next if output_filters.any? { |f| f.call(item) == false }
         outputs.each do |o|
           begin
             o.call(item)
@@ -63,7 +63,7 @@ module Earthquake
 
   init do
     outputs.clear
-    filters.clear
+    output_filters.clear
 
     config[:colors] ||= (31..36).to_a + (91..96).to_a
 

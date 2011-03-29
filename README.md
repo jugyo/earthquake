@@ -174,12 +174,12 @@ The 'm' is a MatchData.
       end
     end
 
-### Defining filters
+### Defining filters for output
 
 #### Filtering by keywords
 
     Earthquake.init do
-      filter do |item|
+      output_filter do |item|
         if item["_stream"] && item["text"]
           item["text"] =~ /ruby/i
         else
