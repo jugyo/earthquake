@@ -61,12 +61,12 @@ module Earthquake
     end
 
     # :recent jugyo
-    command %r|^:recent\s+([^\/\s]+)\s*$|, :as => :recent do |m|
+    command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
       puts_items twitter.user_timeline(:screen_name => m[1])
     end
 
     # :recent yugui/ruby-committers
-    command %r|^:recent\s+([^\s]+)\/([^\s]+)\s*$|, :as => :recent do |m|
+    command %r|^:recent\s+([^\s]+)\/([^\s]+)$|, :as => :recent do |m|
       puts_items twitter.list_statuses(m[1], m[2])
     end
 
