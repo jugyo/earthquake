@@ -170,14 +170,15 @@ module Earthquake
     end
 
     command :thread do |m|
-      thread = []
-      thread << twitter.status(m[1])
-      i = 0
-      while thread[i]['in_reply_to_status_id'] != nil
-        thread << twitter.status(thread[i]['in_reply_to_status_id'].to_s)
-        i += 1
+      indent = 0
+      tweet = twitter.status(m[1])
+      puts_items tweet
+      while tweet["in_reply_to_status_id"]
+        indent += 1
+        tweet = twitter.status(tweet["in_reply_to_status_id"])
+        tweet["_mark"] = "  " * indent
+        puts_items tweet
       end
-      puts_items thread
     end
 
     command :sh do
