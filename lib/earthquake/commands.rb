@@ -179,5 +179,9 @@ module Earthquake
       end
       puts_items thread
     end
+
+    command :sh do
+      system ENV["SHELL"] || 'sh'
+    end
   end
 end
