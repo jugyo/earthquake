@@ -52,7 +52,8 @@ module Earthquake
         :dir             => File.expand_path('~/.earthquake'),
         :plugin_dir      => File.expand_path('~/.earthquake/plugin'),
         :consumer_key    => 'RmzuwQ5g0SYObMfebIKJag',
-        :consumer_secret => 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
+        :consumer_secret => 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU',
+        :time_format     => '%m/%d/%y %H:%M %p'
       )
 
       [config[:dir], config[:plugin_dir]].each do |dir|
