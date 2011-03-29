@@ -50,8 +50,8 @@ module Earthquake
     end
 
     command :delete do |m|
-      # TODO: confirm
-      async { twitter.status_destroy(m[1]) }
+      tweet = twitter.status(m[1])
+      async { twitter.status_destroy(m[1]) } if confirm("delete '#{tweet["text"]}'")
     end
 
     command :mentions do
