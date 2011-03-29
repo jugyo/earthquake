@@ -83,8 +83,8 @@ module Earthquake
     end
 
     def start(*argv)
-      _once
       _init
+      _once
       restore_history
 
       EventMachine::run do
