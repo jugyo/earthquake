@@ -152,7 +152,7 @@ module Earthquake
     command :reconnect do
       reconnect
     end
-    
+
     command :thread do |m|
       thread = []
       thread << twitter.status(m[1])
@@ -163,7 +163,7 @@ module Earthquake
       end
       puts_items thread
     end
-    
+
     command :list do |m|
       puts_items twitter.list_statuses(*m[1].split('/'))
     end
