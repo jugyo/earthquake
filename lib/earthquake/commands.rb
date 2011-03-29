@@ -183,5 +183,9 @@ module Earthquake
     command :sh do
       system ENV["SHELL"] || 'sh'
     end
+
+    command :'!' do |m|
+      system m[1]
+    end
   end
 end
