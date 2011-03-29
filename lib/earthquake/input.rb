@@ -29,7 +29,7 @@ module Earthquake
       begin
         text = text.gsub(/\$\w+/) do |var|
           var2id(var) || var
-        end
+        end if text =~ %r|^:|
 
         if command = command(text)
           command[:block].call(command[:pattern].match(text))

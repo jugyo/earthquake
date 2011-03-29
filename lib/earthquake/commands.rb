@@ -20,7 +20,7 @@ module Earthquake
     end
 
     # update
-    command %r|^[^:].*| do |m|
+    command %r|^[^:\$].*| do |m|
       async { twitter.update(m[0]) } if confirm("update '#{m[0]}'")
     end
 
@@ -34,9 +34,19 @@ module Earthquake
       end
     end
 
+    # $xx hi!
+    command %r|^(\$[^\s]+)\s+(.*)$| do |m|
+      input(":reply #{m[1..2].join(' ')}")
+    end
+
     command :status do |m|
       # TODO: show reply to statuses
       puts_items twitter.status(m[1]).tap { |s| s["_detail"] = true }
+    end
+
+    # $xx
+    command %r|^(\$[^\s]+)$| do |m|
+      input(":status #{m[1]}")
     end
 
     command :delete do |m|

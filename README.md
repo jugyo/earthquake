@@ -37,17 +37,17 @@ Commands
 
 ### Show
 
-    ⚡ :status $xx
+    ⚡ $xx
 
 **$xx** is the alias of tweet id.
+
+### Reply
+
+    ⚡ $xx hi!
 
 ### Delete
 
     ⚡ :delete $xx
-
-### Reply
-
-    ⚡ :reply $xx hi!
 
 ### Retweet
 
