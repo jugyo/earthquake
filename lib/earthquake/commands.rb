@@ -152,5 +152,16 @@ module Earthquake
     command :reconnect do
       reconnect
     end
+    
+    command :thread do |m|
+      thread = []
+      thread << twitter.status(m[1])
+      i = 0
+      while thread[i]['in_reply_to_status_id'] != nil
+        thread << twitter.status(thread[i]['in_reply_to_status_id'].to_s)
+        i += 1
+      end
+      puts_items thread
+    end
   end
 end
