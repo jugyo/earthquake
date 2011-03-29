@@ -58,6 +58,10 @@ Commands
     ⚡ :recent
     ⚡ :recent jugyo
 
+### Lists
+
+    ⚡ :recent yugui/ruby-committers
+
 ### Search
 
     ⚡ :search #ruby
@@ -81,11 +85,6 @@ Commands
 ### Threads
 
     ⚡ :thread $xx
-
-### Lists
-
-    ⚡ :list username/list_name
-    ⚡ :list yugui/ruby-committers
 
 And there are more commands!
 

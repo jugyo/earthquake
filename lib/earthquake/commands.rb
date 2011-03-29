@@ -60,8 +60,14 @@ module Earthquake
       puts_items twitter.home_timeline
     end
 
-    command :recent do |m|
+    # :recent jugyo
+    command %r|^:recent\s+([^\/\s]+)\s*$|, :as => :recent do |m|
       puts_items twitter.user_timeline(:screen_name => m[1])
+    end
+
+    # :recent yugui/ruby-committers
+    command %r|^:recent\s+([^\s]+)\/([^\s]+)\s*$|, :as => :recent do |m|
+      puts_items twitter.list_statuses(m[1], m[2])
     end
 
     command :user do |m|
@@ -162,10 +168,6 @@ module Earthquake
         i += 1
       end
       puts_items thread
-    end
-
-    command :list do |m|
-      puts_items twitter.list_statuses(*m[1].split('/'))
     end
   end
 end
