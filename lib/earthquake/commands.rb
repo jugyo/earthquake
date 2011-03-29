@@ -163,5 +163,9 @@ module Earthquake
       end
       puts_items thread
     end
+    
+    command :list do |m|
+      puts_items twitter.list_statuses(*m[1].split('/'))
+    end
   end
 end

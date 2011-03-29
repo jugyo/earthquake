@@ -78,6 +78,15 @@ Commands
 
     ⚡ :restart
 
+### Threads
+    
+    ⚡ :thread $xx
+
+### Lists
+    
+    ⚡ :list username/list_name
+    ⚡ :list yugui/ruby-committers
+
 And there are more commands!
 
 Configuration
