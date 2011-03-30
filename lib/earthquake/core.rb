@@ -189,8 +189,10 @@ module Earthquake
     end
 
     def notify(message, options = {:title => 'earthquake'})
+      message = message.is_a?(String) ? message : message.inspect
       Notify.notify options[:title], message
     end
+    alias_method :n, :notify
   end
 
   extend Core
