@@ -116,11 +116,17 @@ module Earthquake
     end
 
     command :favorite do |m|
-      async { twitter.favorite(m[1]) }
+      tweet = twitter.status(m[1])
+      if confirm("favorite '#{tweet["user"]["screen_name"]}: #{tweet["text"].e}'")
+        async { twitter.favorite(m[1]) }
+      end
     end
 
     command :unfavorite do |m|
-      async { twitter.unfavorite(m[1]) }
+      tweet = twitter.status(m[1])
+      if confirm("unfavorite '#{tweet["user"]["screen_name"]}: #{tweet["text"].e}'")
+        async { twitter.unfavorite(m[1]) }
+      end
     end
 
     command :retweeted_by_me do
