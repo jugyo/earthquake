@@ -12,7 +12,7 @@ module Earthquake
       Launchy::Browser.run(request_token.authorize_url)
 
       print "2) Enter the PIN: "
-      pin = gets.strip
+      pin = STDIN.gets.strip
 
       access_token = request_token.get_access_token(:oauth_verifier => pin)
       config[:token] = access_token.token

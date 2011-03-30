@@ -48,13 +48,12 @@ module Earthquake
 
     def load_config
       # TODO: parse argv
-      config.merge!(
-        :dir             => File.expand_path('~/.earthquake'),
-        :plugin_dir      => File.expand_path('~/.earthquake/plugin'),
-        :consumer_key    => 'RmzuwQ5g0SYObMfebIKJag',
-        :consumer_secret => 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU',
-        :time_format     => Time::DATE_FORMATS[:short]
-      )
+      config[:dir]              ||= File.expand_path(ARGV[0] || '~/.earthquake')
+      config[:time_format]      ||= Time::DATE_FORMATS[:short]
+      config[:plugin_dir]       ||= File.join(config[:dir], 'plugin')
+      config[:file]             ||= File.join(config[:dir], 'config')
+      config[:consumer_key]     ||= 'RmzuwQ5g0SYObMfebIKJag'
+      config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -62,13 +61,11 @@ module Earthquake
         end
       end
 
-      config[:file] ||= File.join(config[:dir], 'config')
-
-      unless File.exists?(config[:file])
+      if File.exists?(config[:file])
+        load config[:file]
+      else
         File.open(config[:file], 'w')
       end
-
-      load config[:file]
 
       get_access_token unless self.config[:token] && self.config[:secret]
     end
