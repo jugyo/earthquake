@@ -152,7 +152,6 @@ module Earthquake
     def stop
       stop_stream
       EventMachine.stop_event_loop
-      store_history
     end
 
     def store_history

@@ -26,6 +26,8 @@ module Earthquake
         error e
       end
 
+      return if text.empty?
+
       begin
         text = text.gsub(/\$\w+/) do |var|
           var2id(var) || var
@@ -36,6 +38,8 @@ module Earthquake
         elsif !text.empty?
           puts "Command not found".c(43)
         end
+
+        store_history
       rescue Exception => e
         error e
       end
