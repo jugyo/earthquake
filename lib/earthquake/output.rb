@@ -76,8 +76,7 @@ module Earthquake
       elsif item["retweeted_status"]
         info << "(retweet of #{id2var(item["retweeted_status"]["id"])})"
       end
-      # NOTE: customizing time format: Time::DATE_FORMATS[:short] = '%m/%d/%y %H:%M %p'
-      info << Time.parse(item["created_at"]).to_s(:short)
+      info << Time.parse(item["created_at"]).strftime('%m/%d/%y %H:%M %p')
       if item["_detail"] && item["source"]
         info << (item["source"].u =~ />(.*)</ ? $1 : 'web')
       end
