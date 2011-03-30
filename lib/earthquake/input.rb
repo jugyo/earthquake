@@ -102,9 +102,7 @@ module Earthquake
       results += command_names.grep(regexp)
 
       range = Readline::HISTORY.count >= 100 ? -100..-1 : 0..-1
-      results += Readline::HISTORY.to_a[range].map { |line|
-        line.gsub(/^\s*:\w/, '').split(/\s+/)
-      }.flatten.grep(regexp)
+      results += Readline::HISTORY.to_a[range].map { |line| line.split(/\s+/) }.flatten.grep(regexp)
 
       results
     end
