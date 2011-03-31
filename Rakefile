@@ -24,8 +24,8 @@ Jeweler::Tasks.new do |gem|
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
   #  gem.add_development_dependency 'rspec', '> 1.2.3'
   gem.post_install_message = %{
-The Application info as Twitter Client has been updated at 2011-03-20 15:00:00 UTC.
-Accordingly that, You should renew the access token if it is old.
+The Twitter Client application info has been updated at 2011-03-20 15:00:00 UTC.
+Accordingly, you should renew the access token if it is old.
 
 1) In ~/.earthquake/config, remove these lines:
 
