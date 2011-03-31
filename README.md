@@ -19,7 +19,7 @@ Features
 Install
 ----
 
-    gem install earthquake
+    $ gem install earthquake
 
 Usage
 ----
@@ -91,10 +91,19 @@ And there are more commands!
 Configuration
 ----
 
+The default earthquake director is ~/.earthquake.
+
 The config file is **~/.earthquake/config**.
+
+### Changing the earthquake directory
+
+You can change the directory at launch as below:
+
+    $ earthquake ~/.earthquake_foo
 
 ### Changing the colors
 
+    # ~/.earthquake/config
     Earthquake.config[:colors] = (31..36).to_a - [34]
 
 The blue is excluded.
