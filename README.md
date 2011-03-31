@@ -106,12 +106,12 @@ You can change the directory at launch as below:
     # ~/.earthquake/config
     Earthquake.config[:colors] = (31..36).to_a - [34]
 
-The blue is excluded.
+Blue is excluded.
 
-Desktop Notification
+Desktop Notifications
 ----
 
-To enable desktop notification, install whichever below:
+To enable desktop notifications, install one of the following:
 
 * ruby-growl (gem install ruby-growl)
 * growlnotify (http://growl.info/extras.php#growlnotify)
