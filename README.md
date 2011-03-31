@@ -208,6 +208,7 @@ The 'm' is a MatchData.
 TODO
 ----
 
+* guideline for plugin
 * ssl for twitter_oauth
 * deal proxy
 * spec
