@@ -66,10 +66,10 @@ module Earthquake
     def confirm(message, type = :y)
       case type
       when :y
-        print "#{message} [Yn] "
+        print "#{message} [Yn] ".u
         return !(gets.strip =~ /^n$/i)
       when :n
-        print "#{message} [yN] "
+        print "#{message} [yN] ".u
         return !!(gets.strip =~ /^y$/i)
       else
         raise "type must be :y or :n"

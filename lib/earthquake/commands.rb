@@ -31,7 +31,7 @@ Earthquake.init do
     target = twitter.status(in_reply_to_status_id)
     screen_name = target["user"]["screen_name"]
     text = "@#{screen_name} #{m[2]}"
-    if confirm(["'@#{screen_name}: #{target["text"].u}'", "reply '#{text}'"].join("\n"))
+    if confirm(["'@#{screen_name}: #{target["text"]}'", "reply '#{text}'"].join("\n"))
       async { twitter.update(text, :in_reply_to_status_id => in_reply_to_status_id) }
     end
   end
@@ -104,14 +104,14 @@ Earthquake.init do
 
   command %r|^:retweet\s+(\d+)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
-    if confirm("retweet 'RT @#{target["user"]["screen_name"]}: #{target["text"].e}'")
+    if confirm("retweet 'RT @#{target["user"]["screen_name"]}: #{target["text"]}'")
       async { twitter.retweet(m[1]) }
     end
   end
 
   command %r|^:retweet\s+(\d+)\s+(.*)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
-    text = "#{m[2]} RT @#{target["user"]["screen_name"]}: #{target["text"].e} (#{target["id"]})"
+    text = "#{m[2]} RT @#{target["user"]["screen_name"]}: #{target["text"]} (#{target["id"]})"
     if confirm("unofficial retweet '#{text}'")
       async { twitter.update(text) }
     end
@@ -119,14 +119,14 @@ Earthquake.init do
 
   command :favorite do |m|
     tweet = twitter.status(m[1])
-    if confirm("favorite '#{tweet["user"]["screen_name"]}: #{tweet["text"].e}'")
+    if confirm("favorite '#{tweet["user"]["screen_name"]}: #{tweet["text"]}'")
       async { twitter.favorite(m[1]) }
     end
   end
 
   command :unfavorite do |m|
     tweet = twitter.status(m[1])
-    if confirm("unfavorite '#{tweet["user"]["screen_name"]}: #{tweet["text"].e}'")
+    if confirm("unfavorite '#{tweet["user"]["screen_name"]}: #{tweet["text"]}'")
       async { twitter.unfavorite(m[1]) }
     end
   end
