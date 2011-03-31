@@ -91,7 +91,7 @@ module Earthquake
         i.c(color_of($1 || $2))
       end
       text.gsub!(URI.regexp(["http", "https"])) do |i|
-        i.c(4).c(36)
+        i.c(4, 36)
       end
 
       if item["_highlights"]
