@@ -61,6 +61,7 @@ module Earthquake
     end
   end
 
+
   init do
     outputs.clear
     output_filters.clear
@@ -91,7 +92,7 @@ module Earthquake
         i.c(color_of($1 || $2))
       end
       text.gsub!(URI.regexp(["http", "https"])) do |i|
-        i.c(4).c(36)
+        i.cn(:url)
       end
 
       if item["_highlights"]
@@ -106,11 +107,11 @@ module Earthquake
       mark = item["_mark"] || ""
 
       status =  [
-                  "#{mark}" + "[#{id}]".c(90),
+                  "#{mark}" + "[#{id}]".cn(:mark),
                   "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
-                  (item["user"]["protected"] ? "[P]".c(31) : nil),
-                  info.join(' - ').c(90)
+                  (item["user"]["protected"] ? "[P]".cn(:private) : nil),
+                  info.join(' - ').cn(:info)
                 ].compact.join(" ")
       puts status
     end
@@ -121,11 +122,11 @@ module Earthquake
       # TODO: handle 'list_member_added' and 'list_member_removed'
       case item["event"]
       when "follow", "block", "unblock"
-        puts "[#{item["event"]}]".c(42) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
+        puts "[#{item["event"]}]".cn(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
-        puts "[#{item["event"]}]".c(42) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
+        puts "[#{item["event"]}]".cn(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
       when "delete"
-        puts "[deleted]".c(42) + " #{item["delete"]["status"]["id"]}"
+        puts "[deleted]".cn(:event) + " #{item["delete"]["status"]["id"]}"
       else
         if config[:debug]
           ap item

@@ -108,6 +108,14 @@ You can change the directory at launch as below:
 
 Blue is excluded.
 
+And you can change some parts of colors.
+
+    Earthquake.config[:color_info] = 33 # timestamp
+    Earthquake.config[:color_private] = 22 # [P] for protected tweet
+    Earthquake.config[:color_mark] = 33 # $xx
+    Earthquake.config[:color_event] = 42 # delete, follow, unfollow, etc
+    Earthquake.config[:color_url] = [4, 36] # URL. this means Underline(4) and Set color to cyan(36)
+
 Desktop Notifications
 ----
 
