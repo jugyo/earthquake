@@ -19,9 +19,12 @@ module Earthquake
       ap eval(m[1])
     end
 
-    # update
+    command :update do |m|
+      async { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    end
+
     command %r|^[^:\$].*| do |m|
-      async { twitter.update(m[0]) } if confirm("update '#{m[0]}'")
+      input(":update #{m[0]}")
     end
 
     command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
