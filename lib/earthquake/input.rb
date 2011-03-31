@@ -3,6 +3,14 @@ require 'set'
 
 module Earthquake
   module Input
+    def input_filters
+      @input_filters ||= []
+    end
+
+    def input_filter(&block)
+      input_filters << block
+    end
+
     def commands
       @commands ||= []
     end
@@ -29,9 +37,7 @@ module Earthquake
       return if text.empty?
 
       begin
-        text = text.gsub(/\$\w+/) do |var|
-          var2id(var) || var
-        end if text =~ %r|^:|
+        input_filters.each { |f| text = f.call(text) }
 
         if command = command(text)
           command[:block].call(command[:pattern].match(text))
@@ -81,6 +87,7 @@ module Earthquake
     commands.clear
     command_names.clear
     completions.clear
+    input_filters.clear
 
     Readline.basic_word_break_characters = " \t\n\"\\'`$><=;|&{(@"
 
@@ -105,6 +112,14 @@ module Earthquake
       results += Readline::HISTORY.to_a[range].map { |line| line.split(/\s+/) }.flatten.grep(regexp)
 
       results
+    end
+
+    input_filter do |text|
+      if text =~ %r|^:|
+        text.gsub(/\$\w+/) { |var| var2id(var) || var }
+      else
+        text
+      end
     end
   end
 
