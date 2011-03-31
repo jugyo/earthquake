@@ -53,11 +53,7 @@ module Earthquake
     end
 
     def color_of(screen_name)
-      colors[screen_name.to_i(36) % colors.size]
-    end
-
-    def colors
-      config[:colors]
+      config[:colors][screen_name.to_i(36) % config[:colors].size]
     end
   end
 
