@@ -208,7 +208,6 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* change the config dir by ARGV
 * spec
 
 Copyright

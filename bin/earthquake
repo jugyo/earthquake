@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
+require 'slop'
+opts = Slop.parse! :help => true do
+  banner "Usage: earthquake [options] [directory]"
+  on :d, :debug, 'Enable debug mode'
+end
+options = opts.to_hash(true)
+options.delete(:help)
+options[:dir] = ARGV.shift unless ARGV.empty?
+
 $:.unshift(File.expand_path('../../lib', __FILE__)) if $0 == __FILE__
 require 'earthquake'
-Earthquake.start(ARGV)
+Earthquake.start(options)

@@ -47,8 +47,7 @@ module Earthquake
     end
 
     def load_config
-      # TODO: parse argv
-      config[:dir]              ||= File.expand_path(ARGV[0] || '~/.earthquake')
+      config[:dir]              ||= File.expand_path('~/.earthquake')
       config[:time_format]      ||= Time::DATE_FORMATS[:short]
       config[:plugin_dir]       ||= File.join(config[:dir], 'plugin')
       config[:file]             ||= File.join(config[:dir], 'config')
@@ -80,7 +79,8 @@ module Earthquake
       end
     end
 
-    def start(*argv)
+    def start(options = {})
+      config.merge!(options)
       _init
       _once
       restore_history

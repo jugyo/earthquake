@@ -8,6 +8,7 @@ gem 'awesome_print'
 gem 'launchy'
 gem 'oauth'
 gem 'twitter_oauth'
+gem 'slop'
 
 group :development do
   gem "rspec", "~> 2.3.0"
