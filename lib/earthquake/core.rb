@@ -107,7 +107,6 @@ module Earthquake
 
         reconnect
 
-        trap('TERM') { stop }
         trap('INT') { stop }
       end
     end
