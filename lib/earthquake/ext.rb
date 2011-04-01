@@ -1,6 +1,6 @@
 class String
   def c(*codes)
-    codes = codes.map { |code|
+    codes = codes.flatten.map { |code|
       case code
       when String, Symbol
         Earthquake.config[:color][code.to_sym] rescue nil
