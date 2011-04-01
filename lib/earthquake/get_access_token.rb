@@ -9,7 +9,7 @@ module Earthquake
       request_token = consumer.get_request_token
 
       puts "1) open: #{request_token.authorize_url}"
-      Launchy::Browser.run(request_token.authorize_url)
+      Launchy::Browser.run(request_token.authorize_url) rescue nil
 
       print "2) Enter the PIN: "
       pin = STDIN.gets.strip
