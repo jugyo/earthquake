@@ -1,18 +1,14 @@
 class String
   def c(*codes)
-    if codes.size > 1
-      result = self
-      codes.each do |code|
-        result = result.c(code)
+    codes = codes.map { |code|
+      case code
+      when String, Symbol
+        Earthquake.config[:color][code.to_sym] rescue nil
+      else
+        code
       end
-      result
-    else
-      code = codes[0]
-      if code.is_a?(String) || code.is_a?(Symbol)
-        code = Earthquake.config["color"][code.to_s]
-      end
-      "\e[#{code}m#{self}\e[0m"
-    end
+    }.compact.unshift(0)
+    "\e[#{codes.join(';')}m#{self}\e[0m"
   end
 
   def u
