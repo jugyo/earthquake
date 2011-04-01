@@ -81,6 +81,17 @@ module Earthquake
         raise "type must be :y or :n"
       end
     end
+
+    def async_e(&block)
+      async { handle_api_error(&block) }
+    end
+
+    def handle_api_error(&block)
+      result = block.call
+      if result["error"]
+        notify "[ERROR] #{result["error"]}"
+      end
+    end
   end
 
   init do
