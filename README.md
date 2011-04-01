@@ -101,12 +101,22 @@ You can change the directory at launch as below:
 
     $ earthquake ~/.earthquake_foo
 
-### Changing the colors
+### Changing the colors for user name
 
     # ~/.earthquake/config
     Earthquake.config[:colors] = (31..36).to_a - [34]
 
 Blue is excluded.
+
+### Changing the color scheme
+
+    # ~/.earthquake/config
+    Earthquake.config[:color] = {
+      :info => 34,
+      :notice => 41,
+      :event  => 46,
+      :url => [4, 34]
+    }
 
 Desktop Notifications
 ----
