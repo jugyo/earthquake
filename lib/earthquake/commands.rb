@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'uri'
+require 'open-uri'
 Earthquake.init do
   command :exit do
     stop
@@ -193,5 +195,32 @@ Earthquake.init do
 
   command :'!' do |m|
     system m[1]
+  end
+
+  command :plugin_install do |m|
+    uri = URI.parse(m[1])
+    unless uri.host == "gist.github.com"
+      puts "the host must be gist.github.com".c(41)
+    else
+      puts "..."
+      gist_id = uri.path[/\d+/]
+      meta = JSON.parse(open("https://gist.github.com/api/v1/json/#{gist_id}").read)
+      filename = meta["gists"][0]["files"][0]
+      raw = open("https://gist.github.com/raw/#{gist_id}/#{filename}").read
+
+      puts '-' * 80
+      puts raw.c(36)
+      puts '-' * 80
+
+      filename = "#{meta["gists"][0]["repo"]}.rb" if filename =~ /^gistfile/
+      filepath = File.join(config[:plugin_dir], filename)
+      if confirm("Install to '#{filepath}'?")
+        File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
+          file << raw
+          file << "\n# #{m[1]}"
+        end
+        reload
+      end
+    end
   end
 end
