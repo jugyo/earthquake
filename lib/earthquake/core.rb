@@ -42,6 +42,8 @@ module Earthquake
       loaded = ActiveSupport::Dependencies.loaded.dup
       ActiveSupport::Dependencies.clear
       loaded.each { |lib| require_dependency lib }
+    rescue Exception => e
+      error e
     ensure
       _init
     end

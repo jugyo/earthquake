@@ -28,12 +28,7 @@ module Earthquake
     end
 
     def input(text)
-      begin
-        reload
-      rescue Exception => e
-        error e
-      end
-
+      reload
       return if text.empty?
 
       begin
