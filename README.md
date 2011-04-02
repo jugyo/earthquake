@@ -86,6 +86,10 @@ Commands
 
     ⚡ :thread $xx
 
+### Install Plugins
+
+    ⚡ :plugin_install https://gist.github.com/899506
+
 And there are more commands!
 
 Configuration
