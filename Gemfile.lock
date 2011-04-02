@@ -53,4 +53,4 @@ DEPENDENCIES
   rspec (~> 2.3.0)
   slop
   twitter-stream
-  twitter_oauth
+  twitter_oauth (= 0.4.3)
