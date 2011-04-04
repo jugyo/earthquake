@@ -80,7 +80,7 @@ module Earthquake
         info << "(retweet of #{id2var(item["retweeted_status"]["id"])})"
       end
       info << Time.parse(item["created_at"]).strftime(config[:time_format])
-      if item["_detail"] && item["source"]
+      if !config[:hide_app_name] && item["source"]
         info << (item["source"].u =~ />(.*)</ ? $1 : 'web')
       end
 

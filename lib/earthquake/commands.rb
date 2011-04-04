@@ -44,8 +44,10 @@ Earthquake.init do
   end
 
   command :status do |m|
-    # TODO: show reply to statuses
-    puts_items twitter.status(m[1]).tap { |s| s["_detail"] = true }
+    puts_items tweet = twitter.status(m[1])
+    if tweet["in_reply_to_status_id"]
+      puts_items twitter.status(tweet["in_reply_to_status_id"]).tap { |t| t["_mark"] = "  " }
+    end
   end
 
   # $xx
