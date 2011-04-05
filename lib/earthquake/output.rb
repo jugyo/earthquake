@@ -67,8 +67,7 @@ module Earthquake
       :info   => 90,
       :notice => 31,
       :event  => 42,
-      :url    => [4, 36],
-      :highlight    => [43, 37]
+      :url    => [4, 36]
     )
 
     output do |item|
@@ -100,8 +99,13 @@ module Earthquake
 
       if item["_highlights"]
         item["_highlights"].each do |h|
+          if config[:color][:highlight].nil?
+            c = color_of(h).to_i + 10
+          else
+            c = :highlight
+          end
           text = text.gsub(/#{h}/i) do |i|
-            i.c(:highlight)
+            i.c(c)
           end
         end
       end
