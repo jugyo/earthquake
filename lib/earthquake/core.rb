@@ -192,6 +192,10 @@ module Earthquake
       Notify.notify options[:title], message
     end
     alias_method :n, :notify
+
+    def browse(url)
+      Launchy::Browser.run(url)
+    end
   end
 
   extend Core
