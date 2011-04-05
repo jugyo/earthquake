@@ -69,6 +69,7 @@ module Earthquake
       :event  => 42,
       :url    => [4, 36]
     )
+    config[:raw_text] ||= false
 
     output do |item|
       next unless item["text"]
@@ -87,6 +88,7 @@ module Earthquake
       id = id2var(item["id"])
 
       text = item["text"].u
+      text.gsub!(/\s+/, ' ') unless config[:raw_text]
       text.gsub!(/@([0-9A-Za-z_]+)/) do |i|
         i.c(color_of($1))
       end
