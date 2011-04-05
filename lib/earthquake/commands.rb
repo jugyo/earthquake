@@ -193,6 +193,20 @@ Earthquake.init do
     }
   end
 
+  command %r|^:open\s+(\d+)$|, :as => :open do |m|
+    if match = twitter.status(m[1])["text"].match(URI.regexp(["http", "https"]))
+      browse match[0]
+    else
+      puts "no link found".c(41)
+    end
+  end
+
+  command %r|^:open\s+(\w+)$|, :as => :open do |m|
+    url = "https://twitter.com/#{m[1]}"
+    puts "Open: #{url}".c(:info)
+    browse url
+  end
+
   command :sh do
     system ENV["SHELL"] || 'sh'
   end
