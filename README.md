@@ -137,7 +137,12 @@ You can try it by using the :eval command:
 
     ⚡ :eval notify 'Hello World!'
 
-Plugin
+Plugins
+----
+
+=> [https://github.com/jugyo/earthquake/wiki/Plugin](https://github.com/jugyo/earthquake/wiki/Plugin)
+
+Making Plugin
 ----
 
 **~/.earthquake/plugin** is the directory for plugins.
