@@ -1,3 +1,22 @@
+module Twitter
+  class JSONStream
+    protected
+    def reconnect_after timeout
+      @reconnect_callback.call(timeout, @reconnect_retries) if @reconnect_callback
+
+      if timeout == 0
+        reconnect @options[:host], @options[:port]
+        start_tls if @options[:ssl]
+      else
+        EventMachine.add_timer(timeout) do
+          reconnect @options[:host], @options[:port]
+          start_tls if @options[:ssl]
+        end
+      end
+    end
+  end
+end
+
 module TwitterOAuth
   class Client
     private
