@@ -241,4 +241,8 @@ Earthquake.init do
       end
     end
   end
+
+  command :edit_config do
+    system ENV["EDITOR"], config[:file]
+  end
 end
