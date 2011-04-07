@@ -140,7 +140,7 @@ You can try it by using the :eval command:
 Plugins
 ----
 
-=> [https://github.com/jugyo/earthquake/wiki/Plugin](https://github.com/jugyo/earthquake/wiki/Plugin)
+=> [https://github.com/jugyo/earthquake/wiki/Plugins](https://github.com/jugyo/earthquake/wiki/Plugins)
 
 Making Plugin
 ----
