@@ -216,6 +216,16 @@ The 'm' is a MatchData.
       end
     end
 
+### Replacing the output for tweets
+
+    Earthquake.init do
+      output :tweet do |item|
+        next unless item["text"]
+        name = item["user"]["screen_name"]
+        puts "#{name.c(color_of(name))}: foo"
+      end
+    end
+
 ### Defining completion
 
     Earthquake.init do
