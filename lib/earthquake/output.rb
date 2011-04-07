@@ -13,9 +13,10 @@ module Earthquake
       @outputs ||= []
     end
 
-    def output(&block)
+    def output(name = nil, &block)
       if block
-        outputs << block
+        outputs.delete_if { |o| o[:name] == name } if name
+        outputs << {:name => name, :block => block}
       else
         return if item_queue.empty?
         insert do
@@ -32,7 +33,7 @@ module Earthquake
         next if output_filters.any? { |f| f.call(item) == false }
         outputs.each do |o|
           begin
-            o.call(item)
+            o[:block].call(item)
           rescue => e
             error e
           end
@@ -71,7 +72,7 @@ module Earthquake
     )
     config[:raw_text] ||= false
 
-    output do |item|
+    output :tweet do |item|
       next unless item["text"]
 
       info = []
@@ -126,7 +127,7 @@ module Earthquake
       puts status
     end
 
-    output do |item|
+    output :event do |item|
       next unless item["event"]
 
       # TODO: handle 'list_member_added' and 'list_member_removed'
