@@ -53,6 +53,7 @@ module Earthquake
       config[:time_format]      ||= Time::DATE_FORMATS[:short]
       config[:plugin_dir]       ||= File.join(config[:dir], 'plugin')
       config[:file]             ||= File.join(config[:dir], 'config')
+      config[:prompt]           ||= '⚡ '
       config[:consumer_key]     ||= 'RmzuwQ5g0SYObMfebIKJag'
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
 
@@ -89,7 +90,7 @@ module Earthquake
 
       EventMachine::run do
         Thread.start do
-          while buf = Readline.readline("⚡ ", true)
+          while buf = Readline.readline(config[:prompt], true)
             unless Readline::HISTORY.count == 1
               Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
             end
