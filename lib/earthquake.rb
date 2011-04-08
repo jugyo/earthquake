@@ -11,6 +11,7 @@
   launchy
   oauth
   twitter_oauth
+  termcolor
 ).each { |lib| require lib }
 
 %w(

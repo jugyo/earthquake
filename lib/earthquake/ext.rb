@@ -39,8 +39,12 @@ class String
       else
         code
       end
-    }.compact.unshift(0)
-    "\e[#{codes.join(';')}m#{self}\e[0m"
+    }.compact
+    codes.flatten.map { |c| COLOR(c) }.inject(self) { |str, c| "<#{c}>#{str}</#{c}>" } 
+  end
+
+  def COLOR(code)
+    (HighLine.constants.detect { |c| HighLine.const_get(c) =~ /\e\[#{code}m/ } || code).to_s
   end
 
   def u

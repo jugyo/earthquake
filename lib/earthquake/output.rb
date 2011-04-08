@@ -123,7 +123,7 @@ module Earthquake
                   "#{text}",
                   (item["user"]["protected"] ? "[P]".c(:notice) : nil),
                   info.join(' - ').c(:info)
-                ].compact.join(" ")
+                ].compact.join(" ").termcolor
       puts status
     end
 
