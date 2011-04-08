@@ -46,6 +46,7 @@ class String
   def COLOR(code)
     (HighLine.constants.detect { |c| HighLine.const_get(c) =~ /\e\[#{code}m/ } || code).to_s
   end
+  private :COLOR
 
   def u
     gsub(/&(lt|gt|amp|quot|apos);/) do |s|
