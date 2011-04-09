@@ -67,14 +67,16 @@ module Earthquake
     def confirm(message, type = :y)
       case type
       when :y
-        print "#{message} [Yn] ".u
-        return !(gets.strip =~ /^n$/i)
+        return !(ask("#{message} [Yn] ".u) =~ /^n$/i)
       when :n
-        print "#{message} [yN] ".u
-        return !!(gets.strip =~ /^y$/i)
+        return !!(ask("#{message} [yN] ".u) =~ /^y$/i)
       else
         raise "type must be :y or :n"
       end
+    end
+
+    def ask(message)
+      Readline.readline(message, false)
     end
 
     def async_e(&block)
