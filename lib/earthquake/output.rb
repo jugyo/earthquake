@@ -127,6 +127,12 @@ module Earthquake
       puts status
     end
 
+    output :delete do |item|
+      if item["delete"]
+        puts "[deleted]".c(:event) + " #{item["delete"]["status"]["id"]}"
+      end
+    end
+
     output :event do |item|
       next unless item["event"]
 
@@ -136,8 +142,6 @@ module Earthquake
         puts "[#{item["event"]}]".c(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
         puts "[#{item["event"]}]".c(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
-      when "delete"
-        puts "[deleted]".c(:event) + " #{item["delete"]["status"]["id"]}"
       else
         if config[:debug]
           ap item
