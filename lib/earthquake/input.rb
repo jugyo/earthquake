@@ -31,19 +31,18 @@ module Earthquake
       reload
       return if text.empty?
 
-      begin
-        input_filters.each { |f| text = f.call(text) }
+      input_filters.each { |f| text = f.call(text) }
 
-        if command = command(text)
-          command[:block].call(command[:pattern].match(text))
-        elsif !text.empty?
-          puts "Command not found".c(43)
-        end
-
-        store_history
-      rescue Exception => e
-        error e
+      if command = command(text)
+        command[:block].call(command[:pattern].match(text))
+      elsif !text.empty?
+        puts "Command not found".c(43)
       end
+
+      store_history
+      reload
+    rescue Exception => e
+      error e
     end
 
     def command(pattern, options = {}, &block)
