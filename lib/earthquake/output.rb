@@ -129,7 +129,15 @@ module Earthquake
 
     output :delete do |item|
       if item["delete"]
-        puts "[deleted]".c(:event) + " #{id2var item["delete"]["status"]["id"]}"
+        print "[deleted]".c(:event) + " "
+        id = item["delete"]["status"]["id"]
+        if tweet = cache.read("status:#{id}")
+          tweet = tweet.dup
+          tweet["_disable_cache"] = true
+          puts_items tweet
+        else
+          puts id2var(id)
+        end
       end
     end
 
