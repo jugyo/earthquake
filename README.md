@@ -237,6 +237,8 @@ The 'm' is a MatchData.
 TODO
 ----
 
+* Earthquake should parse ARGV
+* ruby1.9nize
 * guideline for plugin
 * deal proxy
 * spec
