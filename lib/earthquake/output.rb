@@ -129,7 +129,7 @@ module Earthquake
 
     output :delete do |item|
       if item["delete"]
-        puts "[deleted]".c(:event) + " #{item["delete"]["status"]["id"]}"
+        puts "[deleted]".c(:event) + " #{id2var item["delete"]["status"]["id"]}"
       end
     end
 
