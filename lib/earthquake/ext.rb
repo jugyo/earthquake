@@ -40,13 +40,31 @@ class String
         code
       end
     }.compact
-    codes.flatten.map { |c| COLOR(c) }.inject(self) { |str, c| "<#{c}>#{str}</#{c}>" } 
+    codes.flatten.inject(self) { |str, c| "<#{c}>#{str}</#{c}>" } 
   end
 
-  def COLOR(code)
-    (HighLine.constants.detect { |c| HighLine.const_get(c) =~ /\e\[#{code}m/ } || code).to_s
+  def to_esq
+    _self = self.dup
+    codes, text = [], []
+    tag = /<(\/?)(\d+)>/
+    pre_tag = _self[/.*?(?=#{tag})/]
+    while _self.sub!(tag, '')
+      md = $~
+      code = "\e[#{md[2]}m"
+      body = md.post_match[/.*?(?=#{tag})/]
+      if md[1].empty?
+        codes.push code
+        text.push code
+      else
+        codes.pop
+        text.push "\e[0m"
+        text.push codes.join
+        # codes.clear if codes.last == code
+      end
+      text.push body
+    end
+    pre_tag + text.join + md.post_match
   end
-  private :COLOR
 
   def u
     gsub(/&(lt|gt|amp|quot|apos);/) do |s|
