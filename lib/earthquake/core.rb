@@ -98,7 +98,6 @@ module Earthquake
               reload
               store_history
               input(buf.strip)
-              reload
             }
           end
         end
