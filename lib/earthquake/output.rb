@@ -139,11 +139,12 @@ module Earthquake
       next unless item["event"]
 
       # TODO: handle 'list_member_added' and 'list_member_removed'
+      print "[#{item["event"]}]".c(:event) + " "
       case item["event"]
       when "follow", "block", "unblock"
-        puts "[#{item["event"]}]".c(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
+        puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
-        puts "[#{item["event"]}]".c(:event) + " #{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
+        puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
       else
         if config[:debug]
           ap item
