@@ -43,6 +43,14 @@ class String
     "\e[#{codes.join(';')}m#{self}\e[0m"
   end
 
+  def coloring(pattern, color = nil, &block)
+    self.gsub(pattern) do |i|
+      applied_colors = self[0...$~.begin(0)].scan(/\e\[[\d;]+m/)
+      color ||= block.call(i)
+      "#{i.c(color)}#{applied_colors.join}"
+    end
+  end
+
   def u
     gsub(/&(lt|gt|amp|quot|apos);/) do |s|
       case s
