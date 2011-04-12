@@ -46,8 +46,8 @@ class String
   def coloring(pattern, color = nil, &block)
     self.gsub(pattern) do |i|
       applied_colors = self[0...$~.begin(0)].scan(/\e\[[\d;]+m/)
-      color ||= block.call(i)
-      "#{i.c(color)}#{applied_colors.join}"
+      c = color || block.call(i)
+      "#{i.c(c)}#{applied_colors.join}"
     end
   end
 
