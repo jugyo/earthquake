@@ -128,8 +128,10 @@ module Earthquake
     end
 
     output :delete do |item|
-      if item["delete"]
-        puts "[deleted]".c(:event) + " #{id2var item["delete"]["status"]["id"]}"
+      if item["delete"] && cache.read("status:#{item["delete"]["status"]["id"]}")
+        tweet = twitter.status(item["delete"]["status"]["id"])
+        tweet["_mark"] = "[deleted]".c(:event) + ' '
+        puts_items tweet
       end
     end
 
