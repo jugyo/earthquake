@@ -92,8 +92,8 @@ module Earthquake
 
       text = item["text"].u
       text.gsub!(/\s+/, ' ') unless config[:raw_text]
-      text = text.coloring(/@([0-9A-Za-z_]+)/) { |i| color_of(i) }
-      text = text.coloring(/(?:^#([^\s]+))|(?:\s+#([^\s]+))/) { |i| color_of(i) }
+      text = text.coloring(/@[0-9A-Za-z_]+/) { |i| color_of(i) }
+      text = text.coloring(/(^#[^\s]+)|(\s+#[^\s]+)/) { |i| color_of(i) }
       text = text.coloring(URI.regexp(["http", "https"]), :url)
 
       if item["_highlights"]
