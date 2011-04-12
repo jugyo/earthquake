@@ -138,13 +138,14 @@ module Earthquake
     output :event do |item|
       next unless item["event"]
 
-      # TODO: handle 'list_member_added' and 'list_member_removed'
       print "[#{item["event"]}]".c(:event) + " "
       case item["event"]
       when "follow", "block", "unblock"
         puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
       when "favorite", "unfavorite"
         puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
+      when "list_member_added", "list_member_removed"
+        puts "#{item["target_object"]["full_name"]} (#{item["target_object"]["description"]})"
       else
         if config[:debug]
           ap item
