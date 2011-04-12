@@ -11,7 +11,8 @@ module Earthquake
       next if item["text"].nil? || item["_disable_cache"]
       item = item.dup
       item.keys.select { |key| key =~ /^_/ }.each { |key| item.delete(key) } # remote optional data like "_stream", "_highlights"
-      cache.write("status:#{item["id"]}", item)
+      cache_key = "status:#{item["id"]}"
+      cache.write(cache_key, item) unless cache.exist?(cache_key)
     end
   end
 
