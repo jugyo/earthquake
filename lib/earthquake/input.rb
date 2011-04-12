@@ -28,7 +28,6 @@ module Earthquake
     end
 
     def input(text)
-      reload
       return if text.empty?
 
       input_filters.each { |f| text = f.call(text) }
@@ -38,9 +37,6 @@ module Earthquake
       elsif !text.empty?
         puts "Command not found".c(43)
       end
-
-      store_history
-      reload
     rescue Exception => e
       error e
     end

@@ -94,13 +94,19 @@ module Earthquake
             unless Readline::HISTORY.count == 1
               Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
             end
-            sync { input(buf.strip) }
+            sync {
+              reload
+              store_history
+              input(buf.strip)
+              reload
+            }
           end
         end
 
         Thread.start do
           loop do
             if Readline.line_buffer.nil? || Readline.line_buffer.empty?
+              reload
               sync { output }
             end
             sleep 1
