@@ -54,7 +54,7 @@ module Earthquake
     end
 
     def color_of(screen_name)
-      config[:colors][screen_name.to_i(36) % config[:colors].size]
+      config[:colors][screen_name.delete("^0-9A-Za-z_").to_i(36) % config[:colors].size]
     end
   end
 
