@@ -201,9 +201,11 @@ module Earthquake
       notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
     end
 
-    def notify(message, options = {:title => 'earthquake'})
+    def notify(message, options = {})
+      args = {:title => 'earthquake'}.update(options)
+      title = args.delete(:title)
       message = message.is_a?(String) ? message : message.inspect
-      Notify.notify options[:title], message
+      Notify.notify title, message, args
     end
     alias_method :n, :notify
 
