@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'stringio'
+
 module Earthquake
   module Output
     def output_filters
@@ -42,15 +44,17 @@ module Earthquake
     end
 
     def insert(*messages)
-      clear_line
-      puts messages unless messages.empty?
-      yield if block_given?
-    ensure
-      Readline.refresh_line
-    end
+      $stdout = StringIO.new
 
-    def clear_line
-      print "\e[0G" + "\e[K"
+      puts messages
+      yield if block_given?
+
+      unless $stdout.string.empty?
+        STDOUT.print "\e[0G\e[K#{$stdout.string}"
+        Readline.refresh_line
+      end
+    ensure
+      $stdout = STDOUT
     end
 
     def color_of(screen_name)
