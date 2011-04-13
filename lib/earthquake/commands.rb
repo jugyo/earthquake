@@ -70,7 +70,7 @@ Earthquake.init do
   end
 
   command :recent do
-    puts_items twitter.home_timeline
+    puts_items twitter.home_timeline(:count => config[:recent_count])
   end
 
   # :recent jugyo
