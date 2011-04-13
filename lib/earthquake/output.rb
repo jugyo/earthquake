@@ -20,7 +20,6 @@ module Earthquake
         outputs.delete_if { |o| o[:name] == name } if name
         outputs << {:name => name, :block => block}
       else
-        return if item_queue.empty?
         insert do
           while item = item_queue.shift
             item["_stream"] = true
