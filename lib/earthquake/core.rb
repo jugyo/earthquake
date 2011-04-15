@@ -205,7 +205,7 @@ module Earthquake
       args = {:title => 'earthquake'}.update(options)
       title = args.delete(:title)
       message = message.is_a?(String) ? message : message.inspect
-      Notify.notify title, message, args
+      Notify.notify title, message.e, args
     end
     alias_method :n, :notify
 
