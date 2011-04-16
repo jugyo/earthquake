@@ -240,6 +240,8 @@ The 'm' is a MatchData.
 TODO
 ----
 
+* improve completion
+* mark my tweet
 * Earthquake should parse ARGV
 * ruby1.9nize
 * guideline for plugin
