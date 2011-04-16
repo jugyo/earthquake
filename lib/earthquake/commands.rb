@@ -190,6 +190,11 @@ Earthquake.init do
     }
   end
 
+  command :update_profile_image do |m|
+    image_path = File.expand_path(m[1].gsub('\\', ''))
+    async_e { twitter.update_profile_image(File.open(image_path, 'rb')) }
+  end
+
   command %r|^:open\s+(\d+)$|, :as => :open do |m|
     if match = twitter.status(m[1])["text"].match(URI.regexp(["http", "https"]))
       browse match[0]
