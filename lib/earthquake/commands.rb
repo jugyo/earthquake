@@ -209,7 +209,7 @@ Earthquake.init do
   end
 
   command :'!' do |m|
-    system m[1]
+    system eval("\"#{m[1]}\"").to_s
   end
 
   command :plugin_install do |m|
