@@ -11,33 +11,33 @@ module Earthquake
     end
 
     class Gen
-      def initialize(vars = ('aa'..'zz').to_a, prefix = '$')
-        if not vars.kind_of?(Array)
-          raise ArgumentError, 'vars should be an Array'
-        elsif vars.empty?
-          raise ArgumentError, 'vars should not be empty'
+      def initialize(vars = "aa".."zz", prefix = "$")
+        unless Range === vars and String === vars.first
+          raise ArgumentError, "vars should be a Range of String"
         end
-        @vars = vars.map { |var| prefix + var }
-        @table = {}
-        @rtable = {}
+        @vars = vars
+        @var = @vars.last.dup
+        @table = ActiveSupport::Cache::MemoryStore.new
         @prefix = prefix
       end
 
       def var2id(var)
-        @table[var]
+        @table.read(var)
       end
 
       def id2var(id)
-        @rtable[id] || self.next(id)
+        @table.read(id) || succ(id)
       end
 
-      def next(id)
-        var = @vars.shift
-        @vars.push var
-        @rtable.delete(@table[var])
-        @table[var] = id
-        @rtable[id] = var
-        var
+      private
+
+      def succ(id)
+        @var.replace(@vars.first.dup) unless @vars.include?(@var.next!)
+        var = @prefix + @var
+        @table.delete(@table.read(var))
+        @table.write(var, id)
+        @table.write(id, var)
+        var.dup
       end
     end
   end
