@@ -106,7 +106,6 @@ module Earthquake
         Thread.start do
           loop do
             if Readline.line_buffer.nil? || Readline.line_buffer.empty?
-              reload
               sync { output }
             end
             sleep config[:output_interval]
