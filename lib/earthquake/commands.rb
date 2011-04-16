@@ -13,7 +13,7 @@ Earthquake.init do
   command :restart do
     puts 'restarting...'
     stop
-    exec File.expand_path('../../../bin/earthquake', __FILE__)
+    exec File.expand_path('../../../bin/earthquake', __FILE__), *ARGV
   end
 
   command :eval do |m|
