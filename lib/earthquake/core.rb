@@ -56,6 +56,7 @@ module Earthquake
       config[:prompt]           ||= '⚡ '
       config[:consumer_key]     ||= 'RmzuwQ5g0SYObMfebIKJag'
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
+      config[:output_interval]  ||= 1
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -108,7 +109,7 @@ module Earthquake
               reload
               sync { output }
             end
-            sleep 1
+            sleep config[:output_interval]
           end
         end
 
