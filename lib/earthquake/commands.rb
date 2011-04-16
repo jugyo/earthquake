@@ -240,6 +240,6 @@ Earthquake.init do
   end
 
   command :edit_config do
-    system ENV["EDITOR"], config[:file]
+    system ENV["EDITOR"] + " #{config[:file]}"
   end
 end
