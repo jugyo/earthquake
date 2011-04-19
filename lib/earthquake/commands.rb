@@ -21,7 +21,8 @@ Earthquake.init do
   end
 
   command :update do |m|
-    async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    status = update(m[1])
+    async_e { twitter.update(status) } if confirm("update '#{status}'")
   end
 
   command %r|^[^:\$].*| do |m|
