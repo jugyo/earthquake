@@ -57,6 +57,7 @@ module Earthquake
       config[:consumer_key]     ||= 'RmzuwQ5g0SYObMfebIKJag'
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
       config[:output_interval]  ||= 1
+      config[:history_size]     ||= 1000
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -161,7 +162,7 @@ module Earthquake
     end
 
     def store_history
-      history_size = config[:history_size] || 1000
+      history_size = config[:history_size]
       File.open(File.join(config[:dir], 'history'), 'w') do |file|
         lines = Readline::HISTORY.to_a[([Readline::HISTORY.size - history_size, 0].max)..-1]
         file.print(lines.join("\n"))
