@@ -102,6 +102,7 @@ module Earthquake
               input(buf.strip)
             }
           end
+          stop
         end
 
         Thread.start do
