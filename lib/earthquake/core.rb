@@ -188,7 +188,13 @@ module Earthquake
     end
 
     def async(&block)
-      Thread.start(&block)
+      Thread.start do
+        begin
+          block.call
+        rescue Exception => e
+          error e
+        end
+      end
     end
 
     def error(e)
