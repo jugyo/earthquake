@@ -97,7 +97,7 @@ module Earthquake
     Readline.completion_proc = lambda do |text|
       completions.inject([]) do |results, completion|
         begin
-          results + (completion.call(text) || [])
+          results | (completion.call(text) || [])
         rescue Exception => e
           error e
           results
