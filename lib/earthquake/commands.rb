@@ -112,7 +112,7 @@ Earthquake.init do
 
   command %r|^:retweet\s+(\d+)\s+(.*)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
-    text = "#{m[2]} RT @#{target["user"]["screen_name"]}: #{target["text"]} (#{target["id"]})"
+    text = "#{m[2]} #{config[:quotetweet] ? "QT" : "RT"} @#{target["user"]["screen_name"]}: #{target["text"]} (#{target["id"]})"
     if confirm("unofficial retweet '#{text}'")
       async_e { twitter.update(text) }
     end

@@ -97,7 +97,7 @@ module Earthquake
     Readline.completion_proc = lambda do |text|
       completions.inject([]) do |results, completion|
         begin
-          results + (completion.call(text) || [])
+          results | (completion.call(text) || [])
         rescue Exception => e
           error e
           results
@@ -106,15 +106,13 @@ module Earthquake
     end
 
     completion do |text|
-      results = []
       regexp = /^#{Regexp.quote(text)}/
 
-      results += command_names.grep(regexp)
+      results = command_names.grep(regexp)
 
-      range = Readline::HISTORY.count >= config[:history_size] ? -config[:history_size]..-1 : 0..-1
-      results += Readline::HISTORY.to_a[range].map { |line| line.split(/\s+/) }.flatten.grep(regexp)
-
-      results
+      Readline::HISTORY.reverse_each.take(config[:history_size]).inject(results){|r, line|
+        r | line.split.grep(regexp)
+      }
     end
 
     input_filter do |text|
