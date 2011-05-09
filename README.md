@@ -25,6 +25,10 @@ Install
 
     $ gem install earthquake
 
+**Ubuntu:** The EventMachine needs the package libssl-dev.
+
+    $ sudo apt-get install libssl-dev
+
 Usage
 ----
 
