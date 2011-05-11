@@ -13,6 +13,9 @@
   twitter_oauth
 ).each { |lib| require lib }
 
+Thread.abort_on_exception = true
+Encoding.default_external = Encoding.find('UTF-8')
+
 %w(
   ext
   core
@@ -24,5 +27,3 @@
   commands
   id_var
 ).each { |name| require_dependency File.expand_path("../earthquake/#{name}", __FILE__) }
-
-Thread.abort_on_exception = true
