@@ -23,20 +23,6 @@ Jeweler::Tasks.new do |gem|
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
   #  gem.add_development_dependency 'rspec', '> 1.2.3'
-  gem.post_install_message = %{
-The Twitter Client application info has been updated at 2011-03-20 15:00:00 UTC.
-Accordingly, you should renew the access token if it is old.
-
-1) In ~/.earthquake/config, remove these lines:
-
-    Earthquake.config[:token] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-    Earthquake.config[:secret] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
-2) Launch earthquake:
-
-    $ earthquake
-
-}
   gem.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
 end
 Jeweler::RubygemsDotOrgTasks.new
