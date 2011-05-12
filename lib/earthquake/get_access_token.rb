@@ -4,7 +4,8 @@ module Earthquake
       consumer = OAuth::Consumer.new(
         self.config[:consumer_key],
         self.config[:consumer_secret],
-        :site => 'https://api.twitter.com'
+        :site => 'https://api.twitter.com',
+        :proxy => ENV['http_proxy']
       )
       request_token = consumer.get_request_token
 
