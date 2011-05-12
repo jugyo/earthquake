@@ -107,12 +107,19 @@ module Earthquake
 
     completion do |text|
       regexp = /^#{Regexp.quote(text)}/
-
       results = command_names.grep(regexp)
-
-      Readline::HISTORY.reverse_each.take(config[:history_size]).inject(results){|r, line|
+      history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
+      history.inject(results){|r, line|
         r | line.split.grep(regexp)
       }
+    end
+
+    @tweets_for_completion ||= []
+
+    output do |item|
+      next unless item["text"]
+      @tweets_for_completion << [item["user"]["screen_name"], item["text"]].join(" ")
+      @tweets_for_completion.shift if @tweets_for_completion.size > config[:history_size]
     end
 
     input_filter do |text|
