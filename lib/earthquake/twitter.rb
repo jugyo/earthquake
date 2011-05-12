@@ -31,6 +31,24 @@ module Earthquake
         end
         alias_method_chain m, :cache
       end
+
+      def initialize(options = {})
+        @consumer_key = options[:consumer_key]
+        @consumer_secret = options[:consumer_secret]
+        @token = options[:token]
+        @secret = options[:secret]
+        @proxy = ENV['http_proxy']
+      end
+
+      def consumer
+        options = { :site => 'http://api.twitter.com' }
+        options.update( :proxy => @proxy ) if @proxy
+        @consumer ||= OAuth::Consumer.new(
+          @consumer_key,
+          @consumer_secret,
+          options
+        )
+      end
     end
   end
 

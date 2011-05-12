@@ -130,6 +130,10 @@ Blue is excluded.
       :url => [4, 34]
     }
 
+### HTTP proxy support
+
+Please set environment variable *http_proxy* if you want earthquake to use http proxy.
+    
 Desktop Notifications
 ----
 
