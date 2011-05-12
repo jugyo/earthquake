@@ -130,7 +130,8 @@ module Earthquake
 
       options = {
         :oauth => config.slice(:consumer_key, :consumer_secret).merge(
-          :access_key => config[:token], :access_secret => config[:secret]
+          :access_key => config[:token], :access_secret => config[:secret],
+          :proxy => ENV['http_proxy']
         )
       }.merge(options)
 
