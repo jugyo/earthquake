@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require 'slop'
-require 'pathname'
 
 argv = ARGV.dup
 opts = Slop.parse! argv, :help => true do
@@ -11,8 +10,10 @@ options = opts.to_hash(true)
 options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
-TOP = Pathname.new(File.dirname(__FILE__)).realpath + '..'
-$:.unshift((TOP + 'lib').to_s) if $0 == __FILE__
+require 'pathname'
+eq_dir = Pathname.new(File.expand_path('../..', __FILE__)).realpath
+
+$:.unshift eq_dir.join('lib') if $0 == __FILE__
 
 print "\e[31m"
 puts %q{
@@ -22,7 +23,7 @@ puts %q{
 |  __/ (_| | |  | |_| | | | (_| | |_| | (_| |   <  __/
  \___|\__,_|_|   \__|_| |_|\__, |\__,_|\__,_|_|\_\___|
                               |_|           }.
-gsub(/^\n/, '') + "v#{(TOP + 'VERSION').read}".rjust(10) + "\n\n"
+gsub(/^\n/, '') + "v#{eq_dir.join('VERSION').read}".rjust(10) + "\n\n"
 print "\e[0m"
 
 require 'earthquake'
