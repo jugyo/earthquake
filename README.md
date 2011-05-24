@@ -249,7 +249,7 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* improve completion
+* alias
 * mark my tweet
 * Earthquake should parse ARGV
 * ruby1.9nize
