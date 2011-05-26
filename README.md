@@ -98,6 +98,10 @@ Commands
 
     ⚡ :plugin_install https://gist.github.com/899506
 
+### Alias
+
+    ⚡ :alias rt retweet
+
 And there are more commands!
 
 Configuration
@@ -129,6 +133,11 @@ Blue is excluded.
       :event  => 46,
       :url => [4, 34]
     }
+
+### Defining aliases
+
+    # ~/.earthquake/config
+    Earthquake.alias_command :rt, :retweet
 
 ### HTTP proxy support
 
@@ -249,7 +258,6 @@ The 'm' is a MatchData.
 TODO
 ----
 
-* alias
 * mark my tweet
 * Earthquake should parse ARGV
 * ruby1.9nize
