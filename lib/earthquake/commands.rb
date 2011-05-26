@@ -28,7 +28,7 @@ Earthquake.init do
     input(":update #{m[0]}")
   end
 
-  command %r|^:reply (\d+)\s+(.*)|, :as => :reply do |m|
+  command %r|^:reply\s+(\d+)\s+(.*)|, :as => :reply do |m|
     in_reply_to_status_id = m[1]
     target = twitter.status(in_reply_to_status_id)
     screen_name = target["user"]["screen_name"]
