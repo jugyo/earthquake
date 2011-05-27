@@ -11,7 +11,7 @@ options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
 require 'pathname'
-eq_dir = Pathname.new(File.expand_path('../..', __FILE__)).realpath
+eq_dir = Pathname.new(__FILE__).realpath.parent.parent
 
 $:.unshift eq_dir.join('lib') if $0 == __FILE__
 
