@@ -33,7 +33,6 @@ module Earthquake
 
     def alias_command(name, target)
       command_aliases[name.to_s] = target.to_s
-      command_names << ":#{name}"
     end
 
     def input(text)
@@ -116,7 +115,7 @@ module Earthquake
 
     completion do |text|
       regexp = /^#{Regexp.quote(text)}/
-      results = command_names.grep(regexp)
+      results = (command_names + command_aliases.keys.map {|i| ":#{i}"}).grep(regexp)
       history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
       history.inject(results){|r, line|
         r | line.split.grep(regexp)
