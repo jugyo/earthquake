@@ -88,7 +88,8 @@ Earthquake.init do
   end
 
   command :search do |m|
-    puts_items twitter.search(m[1], config[:search_options] || {})["results"].each { |s|
+    search_options = config[:search_options] ? config[:search_options].dup : {}
+    puts_items twitter.search(m[1], search_options)["results"].each { |s|
       s["user"] = {"screen_name" => s["from_user"]}
       s["_disable_cache"] = true
       words = m[1].split(/\s+/).reject{|x| x[0] =~ /^-|^(OR|AND)$/ }.map{|x|
