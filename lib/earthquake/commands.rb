@@ -73,6 +73,10 @@ Earthquake.init do
     puts_items twitter.home_timeline(:count => config[:recent_count])
   end
 
+  command %r|^:recent\s+(\d+)$|, :as => :recent do |m|
+    puts_items twitter.home_timeline(:count => m[1])
+  end
+
   # :recent jugyo
   command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
     puts_items twitter.user_timeline(:screen_name => m[1])
