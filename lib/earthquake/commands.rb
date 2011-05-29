@@ -73,6 +73,7 @@ Earthquake.init do
     puts_items twitter.home_timeline(:count => config[:recent_count])
   end
 
+  # :recent 5
   command %r|^:recent\s+(\d+)$|, :as => :recent do |m|
     puts_items twitter.home_timeline(:count => m[1])
   end
@@ -80,6 +81,16 @@ Earthquake.init do
   # :recent jugyo
   command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
     puts_items twitter.user_timeline(:screen_name => m[1])
+  end
+
+  # :recent 5 jugyo
+  command %r|^:recent\s+(\d+)\s+([^\s]+)$|, :as => :recent do |m|
+    puts_items twitter.user_timeline(:count => m[1], :screen_name => m[2])
+  end
+
+  # :recent jugyo 5
+  command %r|^:recent\s+([^\s]+)\s+(\d+)$|, :as => :recent do |m|
+    puts_items twitter.user_timeline(:screen_name => m[1], :count => m[2])
   end
 
   # :recent yugui/ruby-committers
