@@ -59,6 +59,7 @@ module Earthquake
       config[:output_interval]  ||= 1
       config[:history_size]     ||= 1000
       config[:restrict_plugin_source] ||= true
+      config[:notify_errors]    ||= false
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -143,15 +144,15 @@ module Earthquake
       end
 
       @stream.on_error do |message|
-        notify "error: #{message}"
+        error "error: #{message}"
       end
 
       @stream.on_reconnect do |timeout, retries|
-        notify "reconnecting in: #{timeout} seconds"
+        error "reconnecting in: #{timeout} seconds"
       end
 
       @stream.on_max_reconnects do |timeout, retries|
-        notify "Failed after #{retries} failed reconnects"
+        error "Failed after #{retries} failed reconnects"
       end
     end
 
@@ -200,7 +201,19 @@ module Earthquake
     end
 
     def error(e)
-      notify "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
+      if e.is_a? String
+        error_str = "[ERROR] #{e}"
+      elsif e.is_a? Exception
+        error_str = "[ERROR] #{e.message}\n#{e.backtrace.join("\n")}"
+      else
+        error_str = "[ERROR] Error was of wrong type: #{e.class.to_s}"
+      end
+
+      if config[:notify_errors] == true
+        notify error_str
+      else
+        puts error_str
+      end
     end
 
     def notify(message, options = {})

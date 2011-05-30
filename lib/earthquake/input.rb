@@ -89,7 +89,7 @@ module Earthquake
     def handle_api_error(&block)
       result = block.call
       if result["error"]
-        notify "[ERROR] #{result["error"]}"
+        error "[ERROR] #{result["error"]}"
       end
     end
   end

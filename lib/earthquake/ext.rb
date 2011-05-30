@@ -43,11 +43,18 @@ class String
     "\e[#{codes.join(';')}m#{self}\e[0m"
   end
 
-  def coloring(pattern, color = nil, &block)
-    self.gsub(pattern) do |i|
+  # This method colors the string according to a regular
+  # expresion, a string or nil. When nil is passed, the entire
+  # string is colored.
+  #
+  # You can pass either a second argument for the colour or
+  # a block the receives one argument; the match.
+  def coloring(pattern = nil, color = nil, &block)
+    pattern = self.to_s if pattern.nil?
+    self.gsub(pattern) do |match|
       applied_colors = $`.scan(/\e\[[\d;]+m/)
-      c = color || block.call(i)
-      "#{i.c(c)}#{applied_colors.join}"
+      c = color || block.call(match)
+      "#{match.c(c)}#{applied_colors.join}"
     end
   end
 
