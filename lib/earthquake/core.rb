@@ -58,7 +58,7 @@ module Earthquake
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
       config[:output_interval]  ||= 1
       config[:history_size]     ||= 1000
-      config[:restrict_plugin_source] ||= true
+      config[:only_gists]       ||= true
       config[:notify_errors]    ||= false
 
       [config[:dir], config[:plugin_dir]].each do |dir|

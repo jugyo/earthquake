@@ -233,6 +233,19 @@ Earthquake.init do
     system eval("\"#{m[1]}\"").to_s
   end
 
+  command %r|^:plugin\s+list$|, :as => :plugin do |m|
+    plugin_list.each { |plugin| puts " - #{plugin}" }
+  end
+
+  command %r|^:plugin\s+(#{Regexp.union(%w{edit install uninstall view})})\s+([^\s]+)$|, :as => :plugin do |m|
+    case m[1]
+    when 'edit'       then plugin_edit m[2]
+    when 'install'    then plugin_install m[2]
+    when 'uninstall'  then plugin_uninstall m[2]
+    when 'view'       then plugin_view m[2]
+    end
+  end
+
   command :plugin_install do |m|
     plugin_install m[1]
   end
