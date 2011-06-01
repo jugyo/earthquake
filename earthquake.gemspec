@@ -38,6 +38,8 @@ Gem::Specification.new do |s|
     "lib/earthquake/id_var.rb",
     "lib/earthquake/input.rb",
     "lib/earthquake/output.rb",
+    "lib/earthquake/plugin.rb",
+    "lib/earthquake/help.rb",
     "lib/earthquake/twitter.rb",
     "spec/earthquake_spec.rb",
     "spec/spec_helper.rb"

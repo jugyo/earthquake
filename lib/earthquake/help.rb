@@ -44,9 +44,9 @@ module Earthquake
     #
     # If you try to add a help block to a command that already has
     # a help block asscociated with it, you will get an error.
-    command %r|^:help\s+(:?\w+)|, :as => :help do |m|
+    command %r|^:help\s+(:?[\w!]+)|, :as => :help do |m|
       if helps.has_key? m[1]
-        puts helps[m[1]].call.to_s.gsub(/(\w+)\n(\w+)/, '$1 $2')
+        puts helps[m[1]].call.to_s.gsub(/(\w+)\n(\w+)/, '\1 \2')
       else
         puts "No help found for '#{m[1]}'."
       end

@@ -73,9 +73,24 @@ Earthquake.init do
     puts_items twitter.home_timeline(:count => config[:recent_count])
   end
 
+  # :recent 5
+  command %r|^:recent\s+(\d+)$|, :as => :recent do |m|
+    puts_items twitter.home_timeline(:count => m[1])
+  end
+
   # :recent jugyo
   command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
     puts_items twitter.user_timeline(:screen_name => m[1])
+  end
+
+  # :recent 5 jugyo
+  command %r|^:recent\s+(\d+)\s+([^\s]+)$|, :as => :recent do |m|
+    puts_items twitter.user_timeline(:count => m[1], :screen_name => m[2])
+  end
+
+  # :recent jugyo 5
+  command %r|^:recent\s+([^\s]+)\s+(\d+)$|, :as => :recent do |m|
+    puts_items twitter.user_timeline(:screen_name => m[1], :count => m[2])
   end
 
   # :recent yugui/ruby-committers
@@ -218,43 +233,34 @@ Earthquake.init do
     system eval("\"#{m[1]}\"").to_s
   end
 
-  command %r|:!(.+)|, :as => :'1' do |m|
+  command %r|^:plugin\s+list$|, :as => :plugin do |m|
+    plugin_list.each { |plugin| puts " - #{plugin}" }
+  end
+
+  command %r|^:plugin\s+(#{Regexp.union(%w{edit install uninstall view})})\s+([^\s]+)$|, :as => :plugin do |m|
+    case m[1]
+    when 'edit'       then plugin_edit m[2]
+    when 'install'    then plugin_install m[2]
+    when 'uninstall'  then plugin_uninstall m[2]
+    when 'view'       then plugin_view m[2]
+    end
+  end
+
+command %r|:!(.+)|, :as => :'!' do |m|
     input(":! #{m[1]}")
   end
 
   command :plugin_install do |m|
-    uri = URI.parse(m[1])
-    unless uri.host == "gist.github.com"
-      puts "the host must be gist.github.com".c(41)
-    else
-      puts "..."
-      gist_id = uri.path[/\d+/]
-      meta = JSON.parse(open("https://gist.github.com/api/v1/json/#{gist_id}").read)
-      filename = meta["gists"][0]["files"][0]
-      raw = open("https://gist.github.com/raw/#{gist_id}/#{filename}").read
-
-      puts '-' * 80
-      puts raw.c(36)
-      puts '-' * 80
-
-      filename = "#{meta["gists"][0]["repo"]}.rb" if filename =~ /^gistfile/
-      filepath = File.join(config[:plugin_dir], filename)
-      if confirm("Install to '#{filepath}'?")
-        File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
-          file << raw
-          file << "\n# #{m[1]}"
-        end
-        reload
-      end
-    end
+    plugin_install m[1]
   end
 
   command :edit_config do
-    if ENV["EDITOR"].nil?
-      error "No editor defined. Please set the environment variable EDITOR."
-    else
-      system ENV["EDITOR"] + " #{config[:file]}"
-    end
+    editor = ENV["VISUAL"] ||= ENV["EDITOR"]
+	if editor.nil?
+		error "No editor defined. Please set the environment variable EDITOR."
+	else
+		system editor +' '+ config[:file]
+	end
   end
 
   command %r|^:alias\s+:?(\w+)\s+:?(\w+)|, :as => :alias do |m|
