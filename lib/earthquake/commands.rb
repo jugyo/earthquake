@@ -21,7 +21,7 @@ Earthquake.init do
   end
 
   command :update do |m|
-    async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    async_e { twitter.update(m[1]) } if confirm("Are you sure you want to Tweet this: '#{m[1]}'")
   end
 
   command %r|^[^:\$].*| do |m|
@@ -218,6 +218,10 @@ Earthquake.init do
     system eval("\"#{m[1]}\"").to_s
   end
 
+  command %r|:!(.+)|, :as => :'1' do |m|
+    input(":! #{m[1]}")
+  end
+
   command :plugin_install do |m|
     uri = URI.parse(m[1])
     unless uri.host == "gist.github.com"
@@ -246,7 +250,11 @@ Earthquake.init do
   end
 
   command :edit_config do
-    system ENV["EDITOR"] + " #{config[:file]}"
+    if ENV["EDITOR"].nil?
+      error "No editor defined. Please set the environment variable EDITOR."
+    else
+      system ENV["EDITOR"] + " #{config[:file]}"
+    end
   end
 
   command %r|^:alias\s+:?(\w+)\s+:?(\w+)|, :as => :alias do |m|
