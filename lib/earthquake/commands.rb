@@ -10,6 +10,20 @@ Earthquake.init do
     system 'less', File.expand_path('../../../README.md', __FILE__)
   end
 
+  # This is the :help command code. It searches the helps hash
+  # for a block and, if it finds one, it prints its return value.to_s
+  # to the console.
+  #
+  # If you try to add a help block to a command that already has
+  # a help block asscociated with it, you will get an error.
+  command %r|^:help\s+(:?[\w!]+)|, :as => :help do |m|
+    if helps.has_key? m[1]
+      puts helps[m[1]].call.to_s.gsub(/(\w+)\n(\w+)/, '\1 \2')
+    else
+      puts "No help found for '#{m[1]}'."
+    end
+  end
+
   command :restart do
     puts 'restarting...'
     stop
@@ -21,7 +35,7 @@ Earthquake.init do
   end
 
   command :update do |m|
-    async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    async_e { twitter.update(m[1]) } if confirm("Are you sure you want to Tweet this: '#{m[1]}'")
   end
 
   command %r|^[^:\$].*| do |m|
@@ -246,13 +260,21 @@ Earthquake.init do
     end
   end
 
+command %r|:!(.+)|, :as => :'!' do |m|
+    input(":! #{m[1]}")
+  end
+
   command :plugin_install do |m|
     plugin_install m[1]
   end
 
   command :edit_config do
     editor = ENV["VISUAL"] ||= ENV["EDITOR"]
-    system editor +' '+ config[:file]
+    if editor.nil?
+      error "No editor defined. Please set the environment variable EDITOR."
+    else
+      system editor +' '+ config[:file]
+    end
   end
 
   command %r|^:alias\s+:?(\w+)\s+:?(\w+)|, :as => :alias do |m|
