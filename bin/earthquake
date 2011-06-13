@@ -5,6 +5,7 @@ argv = ARGV.dup
 opts = Slop.parse! argv, :help => true do
   banner "Usage: earthquake [options] [directory]"
   on :d, :debug, 'Enable debug mode'
+  on :n, :'no-logo', 'No Logo'
 end
 options = opts.to_hash(true)
 options.delete(:help)
@@ -15,16 +16,18 @@ eq_dir = Pathname.new(__FILE__).realpath.parent.parent
 
 $:.unshift eq_dir.join('lib') if $0 == __FILE__
 
-print "\e[31m"
-puts %q{
+unless options.delete(:'no-logo')
+  print "\e[31m"
+  puts %q{
                  _   _                       _
   ___  __ _ _ __| |_| |__   __ _ _   _  __ _| | _____
  / _ \/ _` | '__| __| '_ \ / _` | | | |/ _` | |/ / _ \
 |  __/ (_| | |  | |_| | | | (_| | |_| | (_| |   <  __/
  \___|\__,_|_|   \__|_| |_|\__, |\__,_|\__,_|_|\_\___|
                               |_|           }.
-gsub(/^\n/, '') + "v#{eq_dir.join('VERSION').read}".rjust(10) + "\n\n"
-print "\e[0m"
+  gsub(/^\n/, '') + "v#{eq_dir.join('VERSION').read}".rjust(10) + "\n\n"
+  print "\e[0m"
+end
 
 require 'earthquake'
 Earthquake.start(options)
