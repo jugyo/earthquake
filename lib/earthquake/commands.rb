@@ -13,7 +13,8 @@ Earthquake.init do
   command :restart do
     puts 'restarting...'
     stop
-    args = ARGV.push '-n' unless ARGV.include?('-n')
+    args = ARGV.dup
+    args.push '-n' unless args.include?('-n')
     exec File.expand_path('../../../bin/earthquake', __FILE__), *args
   end
 
