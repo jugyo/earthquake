@@ -6,6 +6,7 @@ opts = Slop.parse! argv, :help => true do
   banner "Usage: earthquake [options] [directory]"
   on :d, :debug, 'Enable debug mode'
   on :n, :'no-logo', 'No Logo'
+  on :c, :command, "Invoke an command and exit", true
 end
 options = opts.to_hash(true)
 options.delete(:help)
@@ -16,7 +17,10 @@ eq_dir = Pathname.new(__FILE__).realpath.parent.parent
 
 $:.unshift eq_dir.join('lib') if $0 == __FILE__
 
-unless options.delete(:'no-logo')
+command = options.delete(:command)
+no_logo = options.delete(:'no-logo')
+
+if !no_logo && !command
   print "\e[31m"
   puts %q{
                  _   _                       _
@@ -30,4 +34,8 @@ unless options.delete(:'no-logo')
 end
 
 require 'earthquake'
-Earthquake.start(options)
+if command
+  Earthquake.invoke(command, options)
+else
+  Earthquake.start(options)
+end

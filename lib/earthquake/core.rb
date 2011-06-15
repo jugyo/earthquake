@@ -84,10 +84,19 @@ module Earthquake
       end
     end
 
-    def start(options = {})
+    def __init(options)
       config.merge!(options)
       _init
       _once
+    end
+
+    def invoke(command, options = {})
+      __init(options)
+      input(command)
+    end
+
+    def start(options = {})
+      __init(options)
       restore_history
 
       EventMachine::run do
