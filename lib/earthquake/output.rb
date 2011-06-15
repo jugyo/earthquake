@@ -128,7 +128,8 @@ module Earthquake
 
     output :direct_message do |item|
       next unless dm = item["direct_message"]
-      puts "[direct message]".c(:event) + " #{dm["sender"]["screen_name"]}: #{dm["text"]}"
+      puts "[direct message]".c(:event) +
+           " #{dm["sender"]["screen_name"]} => #{dm["recipient"]["screen_name"]}: #{dm["text"]}"
     end
 
     output :event do |item|
