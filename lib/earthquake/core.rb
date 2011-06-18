@@ -182,8 +182,14 @@ module Earthquake
 
     def restore_history
       history_file = File.join(config[:dir], 'history')
-      if File.exists?(history_file)
-        File.read(history_file).split(/\n/).each { |line| Readline::HISTORY << line }
+      begin
+        File.read(history_file, :encoding => "BINARY").
+          encode!(:invalid => :replace, :undef => :replace).
+          split(/\n/).
+          each { |line| Readline::HISTORY << line }
+      rescue Errno::ENOENT
+      rescue Errno::EACCES => e
+        error(e)
       end
     end
 
