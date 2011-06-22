@@ -115,7 +115,7 @@ module Earthquake
 
     completion do |text|
       regexp = /^#{Regexp.quote(text)}/
-      results = (command_names + command_aliases.keys.map {|i| ":#{i}"}).grep(regexp)
+      results = (command_names + command_aliases.keys).grep(regexp)
       history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
       history.inject(results){|r, line|
         r | line.split.grep(regexp)
@@ -131,9 +131,9 @@ module Earthquake
     end
 
     input_filter do |text|
-      if text =~ %r|^:(\w+)|
+      if text =~ %r|^(:\w+)|
         if target = command_aliases[$1]
-          text = text.sub(%r|^:\w+|, ":#{target}")
+          text = text.sub(%r|^:\w+|, target)
         end
         text = text.gsub(/\$\w+/) { |var| var2id(var) || var }
       end

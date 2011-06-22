@@ -251,7 +251,7 @@ Earthquake.init do
     system ENV["EDITOR"] + " #{config[:file]}"
   end
 
-  command %r|^:alias\s+:?(\w+)\s+:?(\w+)|, :as => :alias do |m|
+  command %r|^:alias\s+?(:\w+)\s+(.+)|, :as => :alias do |m|
     alias_command m[1], m[2]
   end
 end
