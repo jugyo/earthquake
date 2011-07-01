@@ -57,6 +57,7 @@ module Earthquake
     end
 
     def color_of(screen_name)
+      return config[:colors][(config[:colors].index(color_of('kdmsnr')) + 1) % config[:colors].size] if screen_name == 'knsmr'
       config[:colors][screen_name.delete("^0-9A-Za-z_").to_i(36) % config[:colors].size]
     end
   end
