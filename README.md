@@ -1,8 +1,8 @@
 Earthquake
 ====
 
-Terminal-based Twitter Client with Streaming API.  
-It supports only Ruby 1.9.
+Terminal-based Twitter Client with Streaming API support.
+Only supports Ruby 1.9.
 
 Homepage: [https://github.com/jugyo/earthquake](https://github.com/jugyo/earthquake)  
 Twitter: [http://twitter.com/earthquakegem](http://twitter.com/earthquakegem)  
@@ -16,16 +16,16 @@ Slide: [http://www.slideshare.net/jugyo/earthquakegem](http://www.slideshare.net
 Features
 ----
 
-* You can use Twitter entirely in your Terminal.
-* You can receive data in real time with Streaming API.
-* You can easily extend by using Ruby.
+* Use Twitter entirely in your Terminal.
+* Receive data in real time with Streaming API.
+* Easily extend using Ruby.
 
 Install
 ----
 
     $ gem install earthquake
 
-**Ubuntu:** The EventMachine needs the package libssl-dev.
+**Ubuntu:** EventMachine needs the package libssl-dev.
 
     $ sudo apt-get install libssl-dev
 
@@ -102,27 +102,26 @@ Commands
 
     ⚡ :alias rt retweet
 
-And there are more commands!
+And more!
 
 Configuration
 ----
 
-The default earthquake director is ~/.earthquake.
+The default earthquake directory is ~/.earthquake.
 
 The config file is **~/.earthquake/config**.
 
 ### Changing the earthquake directory
 
-You can change the directory at launch as below:
+You can change the directory at launch by entering a directory as an argument. For example:
 
     $ earthquake ~/.earthquake_foo
 
 ### Changing the colors for user name
 
     # ~/.earthquake/config
+    # For example, to exclude blue:
     Earthquake.config[:colors] = (31..36).to_a - [34]
-
-Blue is excluded.
 
 ### Changing the color scheme
 
@@ -141,7 +140,7 @@ Blue is excluded.
 
 ### HTTP proxy support
 
-Please set environment variable *http_proxy* if you want earthquake to use http proxy.
+Please set environment variable *http_proxy* if you want earthquake to use an http proxy.
     
 Desktop Notifications
 ----
@@ -161,9 +160,9 @@ You can try it by using the :eval command:
 Plugins
 ----
 
-see [https://github.com/jugyo/earthquake/wiki](https://github.com/jugyo/earthquake/wiki)
+See [https://github.com/jugyo/earthquake/wiki](https://github.com/jugyo/earthquake/wiki)
 
-Making Plugin
+Making Plugins
 ----
 
 **~/.earthquake/plugin** is the directory for plugins.
@@ -188,7 +187,7 @@ The block that is specified for Earthquake.init will be reloaded at any command 
       end
     end
 
-The 'm' is a MatchData.
+'m' is a [http://www.ruby-doc.org/core/classes/MatchData.html](MatchData) object.
 
 #### Using regexp:
 
