@@ -93,7 +93,7 @@ module Earthquake
 
       id = id2var(item["id"])
 
-      text = (item["retweeted_status"] && item["truncated"] ? "RT: @#{item["retweeted_status"]["user"]["screen_name"]} #{item["retweeted_status"]["text"]}" : item["text"]).u
+      text = (item["retweeted_status"] && item["truncated"] ? "RT @#{item["retweeted_status"]["user"]["screen_name"]}: #{item["retweeted_status"]["text"]}" : item["text"]).u
       text.gsub!(/\s+/, ' ') unless config[:raw_text]
       text = text.coloring(/@[0-9A-Za-z_]+/) { |i| color_of(i) }
       text = text.coloring(/(^#[^\s]+)|(\s+#[^\s]+)/) { |i| color_of(i) }
