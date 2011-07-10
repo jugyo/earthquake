@@ -1,6 +1,25 @@
 # encoding: UTF-8
 require 'uri'
 require 'open-uri'
+
+module Earthquake
+  module Command
+    def handle_messages(messages)
+      case messages
+      when Hash
+        ap messages["errors"]
+      else
+        puts_items messages.each { |s|
+          s["user"] = {"screen_name" => s["sender_screen_name"]}
+          s["_disable_cache"] = true
+        }
+      end
+    end
+  end
+
+  extend Command
+end
+
 Earthquake.init do
   command :exit do
     stop
@@ -160,17 +179,11 @@ Earthquake.init do
   end
 
   command :messages do
-    puts_items twitter.messages.each { |s|
-      s["user"] = {"screen_name" => s["sender_screen_name"]}
-      s["_disable_cache"] = true
-    }
+    handle_messages(twitter.messages)
   end
 
   command :sent_messages do
-    puts_items twitter.sent_messages.each { |s|
-      s["user"] = {"screen_name" => s["sender_screen_name"]}
-      s["_disable_cache"] = true
-    }
+    handle_messages(twitter.sent_messages)
   end
 
   command %r|^:message (\w+)\s+(.*)|, :as => :message do |m|
