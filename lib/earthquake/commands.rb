@@ -207,12 +207,13 @@ Earthquake.init do
   end
 
   command :browse do |m|
-    begin
-      tweet = twitter.status(m[1])
-      browse "https://twitter.com/#{tweet['user']['screen_name']}/status/#{m[1]}"
-    rescue
-      puts 'invalid input'
-    end
+    url = case m[1]
+      when /^\d+$/
+        "https://twitter.com/#{twitter.status(m[1])['user']['screen_name']}/status/#{m[1]}"
+      else
+        "https://twitter.com/#{m[1][/[^'"]+/]}"
+      end
+    browse url
   end
 
   command :sh do
