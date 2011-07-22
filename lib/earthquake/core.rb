@@ -227,7 +227,7 @@ module Earthquake
     alias_method :n, :notify
 
     def browse(url)
-      Launchy::Browser.run(url)
+      Launchy.open(url)
     end
   end
 
