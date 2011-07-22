@@ -252,7 +252,8 @@ Earthquake.init do
   end
 
   command :edit_config do
-    system (ENV["EDITOR"] || 'vim') + " #{config[:file]}"
+    editor = ENV["EDITOR"] || 'vim'
+    system "#{editor} #{config[:file]}"
   end
 
   command %r|^:alias\s+?(:\w+)\s+(.+)|, :as => :alias do |m|
