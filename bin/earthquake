@@ -20,6 +20,13 @@ $:.unshift eq_dir.join('lib') if $0 == __FILE__
 command = options.delete(:command)
 no_logo = options.delete(:'no-logo')
 
+def win?
+  !!(RUBY_PLATFORM.downcase =~ /mswin(?!ce)|mingw|bccwin|cygwin/)
+end
+
+require 'earthquake'
+require 'earthquake/windows' if win?
+
 if !no_logo && !command
   print "\e[31m"
   puts %q{
@@ -33,7 +40,6 @@ if !no_logo && !command
   print "\e[0m"
 end
 
-require 'earthquake'
 if command
   Earthquake.invoke(command, options)
 else

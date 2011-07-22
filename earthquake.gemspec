@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
     "lib/earthquake/input.rb",
     "lib/earthquake/output.rb",
     "lib/earthquake/twitter.rb",
+    "lib/earthquake/windows.rb",
     "spec/earthquake_spec.rb",
     "spec/spec_helper.rb"
   ]

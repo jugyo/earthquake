@@ -49,7 +49,7 @@ module Earthquake
       yield if block_given?
 
       unless $stdout.string.empty?
-        STDOUT.print "\e[0G\e[K#{$stdout.string}"
+        print "\e[0G\e[K#{$stdout.string}"
         Readline.refresh_line
       end
     ensure
