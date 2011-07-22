@@ -206,10 +206,13 @@ Earthquake.init do
     end
   end
 
-  command %r|^:open\s+(\w+)$|, :as => :open do |m|
-    url = "https://twitter.com/#{m[1]}"
-    puts "Open: #{url}".c(:info)
-    browse url
+  command :browse do |m|
+    begin
+      tweet = twitter.status(m[1])
+      browse "https://twitter.com/#{tweet['user']['screen_name']}/status/#{m[1]}"
+    rescue
+      puts 'invalid input'
+    end
   end
 
   command :sh do
