@@ -21,6 +21,7 @@ module Earthquake
 
       puts "Saving 'token' and 'secret' to '#{config[:file]}'"
       File.open(config[:file], 'a') do |f|
+        f << "\n"
         f << "Earthquake.config[:token] = '#{config[:token]}'"
         f << "\n"
         f << "Earthquake.config[:secret] = '#{config[:secret]}'"

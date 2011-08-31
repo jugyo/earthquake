@@ -259,4 +259,8 @@ Earthquake.init do
   command %r|^:alias\s+?(:\w+)\s+(.+)|, :as => :alias do |m|
     alias_command m[1], m[2]
   end
+
+  command :reauthorize do
+    get_access_token
+  end
 end
