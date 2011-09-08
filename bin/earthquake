@@ -7,6 +7,7 @@ opts = Slop.parse! argv, :help => true do
   on :d, :debug, 'Enable debug mode'
   on :n, :'no-logo', 'No Logo'
   on :c, :command, "Invoke an command and exit", true
+  on :l, :lolize, 'enable lolize (see: https://github.com/miaout17/lolize)'
 end
 options = opts.to_hash(true)
 options.delete(:help)
@@ -19,6 +20,8 @@ $:.unshift eq_dir.join('lib') if $0 == __FILE__
 
 command = options.delete(:command)
 no_logo = options.delete(:'no-logo')
+
+require 'lolize/auto' if options[:lolize]
 
 if !no_logo && !command
   print "\e[31m"
