@@ -2,14 +2,19 @@
 require 'slop'
 
 argv = ARGV.dup
-opts = Slop.parse! argv, :help => true do
-  banner "Usage: earthquake [options] [directory]"
-  on :d, :debug, 'Enable debug mode'
-  on :n, :'no-logo', 'No Logo'
-  on :c, :command, "Invoke an command and exit", true
-  on :l, :lolize, 'enable lolize (see: https://github.com/miaout17/lolize)'
+slop = Slop.new(:strict => true, :help => true)
+slop.banner "Usage: earthquake [options] [directory]"
+slop.on :d, :debug, 'Enable debug mode'
+slop.on :n, :'no-logo', 'No Logo'
+slop.on :c, :command, "Invoke an command and exit", true
+slop.on :l, :lolize, 'enable lolize (see: https://github.com/miaout17/lolize)'
+begin
+  slop.parse!(argv)
+rescue => e
+  puts e
+  exit!
 end
-options = opts.to_hash(true)
+options = slop.to_hash(true)
 options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
