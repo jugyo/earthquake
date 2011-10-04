@@ -100,7 +100,7 @@ Commands
 
 ### Alias
 
-    ⚡ :alias rt retweet
+    ⚡ :alias :rt :retweet
 
 And more!
 
