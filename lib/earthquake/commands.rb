@@ -92,6 +92,7 @@ Earthquake.init do
   command :search do |m|
     search_options = config[:search_options] ? config[:search_options].dup : {}
     puts_items twitter.search(m[1], search_options)["results"].each { |s|
+      s["_mark"] = ("[" + m[1] + "]").c(:event)
       s["user"] = {"screen_name" => s["from_user"]}
       s["_disable_cache"] = true
       words = m[1].split(/\s+/).reject{|x| x[0] =~ /^-|^(OR|AND)$/ }.map{|x|
@@ -136,15 +137,21 @@ Earthquake.init do
   end
 
   command :retweeted_by_me do
-    puts_items twitter.retweeted_by_me
+    puts_items twitter.retweeted_by_me.each { |s|
+      s["_mark"] = "[retweeted_by_me]".c(:event)
+    }
   end
 
   command :retweeted_to_me do
-    puts_items twitter.retweeted_to_me
+    puts_items twitter.retweeted_to_me.each { |s|
+      s["_mark"] = "[retweeted_to_me]".c(:event)
+    }
   end
 
   command :retweets_of_me do
-    puts_items twitter.retweets_of_me
+    puts_items twitter.retweets_of_me.each { |s|
+      s["_mark"] = "[retweets_of_me]".c(:event)
+    }
   end
 
   command :block do |m|
@@ -161,6 +168,7 @@ Earthquake.init do
 
   command :messages do
     puts_items twitter.messages.each { |s|
+      s["_mark"] = "[direct message]".c(:event)
       s["user"] = {"screen_name" => s["sender_screen_name"]}
       s["_disable_cache"] = true
     }
@@ -168,6 +176,7 @@ Earthquake.init do
 
   command :sent_messages do
     puts_items twitter.sent_messages.each { |s|
+      s["_mark"] = "[direct message]".c(:event)
       s["user"] = {"screen_name" => s["sender_screen_name"]}
       s["_disable_cache"] = true
     }
