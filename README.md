@@ -6,6 +6,7 @@ Only supports Ruby 1.9.
 
 Homepage: [https://github.com/jugyo/earthquake](https://github.com/jugyo/earthquake)  
 Twitter: [http://twitter.com/earthquakegem](http://twitter.com/earthquakegem)  
+Changelog'd: [earthquake: Twitter terminal client with streaming API support](http://thechangelog.com/post/4005924669/earthquake-twitter-client-on-terminal-with-streaming-api)  
 Demo: [http://www.youtube.com/watch?v=S2KtBGrIe5c](http://www.youtube.com/watch?v=S2KtBGrIe5c)  
 Slide: [http://www.slideshare.net/jugyo/earthquakegem](http://www.slideshare.net/jugyo/earthquakegem)  
 
