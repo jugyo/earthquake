@@ -60,7 +60,9 @@ Earthquake.init do
   end
 
   command :mentions do
-    puts_items twitter.mentions
+    puts_items twitter.mentions.each { |s|
+      s["_mark"] = "[mentions]".c(:event)
+    }
   end
 
   command :follow do |m|
@@ -72,17 +74,23 @@ Earthquake.init do
   end
 
   command :recent do
-    puts_items twitter.home_timeline(:count => config[:recent_count])
+    puts_items twitter.home_timeline(:count => config[:recent_count]).each { |s|
+      s["_mark"] = "[recent]".c(:event)
+    }
   end
 
   # :recent jugyo
   command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
-    puts_items twitter.user_timeline(:screen_name => m[1])
+    puts_items twitter.user_timeline(:screen_name => m[1]).each { |s|
+      s["_mark"] = ("[" + m[1] + "]").c(:event)
+    }
   end
 
   # :recent yugui/ruby-committers
   command %r|^:recent\s+([^\s]+)\/([^\s]+)$|, :as => :recent do |m|
-    puts_items twitter.list_statuses(m[1], m[2])
+    puts_items twitter.list_statuses(m[1], m[2]).each { |s|
+      s["_mark"] = ("[" + m[1] + "/" + m[2] + "]").c(:event)
+    }
   end
 
   command :user do |m|
