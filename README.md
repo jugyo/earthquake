@@ -133,6 +133,30 @@ You can change the directory at launch by entering a directory as an argument. F
       :url => [4, 34]
     }
 
+### Tracking specified keywords
+
+    # ~/.earthquake/config
+    Earthquake.config[:api] = {
+      :method => 'POST',
+      :host => 'stream.twitter.com',
+      :path => '/1/statuses/filter.json',
+      :ssl => true,
+      :filter => %w(Twitter Earthquake)
+    }
+
+### Tracking specified users
+
+    # ~/.earthquake/config
+    Earthquake.config[:api] = {
+      :method => 'POST',
+      :host => 'stream.twitter.com',
+      :path => '/1/statuses/filter.json',
+      :ssl => true,
+      :params => {
+        :follow => '6253282,183709371' # @twitterapi @sitestreams
+      }
+    }
+
 ### Defining aliases
 
     # ~/.earthquake/config
