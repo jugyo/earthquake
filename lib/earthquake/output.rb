@@ -30,8 +30,15 @@ module Earthquake
     end
 
     def puts_items(items)
+      mark_color = config[:colors].sample + 10
+
       [items].flatten.reverse_each do |item|
         next if output_filters.any? { |f| f.call(item) == false }
+
+        if item["text"] && !item["_stream"]
+          item['_mark'] = ' '.c(mark_color) + item['_mark'].to_s
+        end
+
         outputs.each do |o|
           begin
             o[:block].call(item)
@@ -121,8 +128,8 @@ module Earthquake
     output :delete do |item|
       if item["delete"] && cache.read("status:#{item["delete"]["status"]["id"]}")
         tweet = twitter.status(item["delete"]["status"]["id"])
-        tweet["_mark"] = "[deleted]".c(:event) + ' '
-        puts_items tweet
+        puts "[delete]".c(:event) +
+             " #{tweet["user"]["screen_name"]}: #{tweet["text"]}"
       end
     end
 
