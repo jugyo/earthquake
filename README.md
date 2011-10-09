@@ -141,7 +141,7 @@ You can change the directory at launch by entering a directory as an argument. F
       :host => 'stream.twitter.com',
       :path => '/1/statuses/filter.json',
       :ssl => true,
-      :filter => %w(Twitter Earthquake)
+      :filters => %w(Twitter Earthquake)
     }
 
 ### Tracking specified users
