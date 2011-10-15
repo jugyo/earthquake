@@ -24,6 +24,7 @@ Encoding.default_external = Encoding.find('UTF-8')
   input
   get_access_token
   twitter
+  help
   commands
   id_var
 ).each { |name| require_dependency File.expand_path("../earthquake/#{name}", __FILE__) }

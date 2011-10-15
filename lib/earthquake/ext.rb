@@ -70,4 +70,14 @@ class String
   define_method(:e) do
     gsub(/[#{t.keys.join}]/o, t)
   end
+
+  def indent(count, char = ' ')
+    (char * count) + gsub(/(\n+)/) { |m| m + (char * count) }
+  end
+
+  def trim_indent
+      lines = self.split("\n")
+      unindent = self.split("\n").select { |s| s !~ /^\s$/ }.map { |s| s.index(/[^\s]/) || 0 }.min
+      lines.map { |s| s.gsub(/^#{' ' * unindent}/, '') }.join("\n")
+  end
 end
