@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "earthquake"
-  s.version = "0.8.1"
+  s.version = "0.8.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jugyo"]
-  s.date = "2011-09-08"
+  s.date = "2011-10-15"
   s.description = "Twitter Client on Terminal with Twitter Streaming API."
   s.email = "jugyo.org@gmail.com"
   s.executables = ["earthquake"]
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/earthquake/core.rb",
     "lib/earthquake/ext.rb",
     "lib/earthquake/get_access_token.rb",
+    "lib/earthquake/help.rb",
     "lib/earthquake/id_var.rb",
     "lib/earthquake/input.rb",
     "lib/earthquake/output.rb",
