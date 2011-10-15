@@ -2,13 +2,46 @@
 require 'uri'
 require 'open-uri'
 Earthquake.init do
+
+  # :exit
+
   command :exit do
     stop
   end
 
+  help :exit, 'exit from earthquake'
+
+  # :help
+
   command :help do
-    system 'less', File.expand_path('../../../README.md', __FILE__)
+    summaries = {}
+    helps.each do |k, v|
+      summaries[k] = v[0]
+    end
+    ap summaries
   end
+
+  command :help do |m|
+    if help = helps[m[1].gsub(/^:/, '').to_sym]
+      summary, usage = *help
+      puts
+      puts "#{m[1]} - #{summary}".indent(4).c(92)
+      if usage
+        puts
+        puts usage.indent(4).c(92)
+      end
+      puts
+    else
+      ap nil
+    end
+  end
+
+  help :help, 'show help', <<-HELP
+    ⚡ :help
+    ⚡ :help :retweet
+  HELP
+
+  # :restart
 
   command :restart do
     puts 'restarting...'
@@ -18,9 +51,17 @@ Earthquake.init do
     exec File.expand_path('../../../bin/earthquake', __FILE__), *args
   end
 
+  help :restart, 'restart earthquake'
+
+  # :eval
+
   command :eval do |m|
     ap eval(m[1])
   end
+
+  help :eval, 'eval script', <<-HELP
+    ⚡ :eval 1 + 1
+  HELP
 
   command :update do |m|
     async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
