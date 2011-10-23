@@ -79,7 +79,8 @@ module Earthquake
     end
 
     def ask(message)
-      Readline.readline(message, false)
+      print message
+      (STDIN.gets || "").chomp
     end
 
     def async_e(&block)
