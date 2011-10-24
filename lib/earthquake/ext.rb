@@ -32,6 +32,8 @@ end
 
 class String
   def c(*codes)
+    return self if Earthquake.config[:lolize]
+
     codes = codes.flatten.map { |code|
       case code
       when String, Symbol
@@ -44,6 +46,8 @@ class String
   end
 
   def coloring(pattern, color = nil, &block)
+    return self if Earthquake.config[:lolize]
+
     self.gsub(pattern) do |i|
       applied_colors = $`.scan(/\e\[[\d;]+m/)
       c = color || block.call(i)
@@ -65,5 +69,15 @@ class String
 
   define_method(:e) do
     gsub(/[#{t.keys.join}]/o, t)
+  end
+
+  def indent(count, char = ' ')
+    (char * count) + gsub(/(\n+)/) { |m| m + (char * count) }
+  end
+
+  def trim_indent
+      lines = self.split("\n")
+      unindent = self.split("\n").select { |s| s !~ /^\s$/ }.map { |s| s.index(/[^\s]/) || 0 }.min
+      lines.map { |s| s.gsub(/^#{' ' * unindent}/, '') }.join("\n")
   end
 end

@@ -2,13 +2,46 @@
 require 'uri'
 require 'open-uri'
 Earthquake.init do
+
+  # :exit
+
   command :exit do
     stop
   end
 
+  help :exit, 'exit from earthquake'
+
+  # :help
+
   command :help do
-    system 'less', File.expand_path('../../../README.md', __FILE__)
+    summaries = {}
+    helps.each do |k, v|
+      summaries[k] = v[0]
+    end
+    ap summaries
   end
+
+  command :help do |m|
+    if help = helps[m[1].gsub(/^:/, '').to_sym]
+      summary, usage = *help
+      puts
+      puts "#{m[1]} - #{summary}".indent(4).c(92)
+      if usage
+        puts
+        puts usage.indent(4).c(92)
+      end
+      puts
+    else
+      ap nil
+    end
+  end
+
+  help :help, 'show help', <<-HELP
+    ⚡ :help
+    ⚡ :help :retweet
+  HELP
+
+  # :restart
 
   command :restart do
     puts 'restarting...'
@@ -18,9 +51,17 @@ Earthquake.init do
     exec File.expand_path('../../../bin/earthquake', __FILE__), *args
   end
 
+  help :restart, 'restart earthquake'
+
+  # :eval
+
   command :eval do |m|
     ap eval(m[1])
   end
+
+  help :eval, 'eval script', <<-HELP
+    ⚡ :eval 1 + 1
+  HELP
 
   command :update do |m|
     async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
@@ -115,7 +156,7 @@ Earthquake.init do
 
   command %r|^:retweet\s+(\d+)\s+(.*)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
-    text = "#{m[2]} #{config[:quotetweet] ? "QT" : "RT"} @#{target["user"]["screen_name"]}: #{target["text"]} (#{target["id"]})"
+    text = "#{m[2]} #{config[:quotetweet] ? "QT" : "RT"} @#{target["user"]["screen_name"]}: #{target["text"]}"
     if confirm("unofficial retweet '#{text}'")
       async_e { twitter.update(text) }
     end
@@ -206,9 +247,13 @@ Earthquake.init do
     end
   end
 
-  command %r|^:open\s+(\w+)$|, :as => :open do |m|
-    url = "https://twitter.com/#{m[1]}"
-    puts "Open: #{url}".c(:info)
+  command :browse do |m|
+    url = case m[1]
+      when /^\d+$/
+        "https://twitter.com/#{twitter.status(m[1])['user']['screen_name']}/status/#{m[1]}"
+      else
+        "https://twitter.com/#{m[1][/[^'"]+/]}"
+      end
     browse url
   end
 
@@ -248,10 +293,15 @@ Earthquake.init do
   end
 
   command :edit_config do
-    system (ENV["EDITOR"] || 'vim') + " #{config[:file]}"
+    editor = ENV["EDITOR"] || 'vim'
+    system "#{editor} #{config[:file]}"
   end
 
   command %r|^:alias\s+?(:\w+)\s+(.+)|, :as => :alias do |m|
     alias_command m[1], m[2]
+  end
+
+  command :reauthorize do
+    get_access_token
   end
 end

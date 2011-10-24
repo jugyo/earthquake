@@ -6,6 +6,7 @@ Only supports Ruby 1.9.
 
 Homepage: [https://github.com/jugyo/earthquake](https://github.com/jugyo/earthquake)  
 Twitter: [http://twitter.com/earthquakegem](http://twitter.com/earthquakegem)  
+Changelog'd: [earthquake: Twitter terminal client with streaming API support](http://thechangelog.com/post/4005924669/earthquake-twitter-client-on-terminal-with-streaming-api)  
 Demo: [http://www.youtube.com/watch?v=S2KtBGrIe5c](http://www.youtube.com/watch?v=S2KtBGrIe5c)  
 Slide: [http://www.slideshare.net/jugyo/earthquakegem](http://www.slideshare.net/jugyo/earthquakegem)  
 
@@ -22,6 +23,16 @@ Features
 
 Install
 ----
+
+You'll need openssl and readline support with your 1.9.2. If you are
+using rvm you can run:
+
+    $ rvm pkg install openssl
+    $ rvm remove 1.9.2
+    $ rvm install 1.9.2 --with-openssl-dir=$HOME/.rvm/usr \
+      --with-readline-dir=$HOME/.rvm/usr
+
+Then install the gem:
 
     $ gem install earthquake
 
@@ -100,7 +111,7 @@ Commands
 
 ### Alias
 
-    ⚡ :alias rt retweet
+    ⚡ :alias :rt :retweet
 
 And more!
 
@@ -131,6 +142,30 @@ You can change the directory at launch by entering a directory as an argument. F
       :notice => 41,
       :event  => 46,
       :url => [4, 34]
+    }
+
+### Tracking specified keywords
+
+    # ~/.earthquake/config
+    Earthquake.config[:api] = {
+      :method => 'POST',
+      :host => 'stream.twitter.com',
+      :path => '/1/statuses/filter.json',
+      :ssl => true,
+      :filters => %w(Twitter Earthquake)
+    }
+
+### Tracking specified users
+
+    # ~/.earthquake/config
+    Earthquake.config[:api] = {
+      :method => 'POST',
+      :host => 'stream.twitter.com',
+      :path => '/1/statuses/filter.json',
+      :ssl => true,
+      :params => {
+        :follow => '6253282,183709371' # @twitterapi @sitestreams
+      }
     }
 
 ### Defining aliases

@@ -58,6 +58,7 @@ module Earthquake
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
       config[:output_interval]  ||= 1
       config[:history_size]     ||= 1000
+      config[:api]              ||= { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true }
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -131,7 +132,7 @@ module Earthquake
 
     def reconnect
       item_queue.clear
-      start_stream(:host  => 'userstream.twitter.com', :path  => '/2/user.json', :ssl => true)
+      start_stream(config[:api])
     end
 
     def start_stream(options)

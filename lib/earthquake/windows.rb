@@ -112,8 +112,11 @@ Lib_MSVCRT::setlocale(Lib_MSVCRT::LC_CTYPE, "")
 module Readline
   alias :old_readline :readline
   def readline(*a)
-    a[0] = u8_to_acp(a[0])
-    acp_to_u8(old_readline(*a))
+    begin
+      return acp_to_u8(old_readline(*a))
+    rescue
+      return old_readline(*a)
+    end
   end
   module_function :old_readline, :readline
 end
