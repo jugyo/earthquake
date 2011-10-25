@@ -63,6 +63,21 @@ Earthquake.init do
     ⚡ :eval 1 + 1
   HELP
 
+  command :aa do |m|
+    begin
+      raw_text, config[:raw_text] = config[:raw_text], true
+      input(m[1])
+    ensure
+      config[:raw_text] = raw_text
+    end
+  end
+
+  command %r|^:update$|, :as => :update do
+    puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
+    text = STDIN.gets(nil)
+    async_e{ twitter.update(text) } if confirm("update above AA?")
+  end
+
   command :update do |m|
     async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
   end
