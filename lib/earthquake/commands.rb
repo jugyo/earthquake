@@ -261,8 +261,10 @@ Earthquake.init do
     system ENV["SHELL"] || 'sh'
   end
 
-  command :'!' do |m|
-    system eval("\"#{m[1]}\"").to_s
+  command %r|:!(.+)| do |m|
+    command = m[1].strip
+    puts "`#{command}`"
+    system eval("\"#{command}\"").to_s
   end
 
   command :plugin_install do |m|
