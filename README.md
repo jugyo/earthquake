@@ -113,6 +113,24 @@ Commands
 
     ⚡ :alias :rt :retweet
 
+### Tweet Ascii Art
+
+    ⚡ :update[ENTER]
+    [input EOF (e.g. Ctrl+D) at the last]
+        ⚡
+       ⚡
+        ⚡
+       ⚡
+    ^D
+
+### View Ascii Art
+
+    # permanently
+    ⚡ :eval config[:raw_text] = true
+
+    # temporarily(with :status, :recent or :thread etc...)
+    ⚡ :aa :status $aa
+
 And more!
 
 Configuration
