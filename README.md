@@ -131,6 +131,17 @@ Commands
     # temporarily(with :status, :recent or :thread etc...)
     ⚡ :aa :status $aa
 
+### Stream Filter Tracking
+
+    # keywords
+    ⚡ :filter keyword earthquakegem twitter
+
+    # users
+    ⚡ :filter user jugyo matsuu
+
+    # return to normal user stream
+    ⚡ :filter off
+
 And more!
 
 Configuration
