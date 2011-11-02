@@ -162,6 +162,41 @@ Earthquake.init do
     }
   end
 
+  default_stream = {
+    method: "POST",
+    host: "userstream.twitter.com",
+    path: "/2/user.json",
+    ssl: true,
+  }
+
+  filter_stream = {
+    method: "POST",
+    host: "stream.twitter.com",
+    path: "/1/statuses/filter.json",
+    ssl: true,
+  }
+
+  command %r!^:filter off$!, as: :filter do
+    config[:api] = default_stream
+    reconnect
+  end
+
+  command %r!^:filter keyword (.*)$!, as: :filter do |m|
+    keywords = m[1].split
+    config[:api] = filter_stream.merge(filters: keywords)
+    reconnect
+  end
+
+  command %r!:filter user (.*)$!, as: :filter do |m|
+    users = m[1].split.map{|user|
+      twitter.show(user)["id"]
+    }.compact.join(",")
+    unless users.empty?
+      config[:api] = filter_stream.merge(params: {follow: users})
+      reconnect
+    end
+  end
+
   command %r|^:retweet\s+(\d+)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
     if confirm("retweet 'RT @#{target["user"]["screen_name"]}: #{target["text"]}'")
