@@ -1,6 +1,7 @@
 # encoding: UTF-8
 require 'uri'
 require 'open-uri'
+require 'shellwords'
 Earthquake.init do
 
   # :exit
@@ -182,7 +183,7 @@ Earthquake.init do
   end
 
   command %r!^:filter keyword (.*)$!, as: :filter do |m|
-    keywords = m[1].split
+    keywords = Shellwords.split(m[1])
     config[:api] = filter_stream.merge(filters: keywords)
     reconnect
   end
