@@ -68,13 +68,19 @@ module Earthquake
     end
 
     def confirm(message, type = :y)
-      case type
-      when :y
-        return !(ask("#{message} [Yn] ".u) =~ /^n$/i)
-      when :n
-        return !!(ask("#{message} [yN] ".u) =~ /^y$/i)
+      s = case type
+          when :y
+            ask("#{message} [Yn] ".u)
+          when :n
+            ask("#{message} [yN] ".u)
+          else
+            raise "type must be :y or :n"
+          end
+      s = type.to_s if s.empty?
+      if m = s.match(/^[yn]$/i)
+        return m[0].downcase == 'y'
       else
-        raise "type must be :y or :n"
+        confirm(message, type)
       end
     end
 
