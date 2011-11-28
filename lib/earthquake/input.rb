@@ -69,7 +69,7 @@ module Earthquake
       end
     end
 
-    def confirm(message, type = :y)
+    def confirm(message, type = config[:confirm_type])
       s = case type
           when :y
             ask("#{message} [Yn] ".u)

@@ -202,6 +202,11 @@ You can change the directory at launch by entering a directory as an argument. F
     # ~/.earthquake/config
     Earthquake.alias_command :rt, :retweet
 
+### Default confirmation type
+
+    # ~/.earthquake/config
+    Earthquake.config[:confirm_type] = :n
+
 ### HTTP proxy support
 
 Please set environment variable *http_proxy* if you want earthquake to use an http proxy.

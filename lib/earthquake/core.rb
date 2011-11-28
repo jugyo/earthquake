@@ -59,6 +59,7 @@ module Earthquake
       config[:output_interval]  ||= 1
       config[:history_size]     ||= 1000
       config[:api]              ||= { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true }
+      config[:confirm_type]     ||= :y
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
