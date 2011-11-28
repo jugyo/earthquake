@@ -32,7 +32,9 @@ module Earthquake
     end
 
     def alias_command(name, target)
-      command_aliases[name.to_s] = target.to_s
+      name = name.is_a?(Symbol) ? ":#{name}" : name.to_s
+      target = target.is_a?(Symbol) ? ":#{target}" : target.to_s
+      command_aliases[name] = target
     end
 
     def input(text)
