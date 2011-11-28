@@ -200,7 +200,7 @@ You can change the directory at launch by entering a directory as an argument. F
 ### Defining aliases
 
     # ~/.earthquake/config
-    Earthquake.alias_command :rt, :retweet
+    Earthquake.alias_command ":rt", ":retweet"
 
 ### HTTP proxy support
 
