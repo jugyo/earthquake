@@ -189,7 +189,11 @@ Earthquake.init do
   HELP
 
   command :user do |m|
-    ap twitter.show(m[1]).slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
+    user = twitter.show(m[1])
+    if user.key?("error")
+      user = twitter.status(m[1])["user"] || {}
+    end
+    ap user.slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
   end
 
   help :user, "show user info"
