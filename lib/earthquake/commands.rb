@@ -378,8 +378,11 @@ Earthquake.init do
   help :update_profile_image, "updates profile image from local file path"
 
   command %r|^:open\s+(\d+)$|, :as => :open do |m|
-    if match = twitter.status(m[1])["text"].match(URI.regexp(["http", "https"]))
-      browse match[0]
+    matches = URI.extract(twitter.status(m[1])["text"],["http", "https"])
+    unless matches.empty?
+      matches.each do |match_url|
+        browse match_url
+      end
     else
       puts "no link found".c(41)
     end
