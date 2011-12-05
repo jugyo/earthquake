@@ -416,6 +416,13 @@ Earthquake.init do
 
   command :plugin_install do |m|
     uri = URI.parse(m[1])
+    if uri.host == "t.co"
+      begin
+        open(uri, redirect: false)
+      rescue OpenURI::HTTPRedirect => e
+        uri = URI.parse(e.io.meta["location"])
+      end
+    end
     unless uri.host == "gist.github.com"
       puts "the host must be gist.github.com".c(41)
     else
