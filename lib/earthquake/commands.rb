@@ -441,7 +441,7 @@ Earthquake.init do
       if confirm("Install to '#{filepath}'?")
         File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
           file << raw
-          file << "\n# #{m[1]}"
+          file << "\n# #{uri}\n"
         end
         reload
       end
