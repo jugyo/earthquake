@@ -420,6 +420,13 @@ Earthquake.init do
 
   command :plugin_install do |m|
     uri = URI.parse(m[1])
+    if uri.host == "t.co"
+      begin
+        open(uri, redirect: false)
+      rescue OpenURI::HTTPRedirect => e
+        uri = URI.parse(e.io.meta["location"])
+      end
+    end
     unless uri.host == "gist.github.com"
       puts "the host must be gist.github.com".c(41)
     else
@@ -438,7 +445,7 @@ Earthquake.init do
       if confirm("Install to '#{filepath}'?")
         File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
           file << raw
-          file << "\n# #{m[1]}"
+          file << "\n# #{uri}\n"
         end
         reload
       end
