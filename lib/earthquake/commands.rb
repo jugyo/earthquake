@@ -312,7 +312,7 @@ Earthquake.init do
     puts_items twitter.retweets_of_me
   end
 
-  help :retweeted_of_me, "shows your latest status somebody retweeted"
+  help :retweets_of_me, "shows your latest status somebody retweeted"
 
   command :block do |m|
     async_e { twitter.block(m[1]) }
