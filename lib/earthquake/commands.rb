@@ -392,7 +392,7 @@ Earthquake.init do
     end
   end
 
-  help :open, "opens the first link in a tweet"
+  help :open, "opens all links in a tweet"
 
   command :browse do |m|
     url = case m[1]
