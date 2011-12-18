@@ -66,6 +66,10 @@ module Earthquake
     def color_of(screen_name)
       config[:colors][screen_name.delete("^0-9A-Za-z_").to_i(36) % config[:colors].size]
     end
+
+    def name_type
+      config[:fullname] ? "name" : "screen_name"
+    end
   end
 
   init do
@@ -118,7 +122,7 @@ module Earthquake
 
       status =  [
                   "#{mark}" + "[#{id}]".c(:info),
-                  "#{item["user"]["screen_name"].c(color_of(item["user"]["screen_name"]))}:",
+                  "#{item["user"][name_type].c(color_of(item["user"]["screen_name"]))}:",
                   "#{text}",
                   (item["user"]["protected"] ? "[P]".c(:notice) : nil),
                   info.join(' - ').c(:info)
@@ -137,7 +141,7 @@ module Earthquake
     output :direct_message do |item|
       next unless dm = item["direct_message"]
       puts "[direct message]".c(:event) +
-           " #{dm["sender"]["screen_name"]} => #{dm["recipient"]["screen_name"]}: #{dm["text"]}"
+           " #{dm["sender"][name_type]} => #{dm["recipient"][name_type]}: #{dm["text"]}"
     end
 
     output :event do |item|
@@ -146,9 +150,9 @@ module Earthquake
       print "[#{item["event"]}]".c(:event) + " "
       case item["event"]
       when "follow", "block", "unblock"
-        puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]}"
+        puts "#{item["source"][name_type]} => #{item["target"][name_type]}"
       when "favorite", "unfavorite"
-        puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
+        puts "#{item["source"][name_type]} => #{item["target"][name_type]} : #{item["target_object"]["text"].u}"
       when "list_member_added", "list_member_removed"
         puts "#{item["target_object"]["full_name"]} (#{item["target_object"]["description"]})"
       else
