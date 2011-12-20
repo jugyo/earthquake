@@ -224,7 +224,7 @@ module Earthquake
       title = args.delete(:title)
       message = message.is_a?(String) ? message : message.inspect
       # FIXME: Escaping should be done at Notify.notify
-      Notify.notify title, message.e
+      Notify.notify title, CGI::unescapeHTML(message.e)
     end
     alias_method :n, :notify
 
