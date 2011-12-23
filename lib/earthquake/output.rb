@@ -127,10 +127,19 @@ module Earthquake
     end
 
     output :delete do |item|
-      if item["delete"] && cache.read("status:#{item["delete"]["status"]["id"]}")
-        tweet = twitter.status(item["delete"]["status"]["id"])
-        puts "[delete]".c(:event) +
-             " #{tweet["user"]["screen_name"]}: #{tweet["text"]}"
+      if deleted = item["delete"]
+        case
+        when deleted.key?("status")
+          if tweet = cache.read("status:#{deleted["status"]["id"]}")
+            screen_name = tweet["user"]["screen_name"]
+            text = tweet["text"]
+          end
+        when deleted.key?("direct_message")
+          if screen_name = twitter.info["screen_name"]
+            text = "(direct message)"
+          end
+        end
+        puts "%s %s: %s" % ["[delete]".c(:event), screen_name, text]
       end
     end
 
