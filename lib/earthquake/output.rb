@@ -133,6 +133,8 @@ module Earthquake
           if tweet = cache.read("status:#{deleted["status"]["id"]}")
             screen_name = tweet["user"]["screen_name"]
             text = tweet["text"]
+          else
+            next
           end
         when deleted.key?("direct_message")
           if screen_name = twitter.info["screen_name"]
