@@ -137,9 +137,8 @@ module Earthquake
             next
           end
         when deleted.key?("direct_message")
-          if screen_name = twitter.info["screen_name"]
-            text = "(direct message)"
-          end
+          screen_name = twitter.info["screen_name"]
+          text = "(direct message)"
         end
         puts "%s %s: %s" % ["[delete]".c(:event), screen_name, text]
       end
