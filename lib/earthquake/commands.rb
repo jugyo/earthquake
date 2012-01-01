@@ -200,7 +200,7 @@ Earthquake.init do
 
   command :search do |m|
     search_options = config[:search_options] ? config[:search_options].dup : {}
-    words = m[1].split(/\s+/).map{|x|
+    words = m[1].shellsplit.map{|x|
       case x
       when /^from:(.+)/, /^to:(.+)/
         $1
