@@ -200,14 +200,15 @@ Earthquake.init do
 
   command :search do |m|
     search_options = config[:search_options] ? config[:search_options].dup : {}
-    words = m[1].split(/\s+/).reject{|x| x[0] =~ /^-|^(OR|AND)$/ }.map{|x|
+    words = m[1].split(/\s+/).map{|x|
       case x
       when /^from:(.+)/, /^to:(.+)/
         $1
+      when /^-/, "AND", "OR"
       else
         x
       end
-    }
+    }.compact
     puts_items twitter.search(m[1], search_options)["results"].each { |s|
       s["user"] = {"screen_name" => s["from_user"]}
       s["_disable_cache"] = true
