@@ -332,20 +332,31 @@ Earthquake.init do
 
   help :report_spam, "blocks user and report as spam"
 
-  command :messages do
-    puts_items twitter.messages.each { |s|
+  messages = ->(*methods) do
+    methods = [:messages, :sent_messages] if methods.empty?
+    methods.flat_map{|method| twitter.__send__(method)}.each { |s|
       s["user"] = {"screen_name" => s["sender_screen_name"]}
+      s["text"].prepend("@#{s["recipient_screen_name"]} ")
       s["_disable_cache"] = true
     }
   end
 
-  help :messages, "list direct messages received"
+  command :messages do
+    puts_items messages[].sort_by! { |s|
+      Time.parse(s["created_at"])
+    }.reverse!
+  end
+
+  help :messages, "list direct messages received and sent"
+
+  command :received_messages do
+    puts_items messages[:messages]
+  end
+
+  help :received_messages, "list direct messages received"
 
   command :sent_messages do
-    puts_items twitter.sent_messages.each { |s|
-      s["user"] = {"screen_name" => s["sender_screen_name"]}
-      s["_disable_cache"] = true
-    }
+    puts_items messages[:sent_messages]
   end
 
   help :sent_messages, "list direct messages sent"
