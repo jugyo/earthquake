@@ -474,6 +474,12 @@ Earthquake.init do
     ⚡ :alias :rt :retweet
   HELP
 
+  command :aliases do
+    ap command_aliases
+  end
+
+  help :aliases, "shows aliases"
+
   command :reauthorize do
     get_access_token
   end
