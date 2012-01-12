@@ -80,7 +80,9 @@ Earthquake.init do
   command %r|^:update$|, :as => :update do
     puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
     text = STDIN.gets(nil)
-    async_e{ twitter.update(text) } if confirm("update above AA?")
+    if text && !text.split.empty?
+      async_e{ twitter.update(text) } if confirm("update above AA?")
+    end
   end
 
   command :update do |m|
