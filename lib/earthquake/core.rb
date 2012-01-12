@@ -34,6 +34,7 @@ module Earthquake
     def _init
       load_config
       load_plugins
+      onces.clear
       inits.each { |block| class_eval(&block) }
       inits.clear
     end
@@ -88,8 +89,8 @@ module Earthquake
 
     def __init(options)
       config.merge!(options)
-      _init
       _once
+      _init
     end
 
     def invoke(command, options = {})
