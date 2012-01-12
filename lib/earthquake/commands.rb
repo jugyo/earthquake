@@ -80,7 +80,9 @@ Earthquake.init do
   command %r|^:update$|, :as => :update do
     puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
     text = STDIN.gets(nil)
-    async_e{ twitter.update(text) } if confirm("update above AA?")
+    if text && !text.split.empty?
+      async_e{ twitter.update(text) } if confirm("update above AA?")
+    end
   end
 
   command :update do |m|
@@ -471,6 +473,12 @@ Earthquake.init do
   help :alias, "creates a new command aliasing to an existing one", <<-HELP
     ⚡ :alias :rt :retweet
   HELP
+
+  command :aliases do
+    ap command_aliases
+  end
+
+  help :aliases, "shows aliases"
 
   command :reauthorize do
     get_access_token
