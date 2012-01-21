@@ -64,7 +64,12 @@ module Earthquake
     end
 
     def color_of(screen_name)
-      config[:colors][screen_name.delete("^0-9A-Za-z_").to_i(36) % config[:colors].size]
+      name = screen_name.delete("^0-9A-Za-z_")
+      if color = config[:name_colors][name.to_sym]
+        config[:color][color] || color
+      else
+        config[:colors][name.to_i(36) % config[:colors].size]
+      end
     end
   end
 
@@ -75,11 +80,24 @@ module Earthquake
     config[:colors] ||= (31..36).to_a + (91..96).to_a
     config[:color] ||= {}
     config[:color].reverse_merge!(
+      :darkred    => 31,
+      :darkgreen  => 32,
+      :darkyellow => 33,
+      :darkblue   => 34,
+      :darkpurple => 35,
+      :darkcyan   => 36,
+      :red    => 91,
+      :green  => 92,
+      :yellow => 93,
+      :blue   => 94,
+      :purple => 95,
+      :cyan   => 96,
       :info   => 90,
       :notice => 31,
       :event  => 42,
       :url    => [4, 36]
     )
+    config[:name_colors] ||= {}
     config[:raw_text] ||= false
 
     output :tweet do |item|

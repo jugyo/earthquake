@@ -173,6 +173,23 @@ You can change the directory at launch by entering a directory as an argument. F
       :url => [4, 34]
     }
 
+### Customized colors for names and hashtags
+
+    # See Earthquake.config[:color] for available color names.
+    # Only which looks like a color name is the name of the color :).
+
+    ⚡ :eval config[:color]
+
+    # Colors also can be specified by a single number.
+    # Using colors for background (ex. 44) will not work well on search results.
+
+    # ~/.earthquake/config
+    Earthquake.config[:name_colors] = {
+      earthquakegem: :darkpurple,
+      jugyo: 31,
+      no6v: 44, # it's ok for me to mark my tweet
+    }
+
 ### Tracking specified keywords
 
     # ~/.earthquake/config
