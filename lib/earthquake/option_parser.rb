@@ -27,6 +27,7 @@ module Earthquake
         s.on :n, :'no-logo', 'No Logo'
         s.on :c, :command, 'Invoke a command and exit', :argument => true
         s.on :'--no-stream', 'No stream mode'
+        s.on :i, :identica, 'enable identi.ca mode'
       end
     end
   end
