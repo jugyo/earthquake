@@ -32,7 +32,9 @@ module Earthquake
     end
 
     def alias_command(name, target)
-      command_aliases[name.to_s] = target.to_s
+      name = name.is_a?(Symbol) ? ":#{name}" : name.to_s
+      target = target.is_a?(Symbol) ? ":#{target}" : target.to_s
+      command_aliases[name] = target
     end
 
     def input(text)
@@ -67,14 +69,20 @@ module Earthquake
       end
     end
 
-    def confirm(message, type = :y)
-      case type
-      when :y
-        return !(ask("#{message} [Yn] ".u) =~ /^n$/i)
-      when :n
-        return !!(ask("#{message} [yN] ".u) =~ /^y$/i)
+    def confirm(message, type = config[:confirm_type])
+      s = case type
+          when :y
+            ask("#{message} [Yn] ".u)
+          when :n
+            ask("#{message} [yN] ".u)
+          else
+            raise "type must be :y or :n"
+          end
+      s = type.to_s if s.empty?
+      if m = s.match(/^[yn]$/i)
+        return m[0].downcase == 'y'
       else
-        raise "type must be :y or :n"
+        confirm(message, type)
       end
     end
 
@@ -117,6 +125,7 @@ module Earthquake
     completion do |text|
       regexp = /^#{Regexp.quote(text)}/
       results = (command_names + command_aliases.keys).grep(regexp)
+      next results if text.start_with?(?:) and (Readline.point rescue nil) == text.size
       history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
       history.inject(results){|r, line|
         r | line.split.grep(regexp)

@@ -113,6 +113,35 @@ Commands
 
     ⚡ :alias :rt :retweet
 
+### Tweet Ascii Art
+
+    ⚡ :update[ENTER]
+    [input EOF (e.g. Ctrl+D) at the last]
+        ⚡
+       ⚡
+        ⚡
+       ⚡
+    ^D
+
+### View Ascii Art
+
+    # permanently
+    ⚡ :eval config[:raw_text] = true
+
+    # temporarily(with :status, :recent or :thread etc...)
+    ⚡ :aa :status $aa
+
+### Stream Filter Tracking
+
+    # keywords
+    ⚡ :filter keyword earthquakegem twitter
+
+    # users
+    ⚡ :filter user jugyo matsuu
+
+    # return to normal user stream
+    ⚡ :filter off
+
 And more!
 
 Configuration
@@ -172,6 +201,11 @@ You can change the directory at launch by entering a directory as an argument. F
 
     # ~/.earthquake/config
     Earthquake.alias_command :rt, :retweet
+
+### Default confirmation type
+
+    # ~/.earthquake/config
+    Earthquake.config[:confirm_type] = :n
 
 ### HTTP proxy support
 

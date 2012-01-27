@@ -1,6 +1,7 @@
 # encoding: UTF-8
 require 'uri'
 require 'open-uri'
+require 'shellwords'
 Earthquake.init do
 
   # :exit
@@ -63,6 +64,27 @@ Earthquake.init do
     ⚡ :eval 1 + 1
   HELP
 
+  command :aa do |m|
+    begin
+      raw_text, config[:raw_text] = config[:raw_text], true
+      input(m[1])
+    ensure
+      config[:raw_text] = raw_text
+    end
+  end
+
+  help :aa, 'executes a command with raw text', <<-HELP
+    ⚡ :aa :status $aa
+  HELP
+
+  command %r|^:update$|, :as => :update do
+    puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
+    text = STDIN.gets(nil)
+    if text && !text.split.empty?
+      async_e{ twitter.update(text) } if confirm("update above AA?")
+    end
+  end
+
   command :update do |m|
     async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
   end
@@ -70,6 +92,16 @@ Earthquake.init do
   command %r|^[^:\$].*| do |m|
     input(":update #{m[0]}")
   end
+
+  help :update, 'update status', <<-HELP
+    ⚡ :update this is my new status
+    ⚡ :update[ENTER]
+        ⚡   
+       ⚡   
+         ⚡   
+        ⚡   
+    ^D
+  HELP
 
   command %r|^:reply\s+(\d+)\s+(.*)|, :as => :reply do |m|
     in_reply_to_status_id = m[1]
@@ -80,6 +112,12 @@ Earthquake.init do
       async_e { twitter.update(text, :in_reply_to_status_id => in_reply_to_status_id) }
     end
   end
+
+  help :reply, "replys a tweet", <<-HELP
+    [$aa] hello world
+    ⚡ :reply $aa goodbye world
+    ⚡ $aa goodbye world
+  HELP
 
   # $xx hi!
   command %r|^(\$[^\s]+)\s+(.*)$| do |m|
@@ -95,22 +133,42 @@ Earthquake.init do
     input(":status #{m[1]}")
   end
 
+  help :status, "shows status", <<-HELP
+    [$aa] hello world
+    ⚡ :status $aa
+     [$aa] hello world
+    ⚡ $aa
+     [$aa] hello world
+  HELP
+
   command :delete do |m|
     tweet = twitter.status(m[1])
     async_e { twitter.status_destroy(m[1]) } if confirm("delete '#{tweet["text"]}'")
   end
 
+  help :delete, "deletes status", <<-HELP
+    [$aa] hello world
+    ⚡ :delete $aa
+    delete 'hello world' [Yn] Y
+  HELP
+
   command :mentions do
     puts_items twitter.mentions
   end
+
+  help :mentions, "show mentions timeline"
 
   command :follow do |m|
     async_e { twitter.friend(m[1]) }
   end
 
+  help :follow, "follow user"
+
   command :unfollow do |m|
     async_e { twitter.unfriend(m[1]) }
   end
+
+  help :unfollow, "unfollow user"
 
   command :recent do
     puts_items twitter.home_timeline(:count => config[:recent_count])
@@ -126,9 +184,21 @@ Earthquake.init do
     puts_items twitter.list_statuses(m[1], m[2])
   end
 
+  help :recent, "show recent tweets", <<-HELP
+    ⚡ :recent
+    ⚡ :recent user
+    ⚡ :recent user/list
+  HELP
+
   command :user do |m|
-    ap twitter.show(m[1]).slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
+    user = twitter.show(m[1])
+    if user.key?("error")
+      user = twitter.status(m[1])["user"] || {}
+    end
+    ap user.slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
   end
+
+  help :user, "show user info"
 
   command :search do |m|
     search_options = config[:search_options] ? config[:search_options].dup : {}
@@ -147,6 +217,49 @@ Earthquake.init do
     }
   end
 
+  help :search, "searches term"
+
+  default_stream = {
+    method: "POST",
+    host: "userstream.twitter.com",
+    path: "/2/user.json",
+    ssl: true,
+  }
+
+  filter_stream = {
+    method: "POST",
+    host: "stream.twitter.com",
+    path: "/1/statuses/filter.json",
+    ssl: true,
+  }
+
+  command %r!^:filter off$!, as: :filter do
+    config[:api] = default_stream
+    reconnect
+  end
+
+  command %r!^:filter keyword (.*)$!, as: :filter do |m|
+    keywords = Shellwords.split(m[1])
+    config[:api] = filter_stream.merge(filters: keywords)
+    reconnect
+  end
+
+  command %r!:filter user (.*)$!, as: :filter do |m|
+    users = m[1].split.map{|user|
+      twitter.show(user)["id"]
+    }.compact.join(",")
+    unless users.empty?
+      config[:api] = filter_stream.merge(params: {follow: users})
+      reconnect
+    end
+  end
+
+  help :filter, "manages filters", <<-HELP
+    ⚡ :filter off
+    ⚡ :filter keyword annoyingsubject
+    ⚡ :filter user annoyinguser
+  HELP
+
   command %r|^:retweet\s+(\d+)$|, :as => :retweet do |m|
     target = twitter.status(m[1])
     if confirm("retweet 'RT @#{target["user"]["screen_name"]}: #{target["text"]}'")
@@ -162,12 +275,19 @@ Earthquake.init do
     end
   end
 
+  help :retweet, "retweets or quote status", <<-HELP
+    ⚡ :retweet $aa
+    ⚡ :retweet $aa // LOL
+  HELP
+
   command :favorite do |m|
     tweet = twitter.status(m[1])
     if confirm("favorite '#{tweet["user"]["screen_name"]}: #{tweet["text"]}'")
       async_e { twitter.favorite(m[1]) }
     end
   end
+
+  help :favorite, "marks status as favorite"
 
   command :unfavorite do |m|
     tweet = twitter.status(m[1])
@@ -176,29 +296,43 @@ Earthquake.init do
     end
   end
 
+  help :unfavorite, "unmarks status as favorite"
+
   command :retweeted_by_me do
     puts_items twitter.retweeted_by_me
   end
+
+  help :retweeted_by_me, "shows the latest retweets you made"
 
   command :retweeted_to_me do
     puts_items twitter.retweeted_to_me
   end
 
+  help :retweeted_to_me, "shows the latest retweets someone you follow made"
+
   command :retweets_of_me do
     puts_items twitter.retweets_of_me
   end
+
+  help :retweets_of_me, "shows your latest status somebody retweeted"
 
   command :block do |m|
     async_e { twitter.block(m[1]) }
   end
 
+  help :block, "blocks user"
+
   command :unblock do |m|
     async_e { twitter.unblock(m[1]) }
   end
 
+  help :unblock, "unblocks user"
+
   command :report_spam do |m|
     async_e { twitter.report_spam(m[1]) }
   end
+
+  help :report_spam, "blocks user and report as spam"
 
   command :messages do
     puts_items twitter.messages.each { |s|
@@ -207,6 +341,8 @@ Earthquake.init do
     }
   end
 
+  help :messages, "list direct messages received"
+
   command :sent_messages do
     puts_items twitter.sent_messages.each { |s|
       s["user"] = {"screen_name" => s["sender_screen_name"]}
@@ -214,9 +350,13 @@ Earthquake.init do
     }
   end
 
+  help :sent_messages, "list direct messages sent"
+
   command %r|^:message (\w+)\s+(.*)|, :as => :message do |m|
     async_e { twitter.message(*m[1, 2]) } if confirm("message '#{m[2]}' to @#{m[1]}")
   end
+
+  help :message, "sent a direct message"
 
   command :reconnect do
     reconnect
@@ -234,18 +374,27 @@ Earthquake.init do
     }
   end
 
+  help :thread, "displays conversation thread"
+
   command :update_profile_image do |m|
     image_path = File.expand_path(m[1].gsub('\\', ''))
     async_e { twitter.update_profile_image(File.open(image_path, 'rb')) }
   end
 
+  help :update_profile_image, "updates profile image from local file path"
+
   command %r|^:open\s+(\d+)$|, :as => :open do |m|
-    if match = twitter.status(m[1])["text"].match(URI.regexp(["http", "https"]))
-      browse match[0]
+    matches = URI.extract(twitter.status(m[1])["text"],["http", "https"])
+    unless matches.empty?
+      matches.each do |match_url|
+        browse match_url
+      end
     else
       puts "no link found".c(41)
     end
   end
+
+  help :open, "opens all links in a tweet"
 
   command :browse do |m|
     url = case m[1]
@@ -257,16 +406,32 @@ Earthquake.init do
     browse url
   end
 
+  help :browse, "opens the browser on a tweet or a user", <<-HELP
+    ⚡ :browse $aa
+    ⚡ :browse username
+  HELP
+
   command :sh do
     system ENV["SHELL"] || 'sh'
   end
 
-  command :'!' do |m|
-    system eval("\"#{m[1]}\"").to_s
+  help :sh, "opens a shell"
+
+  command %r|:!(.+)| do |m|
+    command = m[1].strip
+    puts "`#{command}`"
+    system eval("\"#{command}\"").to_s
   end
 
   command :plugin_install do |m|
     uri = URI.parse(m[1])
+    if uri.host == "t.co"
+      begin
+        open(uri, redirect: false)
+      rescue OpenURI::HTTPRedirect => e
+        uri = URI.parse(e.io.meta["location"])
+      end
+    end
     unless uri.host == "gist.github.com"
       puts "the host must be gist.github.com".c(41)
     else
@@ -285,23 +450,39 @@ Earthquake.init do
       if confirm("Install to '#{filepath}'?")
         File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
           file << raw
-          file << "\n# #{m[1]}"
+          file << "\n# #{uri}\n"
         end
         reload
       end
     end
   end
 
+  help :plugin_install, "installs a plugin from gist.github.com"
+
   command :edit_config do
     editor = ENV["EDITOR"] || 'vim'
     system "#{editor} #{config[:file]}"
   end
 
+  help :edit_config, "edit your config; note that changes may require to :restart"
+
   command %r|^:alias\s+?(:\w+)\s+(.+)|, :as => :alias do |m|
     alias_command m[1], m[2]
   end
 
+  help :alias, "creates a new command aliasing to an existing one", <<-HELP
+    ⚡ :alias :rt :retweet
+  HELP
+
+  command :aliases do
+    ap command_aliases
+  end
+
+  help :aliases, "shows aliases"
+
   command :reauthorize do
     get_access_token
   end
+
+  help :reauthorize, "prompts for new oauth credentials"
 end
