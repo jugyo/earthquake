@@ -14,7 +14,7 @@ rescue => e
   puts e
   exit!
 end
-options = slop.to_hash(true)
+options = slop.to_hash
 options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
