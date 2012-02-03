@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "earthquake"
-  s.version = "0.8.3"
+  s.version = "0.8.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["jugyo"]
-  s.date = "2011-10-23"
+  s.date = "2012-02-03"
   s.description = "Twitter Client on Terminal with Twitter Streaming API."
   s.email = "jugyo.org@gmail.com"
   s.executables = ["earthquake"]
@@ -46,7 +46,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.11"
   s.summary = "Twitter Client on Terminal."
   s.test_files = [
     "spec/earthquake_spec.rb",
