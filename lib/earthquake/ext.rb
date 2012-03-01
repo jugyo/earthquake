@@ -32,8 +32,6 @@ end
 
 class String
   def c(*codes)
-    return self if Earthquake.config[:lolize]
-
     codes = codes.flatten.map { |code|
       case code
       when String, Symbol
@@ -46,8 +44,6 @@ class String
   end
 
   def coloring(pattern, color = nil, &block)
-    return self if Earthquake.config[:lolize]
-
     self.gsub(pattern) do |i|
       applied_colors = $`.scan(/\e\[[\d;]+m/)
       c = color || block.call(i)

@@ -7,7 +7,6 @@ slop.banner "Usage: earthquake [options] [directory]"
 slop.on :d, :debug, 'Enable debug mode'
 slop.on :n, :'no-logo', 'No Logo'
 slop.on :c, :command, "Invoke a command and exit", true
-slop.on :l, :lolize, 'enable lolize (see: https://github.com/miaout17/lolize)'
 begin
   slop.parse!(argv)
 rescue => e
@@ -24,8 +23,6 @@ require "earthquake/version"
 
 command = options.delete(:command)
 no_logo = options.delete(:'no-logo')
-
-require 'lolize/auto' if options[:lolize]
 
 if !no_logo && !command
   print "\e[31m"
