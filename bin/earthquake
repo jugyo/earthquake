@@ -19,9 +19,8 @@ options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
 require 'pathname'
-eq_dir = Pathname.new(__FILE__).realpath.parent.parent
-
-$:.unshift eq_dir.join('lib') if $0 == __FILE__
+$:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
+require "earthquake/version"
 
 command = options.delete(:command)
 no_logo = options.delete(:'no-logo')
@@ -37,7 +36,7 @@ if !no_logo && !command
 |  __/ (_| | |  | |_| | | | (_| | |_| | (_| |   <  __/
  \___|\__,_|_|   \__|_| |_|\__, |\__,_|\__,_|_|\_\___|
                               |_|           }.
-  gsub(/^\n/, '') + "v#{eq_dir.join('VERSION').read}".rjust(10) + "\n\n"
+  gsub(/^\n/, '') + "v#{Earthquake::VERSION}".rjust(10) + "\n\n"
   print "\e[0m"
 end
 
