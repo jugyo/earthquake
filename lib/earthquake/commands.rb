@@ -415,6 +415,10 @@ Earthquake.init do
     system ENV["SHELL"] || 'sh'
   end
 
+  command %r|^:sh\s+(.+)$|, :as => :sh do |m|
+    system m[1]
+  end
+
   help :sh, "opens a shell"
 
   command %r|:!(.+)| do |m|
