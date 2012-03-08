@@ -27,4 +27,5 @@ Encoding.default_external = Encoding.find('UTF-8')
   help
   commands
   id_var
+  entities
 ).each { |name| require_dependency File.expand_path("../earthquake/#{name}", __FILE__) }
