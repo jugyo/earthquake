@@ -100,23 +100,9 @@ module Earthquake
 
       id = id2var(item["id"])
 
-      text = (item["retweeted_status"] && item["truncated"] ? "RT @#{item["retweeted_status"]["user"]["screen_name"]}: #{item["retweeted_status"]["text"]}" : item["text"]).u
+      text = Entities.apply(item)
       text.gsub!(/\s+/, ' ') unless config[:raw_text]
       text.prepend("\n") if config[:raw_text]
-      text = text.coloring(/@[0-9A-Za-z_]+/) { |i| color_of(i) }
-      text = text.coloring(/(^#[^\s]+)|(\s+#[^\s]+)/) { |i| color_of(i) }
-      if config[:expand_url]
-        entities = (item["retweeted_status"] && item["truncated"]) ? item["retweeted_status"]["entities"] : item["entities"]
-        if entities
-          entities.values_at("urls", "media").flatten.compact.each do |entity|
-            url, expanded_url = entity.values_at("url", "expanded_url")
-            if url && expanded_url
-              text = text.sub(url, expanded_url)
-            end
-          end
-        end
-      end
-      text = text.coloring(URI.regexp(["http", "https"]), :url)
 
       if item["_highlights"]
         item["_highlights"].each do |h|
