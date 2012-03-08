@@ -49,6 +49,23 @@ module Earthquake
           options
         )
       end
+
+      private
+
+      def get_with_entities(path, headers = {})
+        separator =
+          case URI.parse(path).query
+          when nil
+            "?"
+          when ""
+            ""
+          else
+            "&"
+          end
+        get_without_entities(path + separator + "include_entities=1", headers)
+      end
+
+      alias_method_chain :get, :entities
     end
   end
 
