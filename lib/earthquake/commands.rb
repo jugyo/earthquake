@@ -419,11 +419,11 @@ Earthquake.init do
     ⚡ :browse username
   HELP
 
-  command :sh do
+  command :shell do
     system ENV["SHELL"] || 'sh'
   end
-
-  help :sh, "opens a shell"
+  alias_command :sh, :shell
+  help :shell, "opens a shell"
 
   command %r|:!(.+)| do |m|
     command = m[1].strip
