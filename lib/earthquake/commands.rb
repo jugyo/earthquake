@@ -64,6 +64,14 @@ Earthquake.init do
     ⚡ :eval 1 + 1
   HELP
 
+  command :eval_update do |m|
+    input ":update #{eval(m[1])}"
+  end
+  alias_command :eu, :eval_update
+  help :eval_update, 'eval and update the result', <<-HELP
+    ⚡ :eval_update 1 + 1
+  HELP
+
   command :aa do |m|
     begin
       raw_text, config[:raw_text] = config[:raw_text], true
