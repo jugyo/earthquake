@@ -161,7 +161,7 @@ Earthquake.init do
   HELP
 
   command :mentions do
-    puts_items twitter.mentions
+    puts_items twitter.mentions(:include_entities => :true)
   end
 
   help :mentions, "show mentions timeline"
