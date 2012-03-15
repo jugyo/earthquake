@@ -493,4 +493,13 @@ Earthquake.init do
   end
 
   help :reauthorize, "prompts for new oauth credentials"
+
+  command %r{^:api\s+(get|post|delete|GET|POST|DELETE)\s+(.*)}, :as => :api do |m|
+    _, http_method, path = *m
+    ap twitter.send(http_method.downcase.to_sym, path)
+  end
+  help :api, "call twitter api ", <<-HELP
+    ⚡ :api post /statuses/update.json?status=test
+    ⚡ :api get /statuses/mentions.json?trim_user=true
+  HELP
 end
