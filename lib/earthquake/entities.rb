@@ -80,7 +80,7 @@ module Earthquake
     class Url < UrlBase
     end
 
-    class Media < UrlBase
+    class Medium < UrlBase
     end
 
     class Hashtag < Base
