@@ -19,6 +19,8 @@ end
 
 module TwitterOAuth
   class Client
+    [:get, :post, :delete].each { |m| public m }
+
     private
     def consumer
       @consumer ||= OAuth::Consumer.new(
