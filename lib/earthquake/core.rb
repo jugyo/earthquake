@@ -39,6 +39,7 @@ module Earthquake
     end
 
     def reload
+      Gem.refresh
       loaded = ActiveSupport::Dependencies.loaded.dup
       ActiveSupport::Dependencies.clear
       loaded.each { |lib| require_dependency lib }
