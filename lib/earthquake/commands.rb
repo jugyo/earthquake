@@ -378,7 +378,7 @@ Earthquake.init do
     end
     print "\e[2K\e[0G"
     puts_items thread.reverse_each.with_index{|tweet, indent|
-      tweet["_mark"] = "  " * indent
+      tweet["_mark"] = config[:thread_indent] * indent
     }
   end
 
