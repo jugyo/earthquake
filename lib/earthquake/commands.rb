@@ -64,6 +64,14 @@ Earthquake.init do
     ⚡ :eval 1 + 1
   HELP
 
+  command :eval_update do |m|
+    input ":update #{eval(m[1])}"
+  end
+  alias_command :eu, :eval_update
+  help :eval_update, 'eval and update the result', <<-HELP
+    ⚡ :eval_update 1 + 1
+  HELP
+
   command :aa do |m|
     begin
       raw_text, config[:raw_text] = config[:raw_text], true
@@ -153,7 +161,7 @@ Earthquake.init do
   HELP
 
   command :mentions do
-    puts_items twitter.mentions
+    puts_items twitter.mentions(:include_entities => :true)
   end
 
   help :mentions, "show mentions timeline"
@@ -370,7 +378,7 @@ Earthquake.init do
     end
     print "\e[2K\e[0G"
     puts_items thread.reverse_each.with_index{|tweet, indent|
-      tweet["_mark"] = "  " * indent
+      tweet["_mark"] = config[:thread_indent] * indent
     }
   end
 
@@ -411,11 +419,11 @@ Earthquake.init do
     ⚡ :browse username
   HELP
 
-  command :sh do
+  command :shell do
     system ENV["SHELL"] || 'sh'
   end
-
-  help :sh, "opens a shell"
+  alias_command :sh, :shell
+  help :shell, "opens a shell"
 
   command %r|:!(.+)| do |m|
     command = m[1].strip
@@ -485,4 +493,13 @@ Earthquake.init do
   end
 
   help :reauthorize, "prompts for new oauth credentials"
+
+  command %r{^:api\s+(get|post|delete|GET|POST|DELETE)\s+(.*)}, :as => :api do |m|
+    _, http_method, path = *m
+    ap twitter.send(http_method.downcase.to_sym, path)
+  end
+  help :api, "call twitter api ", <<-HELP
+    ⚡ :api post /statuses/update.json?status=test
+    ⚡ :api get /statuses/mentions.json?trim_user=true
+  HELP
 end
