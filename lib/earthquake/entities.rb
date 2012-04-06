@@ -8,10 +8,10 @@ module Earthquake
           return "RT #{"@#{screen_name}".c(Earthquake.color_of(screen_name))}: #{text}"
         end
         text, item_entities = item.values_at("text", "entities")
-        text = text.dup
         if item_entities
-          parse(item_entities).inject(0) do |offset, entity|
-            offset + entity.apply(text, offset)
+          text = text.dup
+          parse(item_entities).reverse_each do |entity|
+            entity.apply(text)
           end
         end
         text.u
@@ -39,10 +39,9 @@ module Earthquake
         @first
       end
 
-      def apply(text, offset)
-        colored_text = coloring
-        text[range(offset)] = colored_text
-        colored_text.size - size
+      def apply(text)
+        text[@first...@last] = colored_text
+        text
       end
 
       def string
@@ -51,15 +50,7 @@ module Earthquake
 
       private
 
-      def size
-        @last - @first
-      end
-
-      def range(offset)
-        (@first + offset) ... (@last + offset)
-      end
-
-      def coloring
+      def colored_text
         s = string
         s.c(Earthquake.color_of(s))
       end
@@ -72,7 +63,7 @@ module Earthquake
 
       private
 
-      def coloring
+      def colored_text
         string.c(:url)
       end
     end
