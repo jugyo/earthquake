@@ -56,7 +56,7 @@ Earthquake.init do
       preferred_config.store(key, value)
       reload
     end
-    ap config[key]
+    ap config.slice(key)
   end
 
   help :config, 'show or set config', <<-HELP
