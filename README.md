@@ -142,6 +142,20 @@ Commands
     # return to normal user stream
     ⚡ :filter off
 
+### Show config
+
+    # All config
+    ⚡ :config
+
+    # config for :key
+    ⚡ :config key
+
+### Set config
+
+    # set config for :key to (evaluated) value
+    ⚡ :config key 1 + 1
+    2
+
 And more!
 
 Configuration

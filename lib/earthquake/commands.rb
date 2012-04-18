@@ -42,6 +42,29 @@ Earthquake.init do
     ⚡ :help :retweet
   HELP
 
+  # :config
+
+  command :config do
+    ap config
+  end
+
+  command :config do |m|
+    key, value = m[1].split(/\s+/, 2)
+    key = key.to_sym
+    if value
+      value = eval(value)
+      preferred_config.store(key, value)
+      reload
+    end
+    ap config.slice(key)
+  end
+
+  help :config, 'show or set config', <<-HELP
+    ⚡ :config
+    ⚡ :config key
+    ⚡ :config key value
+  HELP
+
   # :restart
 
   command :restart do
