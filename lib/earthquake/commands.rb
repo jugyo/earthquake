@@ -54,7 +54,7 @@ Earthquake.init do
     if value
       value = eval(value)
       preferred_config.store(key, value)
-      load_config
+      reload
     end
     ap config[key]
   end
