@@ -88,7 +88,13 @@ module Earthquake
         File.open(config[:file], 'w')
       end
 
-      config.update(preferred_config)
+      config.update(preferred_config) do |key, cur, new|
+        if Hash === cur and Hash === new
+          cur.merge(new)
+        else
+          new
+        end
+      end
 
       get_access_token unless self.config[:token] && self.config[:secret]
     end
