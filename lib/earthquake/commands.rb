@@ -108,16 +108,29 @@ Earthquake.init do
     ⚡ :aa :status $aa
   HELP
 
+  def self._eval_as_ruby_string(text)
+    return text unless config[:eval_as_ruby_string_for_update]
+    begin
+      text = eval("\"#{text}\"")
+    rescue Exception => e
+      puts e.message.c(:notice)
+    ensure
+      text
+    end
+  end
+
   command %r|^:update$|, :as => :update do
     puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
     text = STDIN.gets(nil)
+    text = _eval_as_ruby_string(text)
     if text && !text.split.empty?
       async_e{ twitter.update(text) } if confirm("update above AA?")
     end
   end
 
   command :update do |m|
-    async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    text = _eval_as_ruby_string(m[1])
+    async_e { twitter.update(text) } if confirm("update '#{text}'")
   end
 
   command %r|^[^:\$].*| do |m|
