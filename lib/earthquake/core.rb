@@ -85,7 +85,7 @@ module Earthquake
       if File.exists?(config[:file])
         load config[:file]
       else
-        File.open(config[:file], 'w')
+        File.open(config[:file], mode: 'w', perm: 0600).close
       end
 
       config.update(preferred_config) do |key, cur, new|
