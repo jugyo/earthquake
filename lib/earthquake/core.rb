@@ -148,7 +148,7 @@ module Earthquake
           end
         end
 
-        reconnect
+        reconnect unless options[:'no-stream'] == true
 
         trap('INT') { stop }
       end
