@@ -111,12 +111,11 @@ Earthquake.init do
   def self._eval_as_ruby_string(text)
     return text unless config[:eval_as_ruby_string_for_update]
     begin
-      text = eval("\"#{text}\"")
+      text = eval(%|"#{text.gsub('"', '\"')}"|)
     rescue Exception => e
       puts e.message.c(:notice)
-    ensure
-      text
     end
+    text
   end
 
   command %r|^:update$|, :as => :update do
