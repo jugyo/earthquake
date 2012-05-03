@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 require 'slop'
+require 'stringio'
 
 argv = ARGV.dup
-slop = Slop.new(:strict => true, :help => true)
+io = StringIO.new
+slop = Slop.new(:strict => true, :help => true, :exit_on_help => false, :io => io)
 slop.banner "Usage: earthquake [options] [directory]"
 slop.on :d, :debug, 'Enable debug mode'
 slop.on :l, :logo, 'Show Logo', default: true
@@ -11,6 +13,17 @@ slop.on :c, :command=, "Invoke a command and exit"
 slop.on :stream, "Stream mode", default: true
 begin
   slop.parse!(argv)
+  (help = io.string).each_line do |line|
+    if m = /\A.{8}--(\S+ {5})/.match(line)
+      name = m[1].rstrip
+      if name != "help" and !slop.options[name.to_sym].expects_argument?
+        puts line.sub(m[1], "[no-]" + name)
+        next
+      end
+    end
+    puts line
+  end
+  exit unless help.empty?
 rescue => e
   puts e
   exit!
