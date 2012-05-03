@@ -5,9 +5,10 @@ argv = ARGV.dup
 slop = Slop.new(:strict => true, :help => true)
 slop.banner "Usage: earthquake [options] [directory]"
 slop.on :d, :debug, 'Enable debug mode'
-slop.on :n, :'no-logo', 'No Logo'
-slop.on :c, :command, "Invoke a command and exit", true
-slop.on :'--no-stream', "No stream mode"
+slop.on :l, :logo, 'Show Logo', default: true
+slop.on :n, 'No Logo (deprecated)'
+slop.on :c, :command=, "Invoke a command and exit"
+slop.on :stream, "Stream mode", default: true
 begin
   slop.parse!(argv)
 rescue => e
@@ -15,6 +16,10 @@ rescue => e
   exit!
 end
 options = slop.to_hash
+if options.delete(:n)
+  warn "-n is deprecated. use --no-logo instead."
+  options.delete(:logo)
+end
 options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
@@ -23,9 +28,9 @@ $:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
 require "earthquake/version"
 
 command = options.delete(:command)
-no_logo = options.delete(:'no-logo')
+logo = options.delete(:logo)
 
-if !no_logo && !command
+if logo && !command
   print "\e[31m"
   puts %q{
                  _   _                       _
