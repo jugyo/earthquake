@@ -171,7 +171,8 @@ module Earthquake
       when "favorite", "unfavorite"
         puts "#{item["source"]["screen_name"]} => #{item["target"]["screen_name"]} : #{item["target_object"]["text"].u}"
       when "list_member_added", "list_member_removed"
-        puts "#{item["target_object"]["full_name"]} (#{item["target_object"]["description"]})"
+        add_or_rm = item["event"] == "list_member_added" ? "added to" : "removed from"
+        puts "#{item["target"]["screen_name"]} #{add_or_rm} #{item["target_object"]["full_name"]} (#{item["target_object"]["description"]})"
       else
         if config[:debug]
           ap item
