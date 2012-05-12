@@ -7,6 +7,10 @@ module Earthquake
       @config ||= {}
     end
 
+    def preferred_config
+      @preferred_config ||= {}
+    end
+
     def item_queue
       @item_queue ||= []
     end
@@ -49,22 +53,28 @@ module Earthquake
       _init
     end
 
-    def load_config
+    def default_config
       consumer = YAML.load_file(File.expand_path('../../../consumer.yml', __FILE__))
+      dir = File.expand_path('~/.earthquake')
+      {
+        dir:             dir,
+        time_format:     Time::DATE_FORMATS[:short],
+        plugin_dir:      File.join(dir, 'plugin'),
+        file:            File.join(dir, 'config'),
+        prompt:          '⚡ ',
+        consumer_key:    consumer['key'],
+        consumer_secret: consumer['secret'],
+        output_interval: 1,
+        history_size:    1000,
+        api:             { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true },
+        confirm_type:    :y,
+        expand_url:      false,
+        thread_indent:   "  ",
+      }
+    end
 
-      config[:dir]              ||= File.expand_path('~/.earthquake')
-      config[:time_format]      ||= Time::DATE_FORMATS[:short]
-      config[:plugin_dir]       ||= File.join(config[:dir], 'plugin')
-      config[:file]             ||= File.join(config[:dir], 'config')
-      config[:prompt]           ||= '⚡ '
-      config[:consumer_key]     ||= consumer['key']
-      config[:consumer_secret]  ||= consumer['secret']
-      config[:output_interval]  ||= 1
-      config[:history_size]     ||= 1000
-      config[:api]              ||= { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true }
-      config[:confirm_type]     ||= :y
-      config[:expand_url]       ||= false
-      config[:thread_indent]    ||= "  "
+    def load_config
+      config.reverse_update(default_config)
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -75,7 +85,15 @@ module Earthquake
       if File.exists?(config[:file])
         load config[:file]
       else
-        File.open(config[:file], 'w')
+        File.open(config[:file], mode: 'w', perm: 0600).close
+      end
+
+      config.update(preferred_config) do |key, cur, new|
+        if Hash === cur and Hash === new
+          cur.merge(new)
+        else
+          new
+        end
       end
 
       get_access_token unless self.config[:token] && self.config[:secret]
@@ -130,7 +148,7 @@ module Earthquake
           end
         end
 
-        reconnect
+        reconnect unless options[:'no-stream'] == true
 
         trap('INT') { stop }
       end

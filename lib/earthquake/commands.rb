@@ -42,6 +42,29 @@ Earthquake.init do
     ⚡ :help :retweet
   HELP
 
+  # :config
+
+  command :config do
+    ap config
+  end
+
+  command :config do |m|
+    key, value = m[1].split(/\s+/, 2)
+    key = key.to_sym
+    if value
+      value = eval(value)
+      preferred_config.store(key, value)
+      reload
+    end
+    ap config.slice(key)
+  end
+
+  help :config, 'show or set config', <<-HELP
+    ⚡ :config
+    ⚡ :config key
+    ⚡ :config key value
+  HELP
+
   # :restart
 
   command :restart do
@@ -85,16 +108,28 @@ Earthquake.init do
     ⚡ :aa :status $aa
   HELP
 
+  def self._eval_as_ruby_string(text)
+    return text unless config[:eval_as_ruby_string_for_update]
+    begin
+      text = eval(%|"#{text.gsub('"', '\"')}"|)
+    rescue Exception => e
+      puts e.message.c(:notice)
+    end
+    text
+  end
+
   command %r|^:update$|, :as => :update do
     puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
     text = STDIN.gets(nil)
+    text = _eval_as_ruby_string(text)
     if text && !text.split.empty?
       async_e{ twitter.update(text) } if confirm("update above AA?")
     end
   end
 
   command :update do |m|
-    async_e { twitter.update(m[1]) } if confirm("update '#{m[1]}'")
+    text = _eval_as_ruby_string(m[1])
+    async_e { twitter.update(text) } if confirm("update '#{text}'")
   end
 
   command %r|^[^:\$].*| do |m|

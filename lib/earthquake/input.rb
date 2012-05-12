@@ -124,12 +124,12 @@ module Earthquake
 
     completion do |text|
       regexp = /^#{Regexp.quote(text)}/
-      results = (command_names + command_aliases.keys).grep(regexp)
-      next results if text.start_with?(?:) and (Readline.point rescue nil) == text.size
-      history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
-      history.inject(results){|r, line|
-        r | line.split.grep(regexp)
-      }
+      if text.start_with?(?:) && Readline.line_buffer.strip == text
+        (command_names + command_aliases.keys).grep(regexp)
+      else
+        history = Readline::HISTORY.reverse_each.take(config[:history_size]) | @tweets_for_completion
+        history.inject([]){ |r, line| r | line.split.grep(regexp) }
+      end
     end
 
     @tweets_for_completion ||= []
