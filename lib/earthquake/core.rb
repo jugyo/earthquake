@@ -124,8 +124,8 @@ module Earthquake
       __init(options)
       restore_history
 
-      EventMachine::run do
-        EventMachine.defer(
+      EM.run do
+        EM.defer(
           lambda {
             while buf = Readline.readline(config[:prompt], true)
               unless Readline::HISTORY.count == 1
@@ -144,7 +144,7 @@ module Earthquake
           }
         )
 
-        EventMachine.add_periodic_timer(config[:output_interval]) do
+        EM.add_periodic_timer(config[:output_interval]) do
           next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
           sync { output }
         end
@@ -195,7 +195,7 @@ module Earthquake
 
     def stop
       stop_stream
-      EventMachine.stop_event_loop
+      EM.stop_event_loop
     end
 
     def store_history
