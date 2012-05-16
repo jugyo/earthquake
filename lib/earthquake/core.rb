@@ -139,13 +139,9 @@ module Earthquake
           stop
         end
 
-        Thread.start do
-          loop do
-            if Readline.line_buffer.nil? || Readline.line_buffer.empty?
-              sync { output }
-            end
-            sleep config[:output_interval]
-          end
+        EventMachine.add_periodic_timer(config[:output_interval]) do
+          next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
+          sync { output }
         end
 
         reconnect unless options[:'no-stream'] == true
