@@ -125,19 +125,24 @@ module Earthquake
       restore_history
 
       EventMachine::run do
-        Thread.start do
-          while buf = Readline.readline(config[:prompt], true)
-            unless Readline::HISTORY.count == 1
-              Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
+        EventMachine.defer(
+          lambda {
+            while buf = Readline.readline(config[:prompt], true)
+              unless Readline::HISTORY.count == 1
+                Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
+              end
+              sync {
+                reload
+                store_history
+                input(buf.strip)
+              }
             end
-            sync {
-              reload
-              store_history
-              input(buf.strip)
-            }
-          end
-          stop
-        end
+          },
+          lambda { |_|
+            # unexpected
+            stop
+          }
+        )
 
         EventMachine.add_periodic_timer(config[:output_interval]) do
           next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
