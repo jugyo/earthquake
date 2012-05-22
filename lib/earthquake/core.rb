@@ -124,7 +124,7 @@ module Earthquake
       __init(options)
       restore_history
 
-      EventMachine::run do
+      EM.run do
         Thread.start do
           while buf = Readline.readline(config[:prompt], true)
             unless Readline::HISTORY.count == 1
@@ -136,16 +136,13 @@ module Earthquake
               input(buf.strip)
             }
           end
+          # unexpected
           stop
         end
 
-        Thread.start do
-          loop do
-            if Readline.line_buffer.nil? || Readline.line_buffer.empty?
-              sync { output }
-            end
-            sleep config[:output_interval]
-          end
+        EM.add_periodic_timer(config[:output_interval]) do
+          next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
+          sync { output }
         end
 
         reconnect unless options[:'no-stream'] == true
@@ -194,7 +191,7 @@ module Earthquake
 
     def stop
       stop_stream
-      EventMachine.stop_event_loop
+      EM.stop_event_loop
     end
 
     def store_history
