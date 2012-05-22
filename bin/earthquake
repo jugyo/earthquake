@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+gem 'slop', '~> 2.0'
 require 'slop'
 
 argv = ARGV.dup
