@@ -55,7 +55,7 @@ module Earthquake
 
     def default_config
       consumer = YAML.load_file(File.expand_path('../../../consumer.yml', __FILE__))
-      dir = File.expand_path('~/.earthquake')
+      dir = config[:dir] || File.expand_path('~/.earthquake')
       {
         dir:             dir,
         time_format:     Time::DATE_FORMATS[:short],
