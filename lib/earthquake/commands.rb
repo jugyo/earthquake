@@ -122,14 +122,20 @@ Earthquake.init do
     puts "[input EOF (e.g. Ctrl+D) at the last]".c(:info)
     text = STDIN.gets(nil)
     text = _eval_as_ruby_string(text)
-    if text && !text.split.empty?
+    if text && !text.split.empty? && text.length <= 140
       async_e{ twitter.update(text) } if confirm("update above AA?")
+    elsif text.length > 140
+      puts "Your status update is too long..."
     end
   end
 
   command :update do |m|
     text = _eval_as_ruby_string(m[1])
-    async_e { twitter.update(text) } if confirm("update '#{text}'")
+    if text.length <= 140
+      async_e { twitter.update(text) } if confirm("update '#{text}'")
+    else
+      puts "Your status update is too long..."
+    end
   end
 
   command %r|^[^:\$].*| do |m|
