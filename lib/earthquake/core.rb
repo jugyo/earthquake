@@ -141,8 +141,9 @@ module Earthquake
         end
 
         EM.add_periodic_timer(config[:output_interval]) do
-          next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
-          sync { output }
+          if Readline.line_buffer.blank?
+            sync { output }
+          end
         end
 
         reconnect unless options[:'no-stream'] == true
