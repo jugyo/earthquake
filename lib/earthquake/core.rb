@@ -70,6 +70,7 @@ module Earthquake
         confirm_type:    :y,
         expand_url:      false,
         thread_indent:   "  ",
+        no_data_timeout: 30
       }
     end
 
@@ -141,6 +142,13 @@ module Earthquake
         end
 
         EM.add_periodic_timer(config[:output_interval]) do
+          if @last_data_received_at && Time.now - @last_data_received_at > config[:no_data_timeout]
+            begin
+              reconnect
+            rescue EventMachine::ConnectionError => e
+              error(e)
+            end
+          end
           if Readline.line_buffer.blank?
             sync { output }
           end
@@ -170,6 +178,7 @@ module Earthquake
       @stream = ::Twitter::JSONStream.connect(options)
 
       @stream.each_item do |item|
+        @last_data_received_at = Time.now # for reconnect when no data
         item_queue << JSON.parse(item)
       end
 
