@@ -146,7 +146,7 @@ module Earthquake
             begin
               reconnect
             rescue EventMachine::ConnectionError => e
-              error(e)
+              # ignore
             end
           end
           if Readline.line_buffer.blank?
