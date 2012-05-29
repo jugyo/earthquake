@@ -149,7 +149,7 @@ module Earthquake
               # ignore
             end
           end
-          if Readline.line_buffer.blank?
+          if Readline.line_buffer.nil? || Readline.line_buffer.empty?
             sync { output }
           end
         end
