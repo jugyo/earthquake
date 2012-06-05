@@ -55,7 +55,7 @@ module Earthquake
 
     def default_config
       consumer = YAML.load_file(File.expand_path('../../../consumer.yml', __FILE__))
-      dir = File.expand_path('~/.earthquake')
+      dir = config[:dir] || File.expand_path('~/.earthquake')
       {
         dir:             dir,
         time_format:     Time::DATE_FORMATS[:short],
@@ -70,6 +70,7 @@ module Earthquake
         confirm_type:    :y,
         expand_url:      false,
         thread_indent:   "  ",
+        no_data_timeout: 30
       }
     end
 
@@ -141,8 +142,16 @@ module Earthquake
         end
 
         EM.add_periodic_timer(config[:output_interval]) do
-          next unless Readline.line_buffer.nil? || Readline.line_buffer.empty?
-          sync { output }
+          if @last_data_received_at && Time.now - @last_data_received_at > config[:no_data_timeout]
+            begin
+              reconnect
+            rescue EventMachine::ConnectionError => e
+              # ignore
+            end
+          end
+          if Readline.line_buffer.nil? || Readline.line_buffer.empty?
+            sync { output }
+          end
         end
 
         reconnect unless options[:'no-stream'] == true
@@ -169,6 +178,7 @@ module Earthquake
       @stream = ::Twitter::JSONStream.connect(options)
 
       @stream.each_item do |item|
+        @last_data_received_at = Time.now # for reconnect when no data
         item_queue << JSON.parse(item)
       end
 

@@ -154,7 +154,24 @@ Commands
 
     # set config for :key to (evaluated) value
     ⚡ :config key 1 + 1
-    2
+    {
+        :key => 2
+    }
+    ⚡ :config key {foo: 1, bar: 2}
+    {
+        :key => {
+            :foo => 1,
+            :bar => 2
+        }
+    }
+    # merge new config if both are Hash
+    ⚡ :config key {bar: 3}
+    {
+        :key => {
+            :foo => 1,
+            :bar => 3
+        }
+    }
 
 And more!
 
