@@ -480,15 +480,15 @@ Earthquake.init do
     else
       puts "..."
       gist_id = uri.path[/\d+/]
-      meta = JSON.parse(open("https://gist.github.com/api/v1/json/#{gist_id}").read)
-      filename = meta["gists"][0]["files"][0]
+      meta = JSON.parse(open("https://api.github.com/gists/#{gist_id}").read)
+      filename = meta["files"].keys[0]
       raw = open("https://gist.github.com/raw/#{gist_id}/#{filename}").read
 
       puts '-' * 80
       puts raw.c(36)
       puts '-' * 80
 
-      filename = "#{meta["gists"][0]["repo"]}.rb" if filename =~ /^gistfile/
+      filename = "#{meta["id"]}.rb" if filename =~ /^gistfile/
       filepath = File.join(config[:plugin_dir], filename)
       if confirm("Install to '#{filepath}'?")
         File.open(File.join(config[:plugin_dir], filename), 'w') do |file|
