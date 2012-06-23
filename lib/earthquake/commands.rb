@@ -395,7 +395,7 @@ Earthquake.init do
 
   help :sent_messages, "list direct messages sent"
 
-  command %r|^:message (\w+)\s+(.*)|, :as => :message do |m|
+  command %r|^:message @?(\w+)\s+(.*)|, :as => :message do |m|
     async_e { twitter.message(*m[1, 2]) } if confirm("message '#{m[2]}' to @#{m[1]}")
   end
 
