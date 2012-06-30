@@ -250,6 +250,8 @@ module Earthquake
     end
 
     def notify(message, options = {})
+      return if config[:no_notify]
+
       args = {:title => 'earthquake'}.update(options)
       title = args.delete(:title)
       message = message.is_a?(String) ? message : message.inspect
