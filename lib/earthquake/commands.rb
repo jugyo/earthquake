@@ -218,7 +218,7 @@ Earthquake.init do
   end
 
   # :recent jugyo
-  command %r|^:recent\s+([^\/\s]+)$|, :as => :recent do |m|
+  command %r|^:recent\s+@?([^\/\s]+)$|, :as => :recent do |m|
     puts_items twitter.user_timeline(:screen_name => m[1])
   end
 
