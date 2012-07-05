@@ -482,7 +482,7 @@ Earthquake.init do
       gist_id = uri.path[/\d+/]
       meta = JSON.parse(open("https://api.github.com/gists/#{gist_id}").read)
       filename = meta["files"].keys[0]
-      raw = open("https://gist.github.com/raw/#{gist_id}/#{filename}").read
+      raw = meta['files'][filename]['content']
 
       puts '-' * 80
       puts raw.c(36)
