@@ -252,8 +252,7 @@ module Earthquake
     def notify(message, options = {})
       title = options.delete(:title) || 'earthquake'
       message = message.is_a?(String) ? message : message.inspect
-      # FIXME: Escaping should be done at Notify.notify
-      Notify.notify title, message.e, options
+      Notify.notify title, message, options
     end
     alias_method :n, :notify
 
