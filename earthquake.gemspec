@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "launchy"
   s.add_runtime_dependency "oauth"
   s.add_runtime_dependency "twitter_oauth", "= 0.4.3"
-  s.add_runtime_dependency "slop", "~> 2.0"
+  s.add_runtime_dependency "slop", "~> 3.0"
   s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "bundler"
 
