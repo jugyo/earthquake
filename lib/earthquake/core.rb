@@ -246,7 +246,12 @@ module Earthquake
     end
 
     def error(e)
-      puts "[ERROR] #{e.message}\n    #{e.backtrace.join("\n    ")}".c(:notice)
+      case e
+      when Exception
+        insert "[ERROR] #{e.message}\n    #{e.backtrace.join("\n    ")}".c(:notice)
+      else
+        insert "[ERROR] #{e}".c(:notice)
+      end
     end
 
     def notify(message, options = {})
