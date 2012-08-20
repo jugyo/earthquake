@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-gem 'slop', '~> 2.0'
 require 'slop'
 
 argv = ARGV.dup
@@ -16,6 +15,13 @@ rescue => e
   exit!
 end
 options = slop.to_hash
+
+# XXX: work around slop's feature (bug?)
+options.each do |key, val|
+  val = val.nil? ? nil : true if key.to_s =~ /^no-/
+  options[key] = val
+end
+
 options.delete(:help)
 options[:dir] = argv.shift unless argv.empty?
 
