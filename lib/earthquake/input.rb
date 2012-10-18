@@ -73,9 +73,9 @@ module Earthquake
     def confirm(message, type = config[:confirm_type])
       s = case type
           when :y
-            ask("#{message} [Yn] ".u)
+            ask(message.u.c(:notice), "[Yn] ")
           when :n
-            ask("#{message} [yN] ".u)
+            ask(message.u.c(:notice), "[yN] ")
           else
             raise "type must be :y or :n"
           end
@@ -87,9 +87,9 @@ module Earthquake
       end
     end
 
-    def ask(message)
-      print message
-      (STDIN.gets || "").chomp
+    def ask(message, prompt)
+      puts message
+      (Readline.readline(prompt) || "").chomp
     end
 
     def async_e(&block)
