@@ -3,6 +3,8 @@ require 'slop'
 
 module Earthquake
   class OptionParser
+    Help = Class.new(StandardError)
+
     def initialize(argv)
       @argv = argv
       @slop = setup_slop
@@ -11,7 +13,7 @@ module Earthquake
     def parse
       @slop.parse!(@argv)
       options = @slop.to_hash
-      options.delete(:help)
+      raise Help if options.delete(:help)
       options[:dir] = @argv.shift unless @argv.empty?
       options
     end

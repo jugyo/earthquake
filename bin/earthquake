@@ -1,18 +1,19 @@
 #!/usr/bin/env ruby
+require 'pathname'
+$:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
 require 'earthquake/option_parser'
+require "earthquake/version"
 
 option_parser = Earthquake::OptionParser.new(ARGV.dup)
 options = nil
 begin
   options = option_parser.parse
+rescue Earthquake::OptionParser::Help
+  exit
 rescue => e
   puts e
   exit!
 end
-
-require 'pathname'
-$:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
-require "earthquake/version"
 
 command = options.delete(:command)
 no_logo = options.delete(:'no-logo')
