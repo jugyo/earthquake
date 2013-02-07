@@ -63,6 +63,7 @@ module Earthquake
           end
         end
         command_names << ":#{options[:as]}" if options[:as]
+        commands.delete_if { |_| _[:pattern] == pattern }
         commands << {:pattern => pattern, :block => block}
       else
         commands.detect {|c| c[:pattern] =~ pattern}
