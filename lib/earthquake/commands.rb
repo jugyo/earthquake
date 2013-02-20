@@ -112,6 +112,7 @@ Earthquake.init do
     return text unless config[:eval_as_ruby_string_for_update]
     begin
       text = eval(%|"#{text.gsub('"', '\"')}"|)
+    rescue SyntaxError => e
     rescue Exception => e
       puts e.message.c(:notice)
     end
