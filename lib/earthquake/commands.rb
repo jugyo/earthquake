@@ -239,7 +239,7 @@ Earthquake.init do
     if user.key?("error")
       user = twitter.status(m[1])["user"] || {}
     end
-    ap user.slice(*%w(id screen_name name profile_image_url description url location time_zone lang protected))
+    ap user.slice(*%w(id_str screen_name name profile_image_url description url location time_zone lang protected statuses_count followers_count friends_count listed_count created_at))
   end
 
   help :user, "show user info"
