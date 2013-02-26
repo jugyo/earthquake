@@ -35,7 +35,7 @@ module Earthquake
       [items].flatten.reverse_each do |item|
         next if output_filters.any? { |f| f.call(item) == false }
 
-        if item["text"] && !item["_stream"]
+        if item["text"] && !item["_stream"] and item['_mark'].to_s.length > 0
           item['_mark'] = ' '.c(mark_color) + item['_mark'].to_s
         end
 
@@ -84,6 +84,7 @@ module Earthquake
 
     output :tweet do |item|
       next unless item["text"]
+      next if output_filters.any? { |x| !x.call(item) }
 
       info = []
       if item["in_reply_to_status_id"]
