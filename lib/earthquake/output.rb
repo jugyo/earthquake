@@ -104,6 +104,7 @@ module Earthquake
       if config[:raw_text] && /\n/ =~ text
         text.prepend("\n")
         text.gsub!(/\n/, "\n       " + "|".c(:info))
+        text << "\n      "
       else
         text.gsub!(/\s+/, ' ')
       end
