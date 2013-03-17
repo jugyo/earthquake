@@ -126,7 +126,7 @@ module Earthquake
       if item["_highlights"]
         item["_highlights"].each do |h|
           color = config[:color][:highlight].nil? ? color_of(h).to_i + 10 : :highlight
-          text = text.coloring(/#{h}/i, color, invert: true)
+          text = text.coloring(/#{h}/i, color)
         end
       end
 
