@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "awesome_print"
   s.add_runtime_dependency "launchy"
   s.add_runtime_dependency "oauth"
-  s.add_runtime_dependency "jugyo-twitter_oauth", "= 0.5.0.pre3"
+  s.add_runtime_dependency "jugyo-twitter_oauth", "= 0.5.0.pre4"
   s.add_runtime_dependency "slop", "~> 3.4.0"
   s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "bundler"
