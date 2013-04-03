@@ -132,7 +132,7 @@ module Earthquake
               Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
             end
             sync {
-              reload
+              reload unless config[:reload] == false
               store_history
               input(buf.strip)
             }
