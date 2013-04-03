@@ -5,7 +5,7 @@ module Earthquake
   end
 
   init do
-    @twitter = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret, :token, :secret))
+    @twitter = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret, :token, :secret, :api_version))
 
     output do |item|
       next if item["text"].nil? || item["_disable_cache"]

@@ -64,6 +64,7 @@ module Earthquake
         prompt:          '⚡ ',
         consumer_key:    consumer['key'],
         consumer_secret: consumer['secret'],
+        api_version:     '1.1',
         output_interval: 1,
         history_size:    1000,
         api:             { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true },
