@@ -53,6 +53,10 @@ module Earthquake
       _init
     end
 
+    def identica?
+      config[:identica]
+    end
+
     def default_config
       consumer = YAML.load_file(File.expand_path('../../../consumer.yml', __FILE__))
       dir = config[:dir] || File.expand_path('~/.earthquake')
@@ -64,6 +68,8 @@ module Earthquake
         prompt:          '⚡ ',
         consumer_key:    consumer['key'],
         consumer_secret: consumer['secret'],
+        identica_consumer_key:    '287fb68851c0bfb9d3aa095f8adc0fc5',
+        identica_consumer_secret: '417e36b768ebc390d1edbf2a57ecea73',
         api_version:     '1.1',
         secure:          true,
         output_interval: 1,
@@ -78,6 +84,11 @@ module Earthquake
 
     def load_config
       config.reverse_update(default_config)
+      if identica?
+        config[:api_host] = "identi.ca/api"
+        config[:search_host] = "identi.ca/api"
+        config[:api_version] = ""
+      end
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -99,7 +110,16 @@ module Earthquake
         end
       end
 
-      get_access_token unless self.config[:token] && self.config[:secret]
+      if identica?
+        # libraries expect these in the base versions
+        config[:consumer_key] = config[:identica_consumer_key]
+        config[:consumer_secret] = config[:identica_consumer_secret]
+        get_access_token unless self.config[:identica_token] && self.config[:identica_secret]
+        config[:token] = config[:identica_token]
+        config[:secret] = config[:identica_secret]
+      else
+        get_access_token unless self.config[:token] && self.config[:secret]
+      end
     end
 
     def load_plugins
@@ -156,15 +176,22 @@ module Earthquake
           end
         end
 
-        reconnect unless options[:'no-stream'] == true
+        if identica?
+          start_polling_identica
+        else
+          reconnect unless options[:'no-stream'] == true
+        end
 
         trap('INT') { stop }
       end
     end
 
     def reconnect
-      item_queue.clear
-      start_stream(config[:api])
+      # identica doesn't need to reconnect, since it polls
+      unless identica?
+        item_queue.clear
+        start_stream(config[:api])
+      end
     end
 
     def start_stream(options)
