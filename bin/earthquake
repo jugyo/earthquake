@@ -33,7 +33,7 @@ end
 
 require 'earthquake'
 if command
-  Earthquake.invoke(command, options)
+  Earthquake.invoke(command, options).try(:join)
 else
   Earthquake.start(options)
 end
