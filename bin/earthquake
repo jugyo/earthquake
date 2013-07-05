@@ -33,7 +33,8 @@ end
 
 require 'earthquake'
 if command
-  Earthquake.invoke(command, options)
+  result = Earthquake.invoke(command, options)
+  result.join if result.is_a?(Thread)
 else
   Earthquake.start(options)
 end
