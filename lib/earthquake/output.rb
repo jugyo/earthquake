@@ -50,21 +50,17 @@ module Earthquake
     end
 
     def insert(*messages)
-      @insert_mutex.synchronize do
-        begin
-          $stdout = StringIO.new
+      $stdout = StringIO.new
 
-          puts messages
-          yield if block_given?
+      puts messages
+      yield if block_given?
 
-          unless $stdout.string.empty?
-            STDOUT.print "\e[0G\e[K#{$stdout.string}"
-            Readline.refresh_line
-          end
-        ensure
-          $stdout = STDOUT
-        end
+      unless $stdout.string.empty?
+        STDOUT.print "\e[0G\e[K#{$stdout.string}"
+        Readline.refresh_line
       end
+    ensure
+      $stdout = STDOUT
     end
 
     def color_of(screen_name)
@@ -73,7 +69,6 @@ module Earthquake
   end
 
   init do
-    @insert_mutex ||= Mutex.new
     outputs.clear
     output_filters.clear
 
