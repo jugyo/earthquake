@@ -53,7 +53,8 @@ module Earthquake
     def insert(*messages)
       @insert_monitor.synchronize do
         begin
-          $stdout = StringIO.new
+          try_swap = !$stdout.is_a?(StringIO)
+          $stdout = StringIO.new if try_swap
 
           puts messages
           yield if block_given?
@@ -63,7 +64,7 @@ module Earthquake
             Readline.refresh_line
           end
         ensure
-          $stdout = STDOUT
+          $stdout = STDOUT if try_swap
         end
       end
     end
