@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'stringio'
+require 'monitor'
 
 module Earthquake
   module Output
@@ -50,17 +51,22 @@ module Earthquake
     end
 
     def insert(*messages)
-      $stdout = StringIO.new
+      @insert_monitor.synchronize do
+        begin
+          try_swap = !$stdout.is_a?(StringIO)
+          $stdout = StringIO.new if try_swap
 
-      puts messages
-      yield if block_given?
+          puts messages
+          yield if block_given?
 
-      unless $stdout.string.empty?
-        STDOUT.print "\e[0G\e[K#{$stdout.string}"
-        Readline.refresh_line
+          unless $stdout.string.empty?
+            STDOUT.print "\e[0G\e[K#{$stdout.string}"
+            Readline.refresh_line
+          end
+        ensure
+          $stdout = STDOUT if try_swap
+        end
       end
-    ensure
-      $stdout = STDOUT
     end
 
     def color_of(screen_name)
@@ -69,6 +75,7 @@ module Earthquake
   end
 
   init do
+    @insert_monitor ||= Monitor.new
     outputs.clear
     output_filters.clear
 
