@@ -145,11 +145,7 @@ module Earthquake
 
         EM.add_periodic_timer(config[:output_interval]) do
           if @last_data_received_at && Time.now - @last_data_received_at > config[:no_data_timeout]
-            begin
-              reconnect
-            rescue EventMachine::ConnectionError => e
-              # ignore
-            end
+            reconnect
           end
           if Readline.line_buffer.nil? || Readline.line_buffer.empty?
             sync { output }
@@ -165,6 +161,8 @@ module Earthquake
     def reconnect
       item_queue.clear
       start_stream(config[:api])
+    rescue EventMachine::ConnectionError => e
+      # ignore
     end
 
     def start_stream(options)

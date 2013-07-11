@@ -13,6 +13,8 @@ module Twitter
           start_tls if @options[:ssl]
         end
       end
+    rescue EventMachine::ConnectionError => e
+      # ignore
     end
   end
 end
