@@ -2,7 +2,7 @@ Earthquake
 ====
 
 Terminal-based Twitter Client with Streaming API support.
-Only supports Ruby 1.9.
+Only supports Ruby 1.9 and later.
 
 Homepage: [https://github.com/jugyo/earthquake](https://github.com/jugyo/earthquake)  
 Twitter: [http://twitter.com/earthquakegem](http://twitter.com/earthquakegem)  
