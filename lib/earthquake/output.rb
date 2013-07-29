@@ -147,6 +147,20 @@ module Earthquake
                   info.join(' - ').c(:info)
                 ].compact.join(" ")
       puts status
+
+      if config[:separator]
+        unless config[:screen_width]
+          begin
+            require 'curses'
+            screen = Curses.init_screen
+            config[:screen_width] = screen.maxx
+            Curses.close_screen
+          rescue LoadError
+            config[:screen_width] = 72
+          end
+        end
+        puts config[:separator] * config[:screen_width]
+      end
     end
 
     output :delete do |item|
