@@ -51,7 +51,7 @@ module Earthquake
     end
 
     def insert(*messages)
-      @insert_monitor.synchronize do
+      insert_monitor.synchronize do
         begin
           try_swap = !$stdout.is_a?(StringIO)
           $stdout = StringIO.new if try_swap
@@ -72,10 +72,13 @@ module Earthquake
     def color_of(screen_name)
       config[:colors][screen_name.delete("^0-9A-Za-z_").to_i(36) % config[:colors].size]
     end
+
+    def insert_monitor
+      @insert_monitor ||= Monitor.new
+    end
   end
 
   init do
-    @insert_monitor ||= Monitor.new
     outputs.clear
     output_filters.clear
 
