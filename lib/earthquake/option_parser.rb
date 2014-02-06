@@ -26,6 +26,7 @@ module Earthquake
         s.on :d, :debug, 'Enable debug mode'
         s.on :n, :'no-logo', 'No Logo'
         s.on :c, :command, 'Invoke a command and exit', :argument => true
+        s.on :a, :account, 'Save and select multiple accounts with name', :argument => true
         s.on :'--no-stream', 'No stream mode'
       end
     end
