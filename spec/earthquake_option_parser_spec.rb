@@ -51,7 +51,7 @@ describe Earthquake::OptionParser do
         Earthquake::OptionParser.new(['--help']).parse
         out.close
         expect(out.string).to match(/^Usage: /)
-      rescue => e
+      rescue SystemExit => e
         # do nothing
       ensure
         $stderr = old_stderr
