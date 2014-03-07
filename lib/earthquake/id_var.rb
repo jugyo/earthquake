@@ -37,6 +37,7 @@ module Earthquake
         @table.delete(@table.read(var))
         @table.write(var, id)
         @table.write(id, var)
+        @table.write('$_', id)
         var.dup
       end
     end
