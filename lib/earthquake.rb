@@ -12,6 +12,7 @@
   launchy
   oauth
   twitter_oauth
+  yaml
 ).each { |lib| require lib }
 
 Thread.abort_on_exception = true
