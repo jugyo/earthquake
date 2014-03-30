@@ -41,18 +41,17 @@ Then install the gem:
 
     $ sudo apt-get install libssl-dev
 
-Usage
-----
-
+Command-Line Usage
+-----------------
 ### Launch
 
     $ earthquake
+    
+### Help
 
-Commands
-----
+    ⚡ :help
 
 ### Tweet
-
     ⚡ Hello World!
 
 ### Show
