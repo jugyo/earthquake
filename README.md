@@ -24,6 +24,16 @@ Features
 Install
 ----
 
+Quick-installation using Docker (http://docker.io)
+-----
+
+Just clone the repo and:
+
+    $ sudo docker build -t earthquake .
+    $ sudo docker run --rm -i -name earthquake -t earthquake
+
+Normall installation
+-----
 You'll need openssl and readline support with your 1.9.2. If you are
 using rvm you can run:
 
