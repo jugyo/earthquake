@@ -5,12 +5,12 @@ module Twitter
       @reconnect_callback.call(timeout, @reconnect_retries) if @reconnect_callback
 
       if timeout == 0
-        reconnect @options[:host], @options[:port]
         start_tls if @options[:ssl]
+        reconnect @options[:host], @options[:port]
       else
         EM.add_timer(timeout) do
-          reconnect @options[:host], @options[:port]
           start_tls if @options[:ssl]
+          reconnect @options[:host], @options[:port]
         end
       end
     rescue EventMachine::ConnectionError => e
