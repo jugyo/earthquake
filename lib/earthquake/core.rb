@@ -127,81 +127,95 @@ module Earthquake
       __init(options)
       restore_history
 
-      EM.run do
-        Thread.start do
-          while buf = Readline.readline(config[:prompt], true)
-            unless Readline::HISTORY.count == 1
-              Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
-            end
-            sync {
-              reload unless config[:reload] == false
-              store_history
-              input(buf.strip)
-            }
-          end
-          # unexpected
-          stop
-        end
+      start_output
 
-        EM.add_periodic_timer(config[:output_interval]) do
+      unless options[:'no-stream'] == true
+        start_stream
+        start_timer
+      end
+
+      trap('INT') { stop }
+      start_readline.join
+    end
+
+    def start_timer
+      Thread.start do
+        loop do
           if @last_data_received_at && Time.now - @last_data_received_at > config[:no_data_timeout]
             reconnect
           end
           if Readline.line_buffer.nil? || Readline.line_buffer.empty?
             sync { output }
           end
+          sleep config[:output_interval]
         end
+      end
+    end
 
-        reconnect unless options[:'no-stream'] == true
+    def start_readline
+      @readline_thread = Thread.start do
+        while buf = Readline.readline(config[:prompt], true)
+          unless Readline::HISTORY.count == 1
+            Readline::HISTORY.pop if buf.empty? || Readline::HISTORY[-1] == Readline::HISTORY[-2]
+          end
+          sync {
+            reload unless config[:reload] == false
+            store_history
+            input(buf.strip)
+          }
+        end
+        # unexpected
+        stop
+      end
+    end
 
-        trap('INT') { stop }
+    def start_output
+      Thread.start do
+        loop do
+          if Readline.line_buffer.nil? || Readline.line_buffer.empty?
+            sync { output }
+          end
+
+          sleep config[:output_interval]
+        end
       end
     end
 
     def reconnect
+      stop_stream
       item_queue.clear
-      start_stream(config[:api])
-    rescue EventMachine::ConnectionError => e
-      # ignore
+      start_stream
     end
 
-    def start_stream(options)
-      stop_stream
+    def start_stream(options = nil)
+      @stream_thread = Thread.start do
+        options = config[:api] unless options
+        options = {
+          :oauth => config.slice(:consumer_key, :consumer_secret).merge(
+            :access_token => config[:token], :access_token_secret => config[:secret]#,
+            # :proxy => ENV['http_proxy']
+          )
+        }.merge(options)
 
-      options = {
-        :oauth => config.slice(:consumer_key, :consumer_secret).merge(
-          :access_key => config[:token], :access_secret => config[:secret],
-          :proxy => ENV['http_proxy']
-        )
-      }.merge(options)
-
-      @stream = ::Twitter::JSONStream.connect(options)
-
-      @stream.each_item do |item|
-        @last_data_received_at = Time.now # for reconnect when no data
-        item_queue << JSON.parse(item)
-      end
-
-      @stream.on_error do |message|
-        notify "error: #{message}"
-      end
-
-      @stream.on_reconnect do |timeout, retries|
-        notify "reconnecting in: #{timeout} seconds"
-      end
-
-      @stream.on_max_reconnects do |timeout, retries|
-        notify "Failed after #{retries} failed reconnects"
+        stream = ::Twitter::Streaming::Client.new(options[:oauth])
+        stream.user do |object|
+          @last_data_received_at = Time.now
+          begin
+            item_queue << object.to_h.deep_stringify_keys
+          rescue => e
+            # ignore
+          end
+        end
       end
     end
 
     def stop_stream
-      @stream.stop if @stream
+      @stream_thread.kill if @stream_thread
     end
 
     def stop
       stop_stream
-      EM.stop_event_loop
+      @readline_thread.kill if @readline_thread
     end
 
     def store_history

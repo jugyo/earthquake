@@ -1,24 +1,3 @@
-module Twitter
-  class JSONStream
-    protected
-    def reconnect_after timeout
-      @reconnect_callback.call(timeout, @reconnect_retries) if @reconnect_callback
-
-      if timeout == 0
-        reconnect @options[:host], @options[:port]
-        start_tls if @options[:ssl]
-      else
-        EM.add_timer(timeout) do
-          reconnect @options[:host], @options[:port]
-          start_tls if @options[:ssl]
-        end
-      end
-    rescue EventMachine::ConnectionError => e
-      # ignore
-    end
-  end
-end
-
 class String
   def c(*codes)
     codes = codes.flatten.map { |code|
