@@ -480,7 +480,7 @@ Earthquake.init do
       puts "the host must be gist.github.com".c(41)
     else
       puts "..."
-      gist_id = uri.path[%r|/(\d+)/?$|,1]
+      gist_id = uri.path[%r|/([\da-z]+)/?$|,1]
       meta = JSON.parse(open("https://api.github.com/gists/#{gist_id}").read)
       filename = meta["files"].keys[0]
       raw = meta['files'][filename]['content']
