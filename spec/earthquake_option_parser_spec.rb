@@ -30,6 +30,14 @@ describe Earthquake::OptionParser do
       end
     end
 
+    it 'parses account option' do
+      %w{-a --account}.each do |opt|
+        account = 'dummy'
+        options = Earthquake::OptionParser.new([opt, account]).parse
+        expect(options[:account]).to eq(account)
+      end
+    end
+
     it 'parses no-stream option' do
       options = Earthquake::OptionParser.new(['--no-stream']).parse
       expect(options[:'no-stream']).to be_true
