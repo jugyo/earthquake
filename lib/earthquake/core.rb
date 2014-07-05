@@ -216,7 +216,7 @@ module Earthquake
       history_file = File.join(config[:dir], 'history')
       begin
         File.read(history_file, :encoding => "BINARY").
-          encode!(:invalid => :replace, :undef => :replace).
+          encode(:invalid => :replace, :undef => :replace).
           split(/\n/).
           each { |line| Readline::HISTORY << line }
       rescue Errno::ENOENT
