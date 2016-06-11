@@ -68,11 +68,10 @@ module Earthquake
         secure:          true,
         output_interval: 1,
         history_size:    1000,
-        api:             { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true },
+        api:             { :host => 'userstream.twitter.com', :path => '/1.1/user.json', :ssl => true },
         confirm_type:    :y,
         expand_url:      false,
         thread_indent:   "  ",
-        no_data_timeout: 30
       }
     end
 
@@ -144,25 +143,15 @@ module Earthquake
         end
 
         EM.add_periodic_timer(config[:output_interval]) do
-          if @last_data_received_at && Time.now - @last_data_received_at > config[:no_data_timeout]
-            reconnect
-          end
           if Readline.line_buffer.nil? || Readline.line_buffer.empty?
             sync { output }
           end
         end
 
-        reconnect unless options[:'no-stream'] == true
+        start_stream(config[:api]) unless options[:'no-stream'] == true
 
         trap('INT') { stop }
       end
-    end
-
-    def reconnect
-      item_queue.clear
-      start_stream(config[:api])
-    rescue EventMachine::ConnectionError => e
-      # ignore
     end
 
     def start_stream(options)
@@ -178,7 +167,6 @@ module Earthquake
       @stream = ::Twitter::JSONStream.connect(options)
 
       @stream.each_item do |item|
-        @last_data_received_at = Time.now # for reconnect when no data
         item_queue << JSON.parse(item)
       end
 
