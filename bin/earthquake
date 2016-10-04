@@ -3,7 +3,8 @@ require 'pathname'
 $:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
 require 'earthquake/option_parser'
 require "earthquake/version"
-
+require 'active_support'
+require 'active_support/deprecation'
 option_parser = Earthquake::OptionParser.new(ARGV.dup)
 options = nil
 begin
