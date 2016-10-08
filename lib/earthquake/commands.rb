@@ -264,7 +264,7 @@ Earthquake.init do
   default_stream = {
     method: "POST",
     host: "userstream.twitter.com",
-    path: "/2/user.json",
+    path: "/1.1/user.json",
     ssl: true,
   }
 
