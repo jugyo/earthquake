@@ -68,7 +68,7 @@ module Earthquake
         secure:          true,
         output_interval: 1,
         history_size:    1000,
-        api:             { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true },
+        api:             { :host => 'userstream.twitter.com', :path => '/1.1/user.json', :ssl => true },
         confirm_type:    :y,
         expand_url:      false,
         thread_indent:   "  ",
