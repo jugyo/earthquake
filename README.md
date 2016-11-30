@@ -374,6 +374,10 @@ TODO
 * deal proxy
 * spec
 
+Screenshot
+----------------------------
+![Screenshot](/earthquake.png)
+
 Copyright
 ----
 
