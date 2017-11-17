@@ -2,8 +2,8 @@
 FROM ruby:2.4.2
 
 RUN apt-get update
-RUN apt-get install -y libssl-dev && \
- apt-get install -y git
+RUN apt-get install -y libssl-dev git locales locales-all
+ENV LANG C.UTF-8
 
 RUN gem install bundler
 RUN gem install earthquake -v 1.0.2
