@@ -29,8 +29,8 @@ Quick-installation using Docker (http://docker.io)
 
 Just clone the repo and:
 
-    $ sudo docker build -t earthquake .
-    $ sudo docker run --rm -i -name earthquake -t earthquake
+    $ docker build -t earthquake .
+    $ docker run --rm -v $HOME/.earthquake:/root/.earthquake -it earthquake
 
 Normall installation
 -----

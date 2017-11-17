@@ -1,19 +1,15 @@
 # Based on the Fedora image
-FROM fedora
+FROM ruby:2.4.2
 
-MAINTAINER "Maciej Lasyk" <maciek@lasyk.info>
+RUN apt-get update
+RUN apt-get install -y libssl-dev git locales locales-all
+ENV LANG C.UTF-8
 
-# install main packages:
-RUN yum -y update
-RUN yum -y install openssl-devel openssl readline readline-devel gcc gcc-c++ rubygems rubygems-devel ruby ruby-devel
+RUN gem install bundler
+RUN gem install earthquake -v 1.0.2
 
-# install earthquake
-RUN gem install earthquake
-
-# set the env:
-RUN useradd -d /home/twitter twitter
-USER twitter 
-ENV HOME /home/twitter
-WORKDIR /home/twitter
-
-CMD ["earthquake"]
+WORKDIR /root/earthquake
+COPY . .
+RUN bundle install
+RUN cp /usr/local/bundle/gems/earthquake-1.0.2/consumer.yml ./
+CMD ["bundle", "exec", "ruby", "./bin/earthquake"]

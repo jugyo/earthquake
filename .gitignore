@@ -42,3 +42,6 @@ pkg
 #*.swp
 consumer.yml
 Gemfile.lock
+
+/vendor/
+.ruby-version

@@ -11,14 +11,14 @@ describe Earthquake::OptionParser do
     it 'parses debug option' do
       %w{-d --debug}.each do |opt|
         options = Earthquake::OptionParser.new([opt]).parse
-        expect(options[:debug]).to be_true
+        expect(options[:debug]).to be_truthy
       end
     end
 
     it 'parses no-logo option' do
       %w{-n --no-logo}.each do |opt|
         options = Earthquake::OptionParser.new([opt]).parse
-        expect(options[:'no-logo']).to be_true
+        expect(options[:'no-logo']).to be_truthy
       end
     end
 
@@ -32,7 +32,7 @@ describe Earthquake::OptionParser do
 
     it 'parses no-stream option' do
       options = Earthquake::OptionParser.new(['--no-stream']).parse
-      expect(options[:'no-stream']).to be_true
+      expect(options[:'no-stream']).to be_truthy
     end
 
     def with_test_output_stream(out, &block)
@@ -45,17 +45,7 @@ describe Earthquake::OptionParser do
     end
 
     it 'parses help option' do
-      old_stderr = $stderr
-      begin
-        $stderr = out = StringIO.new
-        Earthquake::OptionParser.new(['--help']).parse
-        out.close
-        expect(out.string).to match(/^Usage: /)
-      rescue => e
-        # do nothing
-      ensure
-        $stderr = old_stderr
-      end
+      expect{ Earthquake::OptionParser.new(['--help']).parse }.to output(/^Usage: /).to_stdout
     end
 
     it 'raises exception for invalid option' do
