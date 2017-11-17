@@ -29,7 +29,7 @@ module Earthquake
             result
           end
         end
-        alias_method_chain m, :cache
+        Module#prepend m, :cache
       end
     end
   end
