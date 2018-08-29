@@ -32,6 +32,10 @@ Just clone the repo and:
     $ docker build -t earthquake .
     $ docker run --rm -v $HOME/.earthquake:/root/.earthquake -it earthquake
 
+Launch with options:
+
+    $ docker run -v $HOME/.earthquake:/root/.earthquake -it earthquake --no-stream --no-logo
+
 Normall installation
 -----
 You'll need openssl and readline support with your 1.9.2. If you are
