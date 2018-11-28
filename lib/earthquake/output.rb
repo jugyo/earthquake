@@ -93,7 +93,7 @@ module Earthquake
     config[:raw_text] ||= true
 
     output :tweet do |item|
-      next unless item["text"]
+      next unless item["full_text"] || item["text"]
 
       info = []
       if item["in_reply_to_status_id"]
@@ -110,7 +110,13 @@ module Earthquake
 
       id = id2var(item["id"])
 
-      text = (item["retweeted_status"] ? "RT @#{item["retweeted_status"]["user"]["screen_name"]}: #{item["retweeted_status"]["text"]}" : item["text"]).u
+      text = if item["retweeted_status"]
+               full_text = item["retweeted_status"]["full_text"] || item["retweeted_status"]["text"]
+               "RT @#{item["retweeted_status"]["user"]["screen_name"]}: #{full_text}"
+             else
+               item["full_text"] || item["text"]
+             end.u
+
       if config[:raw_text] && /\n/ =~ text
         text.prepend("\n")
         text.gsub!(/\n/, "\n       " + "|".c(:info))
