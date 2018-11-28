@@ -29,7 +29,7 @@ Quick-installation using Docker (http://docker.io)
 
 Just clone the repo and:
 
-    $ docker build -t earthquake .
+    $ docker build -t earthquake . --build-arg TZ='Asia/Tokyo'
     $ docker run --rm -v $HOME/.earthquake:/root/.earthquake -it earthquake
 
 Launch with options:
