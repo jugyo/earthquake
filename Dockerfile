@@ -12,4 +12,6 @@ WORKDIR /root/earthquake
 COPY . .
 RUN bundle install
 RUN cp /usr/local/bundle/gems/earthquake-1.0.2/consumer.yml ./
-CMD ["bundle", "exec", "ruby", "./bin/earthquake"]
+ARG TZ
+ENV TZ ${TZ:-UTC}
+ENTRYPOINT ["bundle", "exec", "ruby", "./bin/earthquake"]
