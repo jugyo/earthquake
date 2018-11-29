@@ -215,7 +215,7 @@ Earthquake.init do
   help :unfollow, "unfollow user"
 
   command :recent do
-    puts_items twitter.home_timeline(:count => config[:recent_count])
+    puts_items twitter.home_timeline(:count => config[:recent_count], :tweet_mode => 'extended')
   end
 
   # :recent jugyo
