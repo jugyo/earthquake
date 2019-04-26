@@ -400,6 +400,12 @@ Earthquake.init do
 
   help :message, "sent a direct message"
 
+  command :message_destroy do |m|
+    async_e { twitter.message_destroy(m[1]) } if confirm("delete direct message '#{id2var(m[1])}'")
+  end
+
+  help :message_destroy, "deletes direct message"
+
   command :reconnect do
     reconnect
   end
